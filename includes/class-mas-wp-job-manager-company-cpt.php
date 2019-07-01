@@ -126,18 +126,18 @@ class Mas_WPJMC_CPT {
         }
 
         /**
-         * Post types
+         * Post Type
          */
         $singular  = esc_html__( 'Company', 'mas-wp-job-manager-company' );
         $plural    = esc_html__( 'Companies', 'mas-wp-job-manager-company' );
         $supports   = array( 'title', 'editor', 'publicize', 'thumbnail', 'excerpt', 'author', 'custom-fields' );
         $companies_page_id = mas_wpjmc_get_companies_page_id();
 
-        // if ( current_theme_supports( 'mas-wp-job-manager-company' ) ) {
+        if ( current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
             $has_archive = $companies_page_id && get_post( $companies_page_id ) ? urldecode( get_page_uri( $companies_page_id ) ) : 'companies';
-        // } else {
-        //     $has_archive = false;
-        // }
+        } else {
+            $has_archive = false;
+        }
 
         $rewrite     = array(
             'slug'       => esc_html_x( 'company', 'Company permalink - resave permalinks after changing this', 'mas-wp-job-manager-company' ),
@@ -198,7 +198,14 @@ class Mas_WPJMC_CPT {
         $settings['mas_wpjmc_settings'] = array(
             esc_html__( 'Company', 'mas-wp-job-manager-company' ),
             array(
-                array(
+                'job_manager_companies_page_id' => array(
+                    'name'      => 'job_manager_companies_page_id',
+                    'std'       => '',
+                    'label'     => esc_html__( 'Company Listings Page', 'mas-wp-job-manager-company' ),
+                    'desc'      => esc_html__( 'Select the page for company listing. This lets the plugin know the location of the company listings page.', 'mas-wp-job-manager-company' ),
+                    'type'      => 'page',
+                ),
+                'job_manager_companies_per_page' => array(
                     'name'        => 'job_manager_companies_per_page',
                     'std'         => '10',
                     'placeholder' => '',
@@ -206,15 +213,17 @@ class Mas_WPJMC_CPT {
                     'desc'        => esc_html__( 'Number of job listings to display per page.', 'mas-wp-job-manager-company' ),
                     'attributes'  => array(),
                 ),
-                array(
-                    'name'      => 'job_manager_companies_page_id',
-                    'std'       => '',
-                    'label'     => esc_html__( 'Company Listings Page', 'mas-wp-job-manager-company' ),
-                    'desc'      => esc_html__( 'Select the page for company listing. This lets the plugin know the location of the company listings page.', 'mas-wp-job-manager-company' ),
-                    'type'      => 'page',
-                ),
             ),
         );
+        if ( ! current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
+            unset( $settings['mas_wpjmc_settings'][1]['job_manager_companies_page_id'] );
+            delete_option( 'job_manager_companies_page_id' );
+            unset( $settings['mas_wpjmc_settings'][1]['job_manager_companies_per_page'] );
+            delete_option( 'job_manager_companies_per_page' );
+            if( empty( $settings['mas_wpjmc_settings'][1] ) ) {
+                unset( $settings['mas_wpjmc_settings'] );
+            }
+        }
         return $settings;
     }
 }

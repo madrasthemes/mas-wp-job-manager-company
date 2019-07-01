@@ -68,7 +68,7 @@ class Mas_WPJMC_Query {
             }
         }
 
-        // Special check for companies with the PRODUCT POST TYPE ARCHIVE on front.
+        // Special check for companies with the COMPANY POST TYPE ARCHIVE on front.
         if ( $q->is_page() && 'page' === get_option( 'show_on_front' ) && absint( $q->get( 'page_id' ) ) === mas_wpjmc_get_companies_page_id() ) {
             // This is a front-page companies.
             $q->set( 'post_type', 'company' );
@@ -424,7 +424,7 @@ class Mas_WPJMC_Query {
             if ( ! empty( $taxonomies ) ) {
                 foreach ( $taxonomies as $tax ) {
                     $taxonomy = $tax['taxonomy'];
-                    $filter_terms = ! empty( $_GET[ 'filter_' . $taxonomy ] ) ? explode( ',', mas_cleanwpjmc_( wp_unslash( $_GET[ 'filter_' . $taxonomy ] ) ) ) : array(); // WPCS: sanitization ok, input var ok, CSRF ok.
+                    $filter_terms = ! empty( $_GET[ 'filter_' . $taxonomy ] ) ? explode( ',', mas_wpjmc_clean( wp_unslash( $_GET[ 'filter_' . $taxonomy ] ) ) ) : array(); // WPCS: sanitization ok, input var ok, CSRF ok.
 
                     if ( empty( $filter_terms ) || ! taxonomy_exists( $taxonomy ) ) {
                         continue;

@@ -14,7 +14,7 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
 
         public function __construct() {
             add_filter( 'body_class', array( $this, 'company_body_classes' ) );
-            // add_action( 'widgets_init', array( $this, 'widgets_register' ) );
+            add_action( 'widgets_init', array( $this, 'widgets_register' ) );
         }
 
         public function company_body_classes( $classes ) {
@@ -23,6 +23,22 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
             }
 
             return $classes;
+        }
+
+        public function widgets_register() {
+            // Search Widget
+            require_once( mas_wpjmc()->plugin_dir . 'includes/widgets/class-mas-wpjmc-widget-company-search.php' );
+
+            // Filter Widget
+            require_once( mas_wpjmc()->plugin_dir . 'includes/widgets/class-mas-wpjmc-widget-layered-nav.php' );
+
+            if ( current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
+                // Search Widget
+                register_widget( 'Mas_WPJMC_Widget_Company_Search' );
+
+                // Filter Widget
+                register_widget( 'Mas_WPJMC_Widget_Layered_Nav' );
+            }
         }
 
         public static function get_current_page_url() {
