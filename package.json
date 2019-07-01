@@ -1,0 +1,37 @@
+{
+    "name": "mas-wp-job-manager-company",
+    "title": "Mas Company for WP Job Manager",
+    "version": "1.0.0",
+    "homepage": "https://madrasthemes.com/mas-wp-job-manager-company",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/madrasthemes/mas-wp-job-manager-company.git"
+    },
+    "license": "GPL-3.0+",
+    "main": "Gruntfile.js",
+    "devDependencies": {
+        "autoprefixer": "^9.4.7",
+        "bootstrap": "^4.3.1",
+        "grunt": "^1.0.4",
+        "grunt-checktextdomain": "~1.0.0",
+        "grunt-contrib-clean": "~2.0.0",
+        "grunt-contrib-compress": "^1.4.3",
+        "grunt-contrib-concat": "1.0.1",
+        "grunt-contrib-copy": "^1.0.0",
+        "grunt-contrib-cssmin": "~3.0.0",
+        "grunt-contrib-jshint": "~2.0.0",
+        "grunt-contrib-uglify": "~4.0.0",
+        "grunt-contrib-watch": "~1.1.0",
+        "grunt-postcss": "~0.9.0",
+        "grunt-rtlcss": "~2.0.1",
+        "grunt-sass": "~3.0.2",
+        "grunt-stylelint": "^0.10.1",
+        "grunt-wp-i18n": "~1.0.0",
+        "node-sass": "^4.11.0",
+        "stylelint": "^9.10.1"
+    },
+    "engines": {
+        "node": ">=6.9.4",
+        "npm": ">=1.1.0"
+    }
+}
