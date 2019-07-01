@@ -134,7 +134,7 @@ class Mas_WPJMC_CPT {
         $companies_page_id = mas_wpjmc_get_companies_page_id();
 
         // if ( current_theme_supports( 'mas-wp-job-manager-company' ) ) {
-            $has_archive = $companies_page_id && get_post( $companies_page_id ) ? urldecode( get_page_uri( $companies_page_id ) ) : 'employers';
+            $has_archive = $companies_page_id && get_post( $companies_page_id ) ? urldecode( get_page_uri( $companies_page_id ) ) : 'companies';
         // } else {
         //     $has_archive = false;
         // }
@@ -142,8 +142,7 @@ class Mas_WPJMC_CPT {
         $rewrite     = array(
             'slug'       => esc_html_x( 'company', 'Company permalink - resave permalinks after changing this', 'mas-wp-job-manager-company' ),
             'with_front' => false,
-            'feeds'      => true,
-            'pages'      => false
+            'feeds'      => true
         );
 
         register_post_type( "company",

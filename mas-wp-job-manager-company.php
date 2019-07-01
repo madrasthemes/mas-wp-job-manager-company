@@ -39,6 +39,14 @@ class Mas_WP_Job_Manager_Company {
      */
     private static $instance;
 
+
+    /**
+     * Query instance.
+     *
+     * @var Mas_WPJMC_Query
+     */
+    public $query = null;
+
     /**
      * Plugin file.
      *
