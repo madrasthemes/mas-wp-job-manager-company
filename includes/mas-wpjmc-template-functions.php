@@ -77,27 +77,27 @@ if ( ! function_exists( 'mas_wpjmc_single_company_features' ) ) {
     function mas_wpjmc_single_company_features() {
         $args = apply_filters( 'mas_wpjmc_single_company_features_args', array(
             'company_headquarters'  => array(
-                'title' => __( 'Headquarters', 'front' ),
+                'title' => __( 'Headquarters', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_the_meta_data( '_company_headquarters' ),
             ),
             'company_since'  => array(
-                'title' => __( 'Founded', 'front' ),
+                'title' => __( 'Founded', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_the_meta_data( '_company_since' ),
             ),
             'company_employees_strength'  => array(
-                'title' => __( 'Employees', 'front' ),
+                'title' => __( 'Employees', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_employees_strength' ),
             ),
             'company_industry'  => array(
-                'title' => __( 'Industry', 'front' ),
+                'title' => __( 'Industry', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_industry', null, true ),
             ),
             'company_revenue'  => array(
-                'title' => __( 'Revenue', 'front' ),
+                'title' => __( 'Revenue', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_revenue' ),
             ),
             'company_average_salary'  => array(
-                'title' => __( 'Avg. Salary', 'front' ),
+                'title' => __( 'Avg. Salary', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_average_salary' ),
             ),
         ) );

@@ -52,7 +52,7 @@ class Mas_WPJMC_CPT {
         /**
          * Taxonomies
          */
-        $taxonomies_args = apply_filters( 'front_company_taxonomies_list', array(
+        $taxonomies_args = apply_filters( 'mas_company_taxonomies_list', array(
             'company_industry'  => array(
                 'singular'                  => esc_html__( 'Industry', 'mas-wp-job-manager-company' ),
                 'plural'                    => esc_html__( 'Industries', 'mas-wp-job-manager-company' ),
