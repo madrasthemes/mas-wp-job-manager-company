@@ -97,9 +97,6 @@ class Mas_WP_Job_Manager_Company {
         // Load Plugin Translation.
         load_plugin_textdomain( dirname( plugin_basename( __FILE__ ) ), false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-        if ( ! class_exists( 'WP_Job_Manager' ) ) 
-            return;
-
         // Functions.
         require( $this->plugin_dir . 'includes/mas-wpjmc-functions.php' );
         require( $this->plugin_dir . 'includes/mas-wpjmc-template-functions.php' );
@@ -161,18 +158,20 @@ class Mas_WP_Job_Manager_Company {
     }
 }
 
-/**
- * The main function responsible for returning the Mas_WP_Job_Manager_Company object.
- *
- * Use this function like you would a global variable, except without needing to declare the global.
- *
- * @since 1.0.0
- *
- * @return object Mas_WP_Job_Manager_Company class object.
- */
-function mas_wpjmc() {
-    return Mas_WP_Job_Manager_Company::instance();
-}
+if ( class_exists( 'WP_Job_Manager' ) ) {
+    /**
+     * The main function responsible for returning the Mas_WP_Job_Manager_Company object.
+     *
+     * Use this function like you would a global variable, except without needing to declare the global.
+     *
+     * @since 1.0.0
+     *
+     * @return object Mas_WP_Job_Manager_Company class object.
+     */
+    function mas_wpjmc() {
+        return Mas_WP_Job_Manager_Company::instance();
+    }
 
-// Load plugin instance on plugins loaded.
-add_action( 'plugins_loaded', 'mas_wpjmc' );
+    // Load plugin instance on plugins loaded.
+    add_action( 'plugins_loaded', 'mas_wpjmc' );
+}
