@@ -100,7 +100,7 @@ class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
      * @param array $instance Instance.
      */
     public function widget( $args, $instance ) {
-        if ( ! ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_companies_page_id() ) ) && ! is_company_taxonomy() ) {
+        if ( ! ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) ) && ! is_company_taxonomy() ) {
             return;
         }
 

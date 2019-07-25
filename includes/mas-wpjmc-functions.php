@@ -1,10 +1,27 @@
 <?php
 
-function mas_wpjmc_get_companies_page_id() {
-    $page_id = 0;
-    $page_id = get_option( 'job_manager_companies_page_id' );
-    $page_id = apply_filters( 'mas_wpjmc_get_companies_page_id', $page_id );
+function mas_wpjmc_get_page_id( $page ) {
 
+    $option_name = '';
+    switch( $page ) {
+        case 'companies':
+            $option_name = 'job_manager_companies_page_id';
+        break;
+        case 'company_dashboard':
+            $option_name = 'job_manager_company_dashboard_page_id';
+        break;
+        case 'submit_company_form':
+            $option_name = 'job_manager_submit_company_form_page_id';
+        break;
+    }
+
+    $page_id = 0;
+
+    if ( ! empty( $option_name ) ) {
+        $page_id = get_option( $option_name );
+    }
+
+    $page_id = apply_filters( 'mas_wpjmc_get_' . $page . '_page_id', $page_id );
     return $page_id ? absint( $page_id ) : -1;
 }
 
@@ -182,7 +199,7 @@ if ( ! function_exists( 'mas_get_company_keyword_search' ) ) {
         // Searchable Meta Keys: set to empty to search all meta keys
         $searchable_meta_keys = array(
             '_company_tagline',
-            '_company_headquarters',
+            '_company_location',
             '_company_website',
             '_company_email',
             '_company_phone',
@@ -250,240 +267,133 @@ function mas_wpjmc_get_all_taxonomies() {
     return $taxonomies;
 }
 
-/**
- * Add company fields in post job form
- */
-if ( ! function_exists( 'mas_wpjmc_submit_job_form_fields' ) ) {
-    function mas_wpjmc_submit_job_form_fields() {
-        $fields = array(
-            'company_email' => array(
-                'label'       => esc_html__( 'Email', 'mas-wp-job-manager-company' ),
-                'type'        => 'text',
-                'required'    => false,
-                'placeholder' => esc_html__( 'you@yourdomain.com', 'mas-wp-job-manager-company' ),
-                'priority'    => 2,
-            ),
-            'company_phone' => array(
-                'label'       => esc_html__( 'Phone', 'mas-wp-job-manager-company' ),
-                'type'        => 'text',
-                'required'    => false,
-                'placeholder' => esc_html__( 'Phone Number', 'mas-wp-job-manager-company' ),
-                'priority'    => 2,
-            ),
-            'company_headquarters' => array(
-                'label'       => esc_html__( 'Headquarters', 'mas-wp-job-manager-company' ),
-                'description' => esc_html__( 'Leave this blank if the headquarters location is not important', 'mas-wp-job-manager-company' ),
-                'type'        => 'text',
-                'required'    => false,
-                'placeholder' => esc_html__( 'e.g. "London"', 'mas-wp-job-manager-company' ),
-                'priority'    => 2,
-            ),
-            'company_since' => array(
-                'label'       => esc_html__( 'Since', 'mas-wp-job-manager-company' ),
-                'type'        => 'date',
-                'required'    => false,
-                'placeholder' => esc_html__( 'Established date/year', 'mas-wp-job-manager-company' ),
-                'priority'    => 2,
-            ),
-            'company_facebook' => array(
-                'label'       => esc_html__( 'Facebook', 'mas-wp-job-manager-company' ),
-                'type'        => 'text',
-                'required'    => false,
-                'placeholder' => esc_html__( 'Facebook page url', 'mas-wp-job-manager-company' ),
-                'priority'    => 5,
-            ),
-            'company_industry' => array(
-                'label'       => esc_html__( 'Industry', 'mas-wp-job-manager-company' ),
-                'type'        => 'term-select',
-                'required'    => false,
-                'placeholder' => esc_html__( 'Choose Industry&hellip;', 'mas-wp-job-manager-company' ),
-                'priority'    => 10,
-                'default'     => '',
-                'taxonomy'    => 'company_industry',
-            ),
-            'company_employees_strength' => array(
-                'label'       => esc_html__( 'Employer Strength', 'mas-wp-job-manager-company' ),
-                'type'        => 'term-select',
-                'required'    => false,
-                'placeholder' => '',
-                'priority'    => 10,
-                'default'     => '',
-                'taxonomy'    => 'company_employees_strength',
-            ),
-            'company_average_salary' => array(
-                'label'       => esc_html__( 'Average Salary', 'mas-wp-job-manager-company' ),
-                'type'        => 'term-select',
-                'required'    => false,
-                'placeholder' => '',
-                'priority'    => 10,
-                'default'     => '',
-                'taxonomy'    => 'company_average_salary',
-            ),
-            'company_revenue' => array(
-                'label'       => esc_html__( 'Company Revenue', 'mas-wp-job-manager-company' ),
-                'type'        => 'term-select',
-                'required'    => false,
-                'placeholder' => '',
-                'priority'    => 10,
-                'default'     => '',
-                'taxonomy'    => 'company_revenue',
-            ),
-            'company_description' => array(
-                'label'       => esc_html__( 'Description', 'mas-wp-job-manager-company' ),
-                'type'        => 'wp-editor',
-                'required'    => false,
-                'priority'    => 10,
-            ),
+if ( ! function_exists( 'get_companies' ) ) {
+    /**
+     * Queries company listings with certain criteria and returns them.
+     *
+     * @since 1.0.5
+     * @param string|array|object $args Arguments used to retrieve company listings.
+     * @return WP_Query
+     */
+    function get_companies( $args = array() ) {
+        $args = wp_parse_args(
+            $args,
+            array(
+                'post_status'       => array(),
+                'posts_per_page'    => 10,
+                'orderby'           => 'date',
+                'order'             => 'DESC',
+                'featured'          => null,
+                'fields'            => 'all',
+                'offset'            => 0,
+                'category'          => array(),
+                'average_salary'    => array(),
+                'author'            => array(),
+            )
         );
 
-        return apply_filters( 'mas_wpjmc_submit_job_form_company_fields' , $fields );
-    }
-}
+        /**
+         * Perform actions that need to be done prior to the start of the company listings query.
+         *
+         * @since 1.26.0
+         *
+         * @param array $args Arguments used to retrieve company listings.
+         */
+        do_action( 'get_companies_init', $args );
 
-if ( ! function_exists( 'mas_wpjmc_submit_company_form_required_fields' ) ) {
-    function mas_wpjmc_submit_company_form_required_fields() {
-        $required_fields = array(
-            'post_fields'  => array( 'company_name', 'company_logo', 'company_description' ),
-            'tax_fields'   => array( 'company_industry', 'company_employees_strength', 'company_average_salary', 'company_revenue' ),
-            'meta_fields'  => array( 'company_website', 'company_tagline', 'company_video', 'company_twitter', 'company_headquarters', 'company_email', 'company_phone', 'company_facebook', 'company_since' )
+        if ( ! empty( $args['post_status'] ) ) {
+            $post_status = $args['post_status'];
+        } else {
+            $post_status = 'publish';
+        }
+
+        $query_args = array(
+            'post_type'              => 'company',
+            'post_status'            => $post_status,
+            'ignore_sticky_posts'    => 1,
+            'offset'                 => absint( $args['offset'] ),
+            'posts_per_page'         => intval( $args['posts_per_page'] ),
+            'orderby'                => $args['orderby'],
+            'order'                  => $args['order'],
+            'tax_query'              => array(),
+            'meta_query'             => array(),
+            'author'                 => array(),
+            'update_post_term_cache' => false,
+            'update_post_meta_cache' => false,
+            'cache_results'          => false,
+            'fields'                 => $args['fields'],
         );
 
-        return apply_filters( 'mas_wpjmc_submit_company_form_required_fields' , $required_fields );
-    }
-}
-
-if ( ! function_exists( 'mas_wpjmc_add_custom_job_company_fields' ) ) {
-    function mas_wpjmc_add_custom_job_company_fields() {
-        $company_fields = mas_wpjmc_submit_job_form_fields();
-        $required_fields = mas_wpjmc_submit_company_form_required_fields();
-
-        $job_id = ! empty( $_REQUEST['job_id'] ) ? absint( $_REQUEST['job_id'] ) : 0;
-        $company_id = 0;
-
-        if ( ! job_manager_user_can_edit_job( $job_id ) ) {
-            $job_id = 0;
+        if ( $args['posts_per_page'] < 0 ) {
+            $query_args['no_found_rows'] = true;
         }
 
-        if( $job_id ) {
-            $post_title = get_post_meta( $job_id, '_company_name', true );
-            if( ! empty( $post_title ) ) {
-                $company = get_page_by_title( $post_title, OBJECT, 'company' );
-                $company_id = isset( $company->ID ) ? $company->ID : 0;
-            }
-        }
-
-        foreach ( $company_fields as $key => $field ) : ?>
-            <?php if( $company_id ) {
-                if ( ! isset( $field['value'] ) ) {
-                    if ( 'company_description' === $key ) {
-                        $field['value'] = $company->post_content;
-
-                    } elseif ( ! empty( $field['taxonomy'] ) ) {
-                        $field['value'] = wp_get_object_terms( $company->ID, $field['taxonomy'], array( 'fields' => 'ids' ) );
-
-                    } else {
-                        $field['value'] = get_post_meta( $company->ID, '_' . $key, true );
-                    }
-                }
-            } ?>
-            <?php  ?>
-            <fieldset class="fieldset-<?php echo esc_attr( $key ); ?>">
-                <label for="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $field['label'] ) . wp_kses_post( apply_filters( 'submit_job_form_required_label', $field['required'] ? '' : ' <small>' . esc_html__( '(optional)', 'mas-wp-job-manager-company' ) . '</small>', $field ) ); ?></label>
-                <div class="field <?php echo esc_attr( $field['required'] ? 'required-field' : '' ); ?>">
-                    <?php get_job_manager_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ); ?>
-                </div>
-            </fieldset>
-        <?php endforeach;
-    }
-}
-
-add_action( 'submit_job_form_company_fields_end', 'mas_wpjmc_add_custom_job_company_fields' );
-
-if ( ! function_exists( 'mas_wpjmc_update_job_form_fields' ) ) {
-    function mas_wpjmc_update_job_form_fields( $job_id, $values ) {
-        $required_fields = mas_wpjmc_submit_company_form_required_fields();
-
-        $post_fields = array();
-        $tax_fields = array();
-        $meta_fields = array();
-
-        foreach ( $required_fields['post_fields'] as $field_name ) {
-            $post_fields[ $field_name ] = isset( $_POST[ $field_name ] ) ? mas_wpjmc_clean( $_POST[ $field_name ] ) : '';
-        }
-
-        foreach ( $required_fields['tax_fields'] as $field_name ) {
-            $tax_fields[ $field_name ] = isset( $_POST[ $field_name ] ) ? mas_wpjmc_clean( $_POST[ $field_name ] ) : '';
-        }
-
-        foreach ( $required_fields['meta_fields'] as $field_name ) {
-            $meta_fields[ $field_name ] = isset( $_POST[ $field_name ] ) ? mas_wpjmc_clean( $_POST[ $field_name ] ) : '';
-        }
-
-        if( empty( $post_fields['company_logo'] ) && ! empty( $values['company']['company_logo'] ) ) {
-            $post_fields['company_logo'] = $values['company']['company_logo'];
-        }
-
-        if( isset( $_POST['job_manager_form'] ) && $_POST['job_manager_form'] == 'submit-job' ) {
-            $post_fields    = array_filter( $post_fields, 'mas_wpjmc_strlen' );
-            $tax_fields     = array_filter( $tax_fields, 'mas_wpjmc_strlen' );
-            $meta_fields    = array_filter( $meta_fields, 'mas_wpjmc_strlen' );
-        }
-
-        if( ! empty( $post_fields ) ) {
-
-            $post = get_page_by_title( $post_fields['company_name'], OBJECT, 'company' );
-            $company_id = isset( $post->ID ) ? $post->ID : 0;
-
-            $post_data = array(
-                'post_title'     => $post_fields['company_name'],
-                'post_content'   => isset( $post_fields['company_description'] ) ? $post_fields['company_description'] : '',
-                'post_type'      => 'company',
-                'comment_status' => 'closed',
-                'post_status'    => 'pending'
+        if ( ! is_null( $args['featured'] ) ) {
+            $query_args['meta_query'][] = array(
+                'key'     => '_featured',
+                'value'   => '1',
+                'compare' => $args['featured'] ? '=' : '!=',
             );
-
-            if ( $company_id ) {
-                $post_data['ID'] = $company_id;
-                if( isset( $_POST['job_manager_form'] ) && $_POST['job_manager_form'] == 'submit-job' ) {
-                    $post_data['post_content'] = isset( $post->post_content ) ? $post->post_content : '';
-                    $post_data['post_status'] = isset( $post->post_status ) ? $post->post_status : 'pending';
-                }
-                wp_update_post( $post_data );
-            } else {
-                $company_id = wp_insert_post( $post_data );
-            }
-
-            if( ! empty( $post_fields['company_logo'] ) ) {
-                $attachment_id = is_numeric( $post_fields['company_logo'] ) ? absint( $post_fields['company_logo'] ) : '';
-                if ( empty( $attachment_id ) ) {
-                    delete_post_thumbnail( $company_id );
-                } else {
-                    set_post_thumbnail( $company_id, $attachment_id );
-                }
-            }
-
-            if( ! empty( $tax_fields ) ) {
-                foreach ( $tax_fields as $key => $value ) {
-                    $terms = array();
-                    if ( is_array( $value ) ) {
-                        $terms = array_map( 'absint', $value );
-                    } elseif( $value > 0 ) {
-                        $terms = array( absint( $value ) );
-                    }
-                    wp_set_object_terms( $company_id, $terms, $key, false );
-                }
-            }
-
-            if( ! empty( $meta_fields ) ) {
-                foreach ( $meta_fields as $key => $value ) {
-                    update_post_meta( $company_id, '_' . $key, $value );
-                }
-            }
         }
+
+        if ( ! empty( $args['category'] ) ) {
+            $query_args['tax_query'][] = array(
+                'taxonomy' => 'company_category',
+                'field'    => 'slug',
+                'terms'    => $args['category'],
+                'operator' => 'IN',
+            );
+        }
+
+        if ( ! empty( $args['average_salary'] ) ) {
+            $query_args['tax_query'][] = array(
+                'taxonomy' => 'company_average_salary',
+                'field'    => 'slug',
+                'terms'    => $args['average_salary'],
+                'operator' => 'IN',
+            );
+        }
+
+        if ( 'featured' === $args['orderby'] ) {
+            $query_args['orderby'] = array(
+                'menu_order' => 'ASC',
+                'date'       => 'DESC',
+                'ID'         => 'DESC',
+            );
+        }
+
+        if ( 'rand_featured' === $args['orderby'] ) {
+            $query_args['orderby'] = array(
+                'menu_order' => 'ASC',
+                'rand'       => 'ASC',
+            );
+        }
+
+        $query_args = apply_filters( 'mas_job_manager_company_get_listings', $query_args, $args );
+
+        if ( empty( $query_args['meta_query'] ) ) {
+            unset( $query_args['meta_query'] );
+        }
+
+        if ( empty( $query_args['tax_query'] ) ) {
+            unset( $query_args['tax_query'] );
+        }
+
+        /** This filter is documented in wp-job-manager.php */
+        $query_args['lang'] = apply_filters( 'mas_wpjmc_lang', null );
+
+        // Filter args.
+        $query_args = apply_filters( 'get_companies_query_args', $query_args, $args );
+
+        do_action( 'before_get_companies', $query_args, $args );
+
+        $result = new WP_Query( $query_args );
+
+        do_action( 'after_get_companies', $query_args, $args );
+
+        return $result;
     }
 }
-
-add_action( 'job_manager_update_job_data', 'mas_wpjmc_update_job_form_fields', 10, 2 );
 
 /**
  * Output the class
@@ -541,13 +451,126 @@ if ( ! function_exists( 'is_company_featured' ) ) {
 }
 
 /**
+ * Outputs the company status
+ *
+ * @param WP_Post|int $post (default: null)
+ */
+function the_company_status( $post = null ) {
+    echo get_the_company_status( $post );
+}
+
+/**
+ * Gets the company status
+ * @param WP_Post|int $post (default: null)
+ * @return string
+ */
+function get_the_company_status( $post = null ) {
+    $post = get_post( $post );
+
+    $status = $post->post_status;
+
+    if ( $status == 'publish' )
+        $status = __( 'Published', 'mas-wp-job-manager-company' );
+    elseif ( $status == 'expired' )
+        $status = __( 'Expired', 'mas-wp-job-manager-company' );
+    elseif ( $status == 'pending' )
+        $status = __( 'Pending Review', 'mas-wp-job-manager-company' );
+    elseif ( $status == 'hidden' )
+        $status = __( 'Hidden', 'mas-wp-job-manager-company' );
+    elseif ( $status == 'private' )
+        $status = __( 'Private', 'mas-wp-job-manager-company' );
+    else
+        $status = __( 'Inactive', 'mas-wp-job-manager-company' );
+
+    return apply_filters( 'the_company_status', $status, $post );
+}
+
+/**
+ * True if an the user can post a company. By default, you must be logged in.
+ *
+ * @return bool
+ */
+function company_manager_user_can_post_company() {
+    $can_post = true;
+
+    if ( ! is_user_logged_in() ) {
+        if ( job_manager_user_requires_account() && ! job_manager_enable_registration() ) {
+            $can_post = false;
+        }
+    }
+
+    return apply_filters( 'company_manager_user_can_post_company', $can_post );
+}
+
+/**
+ * True if an the user can edit a company.
+ *
+ * @param $company_id
+ *
+ * @return bool
+ */
+function company_manager_user_can_edit_company( $company_id ) {
+    $can_edit = true;
+
+    if ( ! $company_id || ! is_user_logged_in() ) {
+        $can_edit = false;
+        if ( $company_id
+             && ! job_manager_user_requires_account()
+             && isset( $_COOKIE[ 'mas-wp-job-manager-company-submitting-company-key-' . $company_id ] )
+             && $_COOKIE[ 'mas-wp-job-manager-company-submitting-company-key-' . $company_id ] === get_post_meta( $company_id, '_submitting_key', true )
+        ) {
+            $can_edit = true;
+        }
+    } else {
+
+        $company = get_post( $company_id );
+
+        if ( ! $company || ( absint( $company->post_author ) !== get_current_user_id() && ! current_user_can( 'edit_post', $company_id ) ) ) {
+            $can_edit = false;
+        }
+    }
+
+    return apply_filters( 'company_manager_user_can_edit_company', $can_edit, $company_id );
+}
+
+
+
+/**
+ * Whether to create attachments for files that are uploaded with a Company.
+ *
+ * @since 1.17.1
+ *
+ * @return bool
+ */
+function company_manager_attach_uploaded_files() {
+    return apply_filters( 'company_manager_attach_uploaded_files', false );
+}
+
+/**
+ * Count user companies
+ * @param  integer $user_id
+ * @return int
+ */
+function company_manager_count_user_companies( $user_id = 0 ) {
+    global $wpdb;
+
+    if ( ! $user_id ) {
+        $user_id = get_current_user_id();
+    }
+
+    return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_author = %d AND post_type = 'company' AND post_status IN ( 'publish', 'pending', 'expired', 'hidden' );", $user_id ) );
+}
+
+/**
  * Get the company openings jobs
  */
 if ( ! function_exists( 'mas_wpjmc_get_the_company_job_listing' ) ) {
     function mas_wpjmc_get_the_company_job_listing( $post = null ) {
-       $post = get_post( $post );
+        if( ! is_object( $post ) ) {
+            $post = get_post( $post );
+        }
 
-       return get_posts( array( 'post_type' => 'job_listing', 'meta_key' => '_company_name', 'meta_value' => $post->post_title, 'nopaging' => true ) );
+        return get_posts( array( 'post_type' => 'job_listing', 'meta_key' => '_company_id', 'meta_value' => $post->ID, 'nopaging' => true ) );
     }
 }
 
@@ -587,7 +610,7 @@ if ( ! function_exists( 'mas_wpjmc_get_the_meta_data' ) ) {
 }
 
 if( ! function_exists( 'mas_wpjmc_get_taxomony_data' ) ) {
-    function mas_wpjmc_get_taxomony_data( $taxonomy = "company_industry", $post = null, $linkable = false, $linkable_class = '', $separator = ", " ) {
+    function mas_wpjmc_get_taxomony_data( $taxonomy = "company_category", $post = null, $linkable = false, $linkable_class = '', $separator = ", " ) {
 
         if( ! is_object( $post ) ) {
             $post = get_post( $post );

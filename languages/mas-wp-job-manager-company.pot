@@ -374,8 +374,8 @@ msgid "https://madrasthemes.com/"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-cpt.php:59
-msgctxt "Company industry permalink - resave permalinks after changing this"
-msgid "company-industry"
+msgctxt "Company category permalink - resave permalinks after changing this"
+msgid "company-category"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-cpt.php:65

@@ -18,7 +18,13 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
         }
 
         public function company_body_classes( $classes ) {
-            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_companies_page_id() ) || is_company_taxonomy() ) {
+            $classes[] = 'mas-wpjmc-activated';
+
+            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) || is_page( mas_wpjmc_get_page_id( 'company_dashboard' ) ) || is_page( mas_wpjmc_get_page_id( 'submit_company_form' ) ) || is_company_taxonomy() || is_singular( 'company' ) ) {
+                $classes[] = 'mas-wpjmc-pages';
+            }
+
+            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) || is_company_taxonomy() ) {
                 $classes[] = 'post-type-archive-company';
             }
 
@@ -42,14 +48,14 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
         }
 
         public static function get_current_page_url() {
-            if ( ! ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_companies_page_id() ) ) && ! is_company_taxonomy() ) {
+            if ( ! ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) ) && ! is_company_taxonomy() ) {
                 return;
             }
 
             if ( defined( 'COMPANIES_IS_ON_FRONT' ) ) {
                 $link = home_url( '/' );
-            } elseif ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_companies_page_id() ) ) {
-                $link = get_permalink( mas_wpjmc_get_companies_page_id() );
+            } elseif ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) ) {
+                $link = get_permalink( mas_wpjmc_get_page_id( 'companies' ) );
             } else {
                 $queried_object = get_queried_object();
                 $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
@@ -144,6 +150,40 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
             }
 
             return $args;
+        }
+
+        public function job_manager_get_current_user_companies_select_options() {
+            global $current_user;
+            $options = array(
+                ''  => __( 'Select Company', 'mas-wp-job-manager-company' ),
+            );
+
+            if( is_user_logged_in() && ! empty( $current_user ) ) {
+                $companies = get_posts( array(
+                    'post_type'     => 'company',
+                    'orderby'       => 'title',
+                    'order'         => 'ASC',
+                    'numberposts'   => -1,
+                    'author'        => $current_user->ID, // I could also use $user_ID, right?
+                ) );
+
+                if( ! empty( $companies ) ) {
+                    foreach( $companies as $company ) {
+                        $options[$company->ID] = get_the_title( $company );
+                    }
+
+                } else {
+                    $options = array(
+                        ''  => __( 'No Company Found', 'mas-wp-job-manager-company' ),
+                    );
+                }
+            } else {
+                $options = array(
+                    ''  => __( 'User Not Logged In', 'mas-wp-job-manager-company' ),
+                );
+            }
+
+            return $options;
         }
     }
 

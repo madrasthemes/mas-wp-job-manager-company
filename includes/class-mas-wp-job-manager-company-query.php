@@ -56,7 +56,7 @@ class Mas_WPJMC_Query {
         }
 
         // When orderby is set, WordPress shows posts on the front-page. Get around that here.
-        if ( $this->is_showing_page_on_front( $q ) && $this->page_on_front_is( mas_wpjmc_get_companies_page_id() ) ) {
+        if ( $this->is_showing_page_on_front( $q ) && $this->page_on_front_is( mas_wpjmc_get_page_id( 'companies' ) ) ) {
             $_query = wp_parse_args( $q->query );
             if ( empty( $_query ) || ! array_diff( array_keys( $_query ), array( 'preview', 'page', 'paged', 'cpage', 'orderby' ) ) ) {
                 $q->set( 'page_id', (int) get_option( 'page_on_front' ) );
@@ -69,7 +69,7 @@ class Mas_WPJMC_Query {
         }
 
         // Special check for companies with the COMPANY POST TYPE ARCHIVE on front.
-        if ( $q->is_page() && 'page' === get_option( 'show_on_front' ) && absint( $q->get( 'page_id' ) ) === mas_wpjmc_get_companies_page_id() ) {
+        if ( $q->is_page() && 'page' === get_option( 'show_on_front' ) && absint( $q->get( 'page_id' ) ) === mas_wpjmc_get_page_id( 'companies' ) ) {
             // This is a front-page companies.
             $q->set( 'post_type', 'company' );
             $q->set( 'page_id', '' );
@@ -87,7 +87,7 @@ class Mas_WPJMC_Query {
             // This is hacky but works. Awaiting https://core.trac.wordpress.org/ticket/21096.
             global $wp_post_types;
 
-            $companies_page = get_post( mas_wpjmc_get_companies_page_id() );
+            $companies_page = get_post( mas_wpjmc_get_page_id( 'companies' ) );
 
             $wp_post_types['company']->ID         = $companies_page->ID;
             $wp_post_types['company']->post_title = $companies_page->post_title;

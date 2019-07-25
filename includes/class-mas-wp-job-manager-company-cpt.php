@@ -53,17 +53,17 @@ class Mas_WPJMC_CPT {
          * Taxonomies
          */
         $taxonomies_args = apply_filters( 'mas_company_taxonomies_list', array(
-            'company_industry'  => array(
+            'company_category'  => array(
                 'singular'                  => esc_html__( 'Industry', 'mas-wp-job-manager-company' ),
                 'plural'                    => esc_html__( 'Industries', 'mas-wp-job-manager-company' ),
-                'slug'                      => esc_html_x( 'company-industry', 'Company industry permalink - resave permalinks after changing this', 'mas-wp-job-manager-company' ),
-                'enable'                    => get_option('job_manager_company_enable_salary', true)
+                'slug'                      => esc_html_x( 'company-category', 'Company category permalink - resave permalinks after changing this', 'mas-wp-job-manager-company' ),
+                'enable'                    => get_option('job_manager_company_enable_company_category', true)
             ),
-            'company_employees_strength' => array(
+            'company_strength' => array(
                 'singular'                  => esc_html__( 'Employee Strength', 'mas-wp-job-manager-company' ),
                 'plural'                    => esc_html__( 'Employees Strength', 'mas-wp-job-manager-company' ),
                 'slug'                      => esc_html_x( 'company-employees-strength', 'Company employees strength permalink - resave permalinks after changing this', 'mas-wp-job-manager-company' ),
-                'enable'                    => get_option('job_manager_company_enable_company_employees_strength', true)
+                'enable'                    => get_option('job_manager_company_enable_company_strength', true)
             ),
             'company_average_salary'    => array(
                 'singular'                  => esc_html__( 'Avg. Salary', 'mas-wp-job-manager-company' ),
@@ -131,7 +131,7 @@ class Mas_WPJMC_CPT {
         $singular  = esc_html__( 'Company', 'mas-wp-job-manager-company' );
         $plural    = esc_html__( 'Companies', 'mas-wp-job-manager-company' );
         $supports   = array( 'title', 'editor', 'publicize', 'thumbnail', 'excerpt', 'author', 'custom-fields' );
-        $companies_page_id = mas_wpjmc_get_companies_page_id();
+        $companies_page_id = mas_wpjmc_get_page_id( 'companies' );
 
         if ( current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
             $has_archive = $companies_page_id && get_post( $companies_page_id ) ? urldecode( get_page_uri( $companies_page_id ) ) : 'companies';
@@ -198,13 +198,6 @@ class Mas_WPJMC_CPT {
         $settings['mas_wpjmc_settings'] = array(
             esc_html__( 'Company', 'mas-wp-job-manager-company' ),
             array(
-                'job_manager_companies_page_id' => array(
-                    'name'      => 'job_manager_companies_page_id',
-                    'std'       => '',
-                    'label'     => esc_html__( 'Company Listings Page', 'mas-wp-job-manager-company' ),
-                    'desc'      => esc_html__( 'Select the page for company listing. This lets the plugin know the location of the company listings page.', 'mas-wp-job-manager-company' ),
-                    'type'      => 'page',
-                ),
                 'job_manager_companies_per_page' => array(
                     'name'        => 'job_manager_companies_per_page',
                     'std'         => '10',
@@ -213,17 +206,120 @@ class Mas_WPJMC_CPT {
                     'desc'        => esc_html__( 'Number of job listings to display per page.', 'mas-wp-job-manager-company' ),
                     'attributes'  => array(),
                 ),
+                'job_manager_companies_page_id' => array(
+                    'name'      => 'job_manager_companies_page_id',
+                    'std'       => '',
+                    'label'     => esc_html__( 'Company Listings Page', 'mas-wp-job-manager-company' ),
+                    'desc'      => esc_html__( 'Select the page for company listing. This lets the plugin know the location of the company listings page.', 'mas-wp-job-manager-company' ),
+                    'type'      => 'page',
+                ),
+                'job_manager_company_dashboard_page_id' => array(
+                    'name'  => 'job_manager_company_dashboard_page_id',
+                    'std'   => '',
+                    'label' => __( 'Company Dashboard Page', 'mas-wp-job-manager-company' ),
+                    'desc'  => __( 'Select the page where you\'ve used the [mas_company_dashboard] shortcode. This lets the plugin know the location of the dashboard.', 'mas-wp-job-manager-company' ),
+                    'type'  => 'page',
+                ),
+                'job_manager_submit_company_form_page_id' => array(
+                    'name'        => 'job_manager_submit_company_form_page_id',
+                    'std'         => '',
+                    'placeholder' => '',
+                    'label'     => esc_html__( 'Submit Company Form Page', 'mas-wp-job-manager-company' ),
+                    'desc'      => esc_html__( 'Select the page for company sumbit form.', 'mas-wp-job-manager-company' ),
+                    'type'      => 'page',
+                ),
+                'job_manager_company_submission_requires_approval' => array(
+                    'name'       => 'job_manager_company_submission_requires_approval',
+                    'std'        => '1',
+                    'label'      => __( 'Moderate New Listings', 'mas-wp-job-manager-company' ),
+                    'cb_label'   => __( 'Require admin approval of all new listing submissions', 'mas-wp-job-manager-company' ),
+                    'desc'       => __( 'Sets all new submissions to "pending." They will not appear on your site until an admin approves them.', 'mas-wp-job-manager-company' ),
+                    'type'       => 'checkbox',
+                    'attributes' => array(),
+                ),
+                'job_manager_user_can_edit_pending_company_submissions' => array(
+                    'name'       => 'job_manager_user_can_edit_pending_company_submissions',
+                    'std'        => '0',
+                    'label'      => __( 'Allow Pending Edits', 'mas-wp-job-manager-company' ),
+                    'cb_label'   => __( 'Allow editing of pending listings', 'mas-wp-job-manager-company' ),
+                    'desc'       => __( 'Users can continue to edit pending listings until they are approved by an admin.', 'mas-wp-job-manager-company' ),
+                    'type'       => 'checkbox',
+                    'attributes' => array(),
+                ),
+                'job_manager_company_submission_limit' => array(
+                    'name'        => 'job_manager_company_submission_limit',
+                    'std'         => '',
+                    'label'       => __( 'Listing Limit', 'mas-wp-job-manager-company' ),
+                    'desc'        => __( 'How many listings are users allowed to post. Can be left blank to allow unlimited listings per account.', 'mas-wp-job-manager-company' ),
+                    'attributes'  => array(),
+                    'placeholder' => __( 'No limit', 'mas-wp-job-manager-company' ),
+                ),
+                'job_manager_enable_recaptcha_company_submission' => array(
+                    'name'       => 'job_manager_enable_recaptcha_company_submission',
+                    'std'        => '0',
+                    'label'      => __( 'Company Submission Form', 'mas-wp-job-manager-company' ),
+                    'cb_label'   => __( 'Display a reCAPTCHA field on company submission form.', 'mas-wp-job-manager-company' ),
+                    'desc'       => sprintf( __( 'This will help prevent bots from submitting company listings. You must have entered a valid site key and secret key above.', 'mas-wp-job-manager-company' ), 'https://www.google.com/recaptcha/admin#list' ),
+                    'type'       => 'checkbox',
+                    'attributes' => array(),
+                ),
             ),
         );
+
+        $settings['job_submission'][1][] = array(
+            'name'       => 'job_manager_job_submission_required_company',
+            'std'        => '1',
+            'label'      => __( 'Company Required', 'mas-wp-job-manager-company' ),
+            'cb_label'   => __( 'Require an company to submit job listings', 'mas-wp-job-manager-company' ),
+            'desc'       => __( 'Limits job listing submissions to registered, who has company.', 'mas-wp-job-manager-company' ),
+            'type'       => 'checkbox',
+            'attributes' => array(),
+        );
+
         if ( ! current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
             unset( $settings['mas_wpjmc_settings'][1]['job_manager_companies_page_id'] );
             delete_option( 'job_manager_companies_page_id' );
             unset( $settings['mas_wpjmc_settings'][1]['job_manager_companies_per_page'] );
             delete_option( 'job_manager_companies_per_page' );
-            if( empty( $settings['mas_wpjmc_settings'][1] ) ) {
-                unset( $settings['mas_wpjmc_settings'] );
-            }
         }
         return $settings;
+    }
+
+    /**
+     * Adds post status to the "submitdiv" Meta Box and post type WP List Table screens. Based on https://gist.github.com/franz-josef-kaiser/2930190
+     *
+     * @return void
+     */
+    public function extend_submitdiv_post_status() {
+        global $wp_post_statuses, $post, $post_type;
+
+        // Abort if we're on the wrong post type, but only if we got a restriction
+        if ( 'company' !== $post_type ) {
+            return;
+        }
+
+        // Get all non-builtin post status and add them as <option>
+        $options = $display = '';
+        foreach ( get_company_post_statuses() as $status => $name ) {
+            $selected = selected( $post->post_status, $status, false );
+
+            // If we one of our custom post status is selected, remember it
+            $selected AND $display = $name;
+
+            // Build the options
+            $options .= "<option{$selected} value='{$status}'>{$name}</option>";
+        }
+        ?>
+        <script type="text/javascript">
+            jQuery( document ).ready( function($) {
+                <?php if ( ! empty( $display ) ) : ?>
+                    jQuery( '#post-status-display' ).html( '<?php echo $display; ?>' );
+                <?php endif; ?>
+
+                var select = jQuery( '#post-status-select' ).find( 'select' );
+                jQuery( select ).html( "<?php echo $options; ?>" );
+            } );
+        </script>
+        <?php
     }
 }

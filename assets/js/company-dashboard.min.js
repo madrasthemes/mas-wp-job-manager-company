@@ -1,0 +1,1 @@
+jQuery(document).ready(function(n){n(".company-dashboard-action-delete").click(function(){return!!confirm(mas_wp_job_manager_company_submission.i18n_confirm_delete)})});

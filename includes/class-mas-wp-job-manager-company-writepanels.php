@@ -16,6 +16,7 @@ class Mas_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
         add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
         add_action( 'save_post', array( $this, 'save_post' ), 1, 2 );
         add_action( 'company_manager_save_company', array( $this, 'save_company_data' ), 1, 2 );
+        add_filter( 'job_manager_job_listing_data_fields', array( $this, 'job_manager_job_listing_data_fields' ) );
     }
 
     /**
@@ -42,7 +43,7 @@ class Mas_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
         );
 
         $fields = apply_filters( 'company_manager_company_fields', array(
-            '_company_headquarters' => array(
+            '_company_location' => array(
                 'label'       => esc_html__( 'Headquarters', 'mas-wp-job-manager-company' ),
                 'placeholder' => esc_html__( 'e.g. "London, UK", "New York", "Houston, TX"', 'mas-wp-job-manager-company' ),
             ),
@@ -220,5 +221,19 @@ class Mas_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
                 }
             }
         }
+    }
+
+    /**
+     * job_manager_job_listing_data_fields function.
+     */
+    public function job_manager_job_listing_data_fields( $fields ) {
+        $fields['_company_id'] = array(
+            'label'       => esc_html__( 'Company', 'mas-wp-job-manager-company' ),
+            'type'        => 'select',
+            'options'     => mas_wpjmc()->company->job_manager_get_current_user_companies_select_options(),
+            'priority'    => 2,
+        );
+
+        return $fields;
     }
 }

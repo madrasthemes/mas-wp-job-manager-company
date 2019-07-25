@@ -5,6 +5,27 @@
  *
  */
 
+if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
+    function mas_wpjmc_edit_submit_job_form_fields( $fields ) {
+        $fields['company']['company_name']['label'] = __( 'Company Branch Name', 'mas-wp-job-manager-company' );
+        $fields['company']['company_name']['required'] = get_option( 'job_manager_job_submission_required_company' ) ? false : true ;
+        $fields['company']['company_website']['label'] = __( 'Company Branch Website', 'mas-wp-job-manager-company' );
+        $fields['company']['company_video']['label'] = __( 'Company Branch Video', 'mas-wp-job-manager-company' );
+        $fields['company']['company_twitter']['label'] = __( 'Company Branch Twitter', 'mas-wp-job-manager-company' );
+        $fields['company']['company_logo']['label'] = __( 'Job Logo', 'mas-wp-job-manager-company' );
+        $fields['company']['company_id'] = array(
+            'label'         => __( 'Company', 'mas-wp-job-manager-company' ),
+            'type'          => 'select',
+            'required'      => get_option( 'job_manager_job_submission_required_company' ) ? true : false,
+            'placeholder'   => __( 'Choose a Company', 'mas-wp-job-manager-company' ),
+            'priority'      => 0,
+            'options'       => mas_wpjmc()->company->job_manager_get_current_user_companies_select_options(),
+        );
+
+        return $fields;
+    }
+}
+
 if ( ! function_exists( 'mas_wpjmc_single_company_content_open' ) ) {
     function mas_wpjmc_single_company_content_open() {
         ?><div class="container"><?php
@@ -84,13 +105,13 @@ if ( ! function_exists( 'mas_wpjmc_single_company_features' ) ) {
                 'title' => __( 'Founded', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_the_meta_data( '_company_since' ),
             ),
-            'company_employees_strength'  => array(
+            'company_strength'  => array(
                 'title' => __( 'Employees', 'mas-wp-job-manager-company' ),
-                'content' => mas_wpjmc_get_taxomony_data( 'company_employees_strength' ),
+                'content' => mas_wpjmc_get_taxomony_data( 'company_strength' ),
             ),
-            'company_industry'  => array(
+            'company_category'  => array(
                 'title' => __( 'Industry', 'mas-wp-job-manager-company' ),
-                'content' => mas_wpjmc_get_taxomony_data( 'company_industry', null, true ),
+                'content' => mas_wpjmc_get_taxomony_data( 'company_category' ),
             ),
             'company_revenue'  => array(
                 'title' => __( 'Revenue', 'mas-wp-job-manager-company' ),

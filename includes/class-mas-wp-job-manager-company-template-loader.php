@@ -22,7 +22,7 @@ class Mas_WPJMC_Template_Loader {
      * Hook in methods.
      */
     public static function init() {
-        self::$companies_page_id  = mas_wpjmc_get_companies_page_id();
+        self::$companies_page_id  = mas_wpjmc_get_page_id( 'companies' );
 
         // Supported themes.
         add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );

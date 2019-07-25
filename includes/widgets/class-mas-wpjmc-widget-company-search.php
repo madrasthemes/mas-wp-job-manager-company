@@ -94,7 +94,7 @@ if( class_exists( 'WP_Widget' ) ) :
                 $queried_object = get_queried_object();
                 $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
             } else {
-                $link = get_permalink( mas_wpjmc_get_companies_page_id() );
+                $link = get_permalink( mas_wpjmc_get_page_id( 'companies' ) );
             }
 
             return $link;

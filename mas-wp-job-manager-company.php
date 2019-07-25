@@ -39,6 +39,7 @@ class Mas_WP_Job_Manager_Company {
      */
     private static $instance;
 
+    public $version = '1.0.0';
 
     /**
      * Query instance.
@@ -63,6 +64,8 @@ class Mas_WP_Job_Manager_Company {
      * @since 1.0.0
      */
     public function __construct() {
+        define( 'MAS_JOB_MANAGER_COMPANY_VERSION', $this->version );
+
         $this->plugin_url = trailingslashit( plugin_dir_url( __FILE__ ) );
         $this->plugin_dir = plugin_dir_path( __FILE__ );
         $this->init();
@@ -112,6 +115,12 @@ class Mas_WP_Job_Manager_Company {
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-cpt.php' );
         $this->cpt = new Mas_WPJMC_CPT();
 
+        require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-shortcode.php' );
+        $this->shortcode = new Mas_WPJMC_Shortcode();
+
+        require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-forms.php' );
+        $this->forms = new Mas_WPJMC_Forms();
+
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-query.php' );
         $this->query = new Mas_WPJMC_Query();
 
@@ -135,6 +144,23 @@ class Mas_WP_Job_Manager_Company {
      * @since 1.0.0
      */
     public function mas_wpjmc_enqueue_scripts() {
+        wp_register_script( 'mas-wp-job-manager-company-dashboard', plugins_url( 'assets/js/company-dashboard.min.js', __FILE__ ), array( 'jquery' ), MAS_JOB_MANAGER_COMPANY_VERSION, true );
+        wp_register_script( 'mas-wp-job-manager-company-submission', plugins_url( 'assets/js/company-submission.min.js', __FILE__ ), array( 'jquery', 'jquery-ui-sortable' ), MAS_JOB_MANAGER_COMPANY_VERSION, true );
+
+        wp_localize_script(
+            'mas-wp-job-manager-company-submission', 'mas_wp_job_manager_company_submission', array(
+                'i18n_navigate'       => __( 'If you wish to edit the posted details use the "edit resume" button instead, otherwise changes may be lost.', 'mas-wp-job-manager-company' ),
+                'i18n_confirm_remove' => __( 'Are you sure you want to remove this item?', 'mas-wp-job-manager-company' ),
+                'i18n_remove'         => __( 'remove', 'mas-wp-job-manager-company' ),
+            )
+        );
+
+        wp_localize_script(
+            'mas-wp-job-manager-company-dashboard', 'mas_wp_job_manager_company_dashboard', array(
+                'i18n_confirm_delete' => __( 'Are you sure you want to delete this resume?', 'mas-wp-job-manager-company' ),
+            )
+        );
+
         // General stylesheet.
         if( apply_filters( 'mas_wpjmc_enqueue_scripts_enable_frontend_css', true ) ) {
             wp_enqueue_style( 'mas-wp-job-manager-company-frontend', plugins_url( 'assets/css/frontend.css', __FILE__ ), array( 'dashicons' ) );
