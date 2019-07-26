@@ -40,6 +40,7 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
     function mas_wpjmc_single_company_header() {
         ?>
         <div class="company-contact-details">
+            <?php if( ! ( function_exists( 'twentynineteen_can_show_post_thumbnail' ) && twentynineteen_can_show_post_thumbnail() ) ) : ?>
             <div class="company-data">
                 <div class="company-logo">
                     <?php $logo =  get_the_company_logo( null, 'thumbnail' ) ? get_the_company_logo( null, 'thumbnail' ) : apply_filters( 'job_manager_default_company_logo', JOB_MANAGER_PLUGIN_URL . '/assets/images/company.png' ); ?>
@@ -48,6 +49,7 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
                 <div class="company-data__content media-body">
                     <?php 
                     the_title( '<h1 class="company-title">', '</h1>' );
+                    endif;
                     if( ! empty ( mas_wpjmc_get_the_meta_data( '_company_tagline' ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_website' ) ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_email' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) {
                         ?>
                         <div class="company-data__content--list">
@@ -90,9 +92,10 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
                         </div>
                         <?php
                     }
-                    ?>
+                    if( ! ( function_exists( 'twentynineteen_can_show_post_thumbnail' ) && twentynineteen_can_show_post_thumbnail() ) ) : ?>
                 </div>
             </div>
+            <?php endif; ?>
         </div>
         <?php
     }
