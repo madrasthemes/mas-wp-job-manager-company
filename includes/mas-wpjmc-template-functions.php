@@ -7,12 +7,12 @@
 
 if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
     function mas_wpjmc_edit_submit_job_form_fields( $fields ) {
-        $fields['company']['company_name']['label'] = __( 'Company Branch Name', 'mas-wp-job-manager-company' );
+        $fields['company']['company_name']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch  Name', 'mas-wp-job-manager-company' ) : __( 'Company / Branch  Name', 'mas-wp-job-manager-company' ) ;
         $fields['company']['company_name']['required'] = get_option( 'job_manager_job_submission_required_company' ) ? false : true ;
-        $fields['company']['company_website']['label'] = __( 'Company Branch Website', 'mas-wp-job-manager-company' );
-        $fields['company']['company_video']['label'] = __( 'Company Branch Video', 'mas-wp-job-manager-company' );
-        $fields['company']['company_twitter']['label'] = __( 'Company Branch Twitter', 'mas-wp-job-manager-company' );
-        $fields['company']['company_logo']['label'] = __( 'Job Logo', 'mas-wp-job-manager-company' );
+        $fields['company']['company_website']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  __( 'Branch Website', 'mas-wp-job-manager-company' ) : __( 'Company / Branch Website', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_video']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch Video', 'mas-wp-job-manager-company' ) : __( 'Company / Branch Video', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_twitter']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  __( 'Branch Twitter', 'mas-wp-job-manager-company' ) :  __( 'Company / Branch Twitter', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_logo']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch Logo', 'mas-wp-job-manager-company' ) : __( 'Company / Branch Logo', 'mas-wp-job-manager-company' ) ;
         $fields['company']['company_id'] = array(
             'label'         => __( 'Company', 'mas-wp-job-manager-company' ),
             'type'          => 'select',
@@ -21,6 +21,10 @@ if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
             'priority'      => 0,
             'options'       => mas_wpjmc()->company->job_manager_get_current_user_companies_select_options(),
         );
+
+        if( get_option( 'job_manager_job_submission_required_company' ) ) {
+            unset( $fields['company']['company_tagline'] );
+        }
 
         return $fields;
     }
