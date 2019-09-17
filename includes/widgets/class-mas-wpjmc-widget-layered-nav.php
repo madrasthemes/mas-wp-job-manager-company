@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Widget layered nav class.
  */
-class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
+class MAS_WPJMC_Widget_Layered_Nav extends WP_Widget {
 
     /**
      * Constructor.
      */
     public function __construct() {
         $widget_ops = array( 'description' => esc_html__( 'Add company filter widgets to your sidebar.', 'mas-wp-job-manager-company' ) );
-        parent::__construct( 'mas_wpjmc_layered_nav', esc_html__( 'Mas Filter Company by Taxonomy', 'mas-wp-job-manager-company' ), $widget_ops );
+        parent::__construct( 'mas_wpjmc_layered_nav', esc_html__( 'MAS Filter Company by Taxonomy', 'mas-wp-job-manager-company' ), $widget_ops );
     }
 
     /**
@@ -104,7 +104,7 @@ class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
             return;
         }
 
-        $_chosen_taxonomies = Mas_WPJMC_Query::get_layered_nav_chosen_taxonomies();
+        $_chosen_taxonomies = MAS_WPJMC_Query::get_layered_nav_chosen_taxonomies();
         $title              = isset( $instance['title'] ) ? $instance['title'] : esc_html__( 'Filter by', 'mas-wp-job-manager-company' );
         $taxonomy           = isset( $instance['taxonomy'] ) ? $instance['taxonomy'] : '';
         $query_type         = isset( $instance['query_type'] ) ? $instance['query_type'] : 'and';
@@ -185,9 +185,9 @@ class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
     protected function get_filtered_term_company_counts( $term_ids, $taxonomy, $query_type ) {
         global $wpdb;
 
-        $tax_query  = Mas_WPJMC_Query::get_main_tax_query();
-        $meta_query = Mas_WPJMC_Query::get_main_meta_query();
-        $date_query = Mas_WPJMC_Query::get_main_date_query();
+        $tax_query  = MAS_WPJMC_Query::get_main_tax_query();
+        $meta_query = MAS_WPJMC_Query::get_main_meta_query();
+        $date_query = MAS_WPJMC_Query::get_main_date_query();
 
         if ( 'or' === $query_type ) {
             foreach ( $tax_query as $key => $query ) {
@@ -220,7 +220,7 @@ class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
             . $tax_query_sql['where'] . $meta_query_sql['where'] . $date_query_sql .
             'AND terms.term_id IN (' . implode( ',', array_map( 'absint', $term_ids ) ) . ')';
 
-        $search = Mas_WPJMC_Query::get_main_search_query_sql();
+        $search = MAS_WPJMC_Query::get_main_search_query_sql();
         if ( $search ) {
             $query['where'] .= ' AND ' . $search;
         }
@@ -265,7 +265,7 @@ class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
         echo '<ul class="mas-wpjmc-widget-layered-nav-list tax-' . esc_attr( $taxonomy ) . '">';
 
         $term_counts        = $this->get_filtered_term_company_counts( wp_list_pluck( $terms, 'term_id' ), $taxonomy, $query_type );
-        $_chosen_taxonomies = Mas_WPJMC_Query::get_layered_nav_chosen_taxonomies();
+        $_chosen_taxonomies = MAS_WPJMC_Query::get_layered_nav_chosen_taxonomies();
         $found              = false;
 
         foreach ( $terms as $term ) {
@@ -293,7 +293,7 @@ class Mas_WPJMC_Widget_Layered_Nav extends WP_Widget {
                 $current_filter[] = $term->slug;
             }
 
-            $link = remove_query_arg( $filter_name, Mas_WPJMC::get_current_page_url() );
+            $link = remove_query_arg( $filter_name, MAS_WPJMC::get_current_page_url() );
 
             // Add current filters to URL.
             foreach ( $current_filter as $key => $value ) {

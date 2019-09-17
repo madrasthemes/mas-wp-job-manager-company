@@ -2,11 +2,11 @@
 /**
  * Template for the company dashboard (`[mas_company_dashboard]`) shortcode.
  *
- * This template can be overridden by copying it to yourtheme/mas-wp-job-manager-companies/company-dashboard.php.
+ * This template can be overridden by copying it to yourtheme/mas-wp-job-manager-company/company-dashboard.php.
  *
  * @see         https://wpjobmanager.com/document/template-overrides/
  * @author      Automattic
- * @package     Mas WP Job Manager Company
+ * @package     MAS WP Job Manager Company
  * @category    Template
  * @version     1.13.0
  */

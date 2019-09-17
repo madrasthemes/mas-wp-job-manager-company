@@ -3,13 +3,13 @@
 include_once( 'class-mas-wp-job-manager-company-form-submit-company.php' );
 
 /**
- * Mas_WP_Job_Manager_Company_Form_Edit_Company class.
+ * MAS_WP_Job_Manager_Company_Form_Edit_Company class.
  */
-class Mas_WP_Job_Manager_Company_Form_Edit_Company extends Mas_WP_Job_Manager_Company_Form_Submit_Company {
+class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Company_Form_Submit_Company {
 
     public $form_name = 'edit-company';
 
-    /** @var Mas_WP_Job_Manager_Company_Form_Edit_Company The single instance of the class */
+    /** @var MAS_WP_Job_Manager_Company_Form_Edit_Company The single instance of the class */
     protected static $_instance = null;
 
     /**

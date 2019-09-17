@@ -1,6 +1,6 @@
 <?php
 /**
- * Mas WP Job Manager Company Query Class
+ * MAS WP Job Manager Company Query Class
  *
  */
 
@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Mas_WPJMC_Query {
+class MAS_WPJMC_Query {
 
     /**
      * Reference to the main job query on the page.

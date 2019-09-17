@@ -1,6 +1,6 @@
 <?php
 /**
- * Mas WP Job Manager Company Class
+ * MAS WP Job Manager Company Class
  *
  */
 
@@ -8,9 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'Mas_WPJMC' ) ) :
+if ( ! class_exists( 'MAS_WPJMC' ) ) :
 
-    class Mas_WPJMC {
+    class MAS_WPJMC {
 
         public function __construct() {
             add_filter( 'body_class', array( $this, 'company_body_classes' ) );
@@ -40,10 +40,10 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
 
             if ( current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
                 // Search Widget
-                register_widget( 'Mas_WPJMC_Widget_Company_Search' );
+                register_widget( 'MAS_WPJMC_Widget_Company_Search' );
 
                 // Filter Widget
-                register_widget( 'Mas_WPJMC_Widget_Layered_Nav' );
+                register_widget( 'MAS_WPJMC_Widget_Layered_Nav' );
             }
         }
 
@@ -90,7 +90,7 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
             }
 
             // All current filters.
-            if ( $_chosen_taxonomies = Mas_WPJMC_Query::get_layered_nav_chosen_taxonomies() ) { // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found, WordPress.CodeAnalysis.AssignmentInCondition.Found
+            if ( $_chosen_taxonomies = MAS_WPJMC_Query::get_layered_nav_chosen_taxonomies() ) { // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found, WordPress.CodeAnalysis.AssignmentInCondition.Found
                 foreach ( $_chosen_taxonomies as $name => $data ) {
                     $filter_name = sanitize_title( $name );
                     if ( ! empty( $data['terms'] ) ) {
@@ -137,7 +137,7 @@ if ( ! class_exists( 'Mas_WPJMC' ) ) :
             }
 
             // All current filters.
-            if ( $_chosen_taxonomies = Mas_WPJMC_Query::get_layered_nav_chosen_taxonomies() ) { // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found, WordPress.CodeAnalysis.AssignmentInCondition.Found
+            if ( $_chosen_taxonomies = MAS_WPJMC_Query::get_layered_nav_chosen_taxonomies() ) { // phpcs:ignore Squiz.PHP.DisallowMultipleAssignments.Found, WordPress.CodeAnalysis.AssignmentInCondition.Found
                 foreach ( $_chosen_taxonomies as $name => $data ) {
                     $filter_name = sanitize_title( $name );
                     if ( ! empty( $data['terms'] ) ) {

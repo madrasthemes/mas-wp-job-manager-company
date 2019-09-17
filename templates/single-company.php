@@ -13,7 +13,7 @@ get_header();
 
             do_action( 'single_company_content_start' );
 
-            get_job_manager_template( 'content-single-company.php', array() , 'mas-wp-job-manager-companies', mas_wpjmc()->plugin_dir . 'templates/' );
+            get_job_manager_template( 'content-single-company.php', array() , 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
 
             do_action( 'single_company_content_end' );
 

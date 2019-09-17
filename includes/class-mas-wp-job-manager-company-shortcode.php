@@ -1,6 +1,6 @@
 <?php
 /**
- * Mas WP Job Manager Company Class
+ * MAS WP Job Manager Company Class
  *
  */
 
@@ -8,9 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'Mas_WPJMC_Shortcode' ) ) :
+if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
 
-    class Mas_WPJMC_Shortcode {
+    class MAS_WPJMC_Shortcode {
 
         private $company_dashboard_message = '';
 

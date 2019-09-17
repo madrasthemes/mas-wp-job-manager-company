@@ -1,6 +1,6 @@
 <?php
 /**
- * Mas WP Job Manager Company CPT Class
+ * MAS WP Job Manager Company CPT Class
  *
  */
 
@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Mas_WPJMC_CPT {
+class MAS_WPJMC_CPT {
 
     public function __construct() {
         add_action( 'init', array( $this, 'register_post_types' ), 0 );

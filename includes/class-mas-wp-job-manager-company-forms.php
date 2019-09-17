@@ -2,7 +2,7 @@
 /**
  * WP_Resume_Manager_Forms class.
  */
-class Mas_WPJMC_Forms {
+class MAS_WPJMC_Forms {
 
     /**
      * Constructor
@@ -32,7 +32,7 @@ class Mas_WPJMC_Forms {
         }
 
         // Now try to load the form_name
-        $form_class  = 'Mas_WP_Job_Manager_Company_Form_' . str_replace( '-', '_', $form_name );
+        $form_class  = 'MAS_WP_Job_Manager_Company_Form_' . str_replace( '-', '_', $form_name );
         $form_file   = mas_wpjmc()->plugin_dir . 'includes/forms/class-mas-wp-job-manager-company-form-' . $form_name . '.php';
 
         if ( class_exists( $form_class ) ) {

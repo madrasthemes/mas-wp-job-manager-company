@@ -3,15 +3,15 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 /**
- * Mas_WP_Job_Manager_Company_Form_Submit_Company class.
+ * MAS_WP_Job_Manager_Company_Form_Submit_Company class.
  */
-class Mas_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form {
+class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form {
 
     public    $form_name = 'submit-company';
     protected $company_id;
     protected $preview_company;
 
-    /** @var Mas_WP_Job_Manager_Company_Form_Submit_Company The single instance of the class */
+    /** @var MAS_WP_Job_Manager_Company_Form_Submit_Company The single instance of the class */
     protected static $_instance = null;
 
     /**
@@ -139,7 +139,7 @@ class Mas_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                     'priority'      => 15,
                 ),
                 'company_logo'      => array(
-                    'label'         => __( 'Company Logo', 'wp-job-manager-resumes' ),
+                    'label'         => __( 'Company Logo', 'mas-wp-job-manager-company' ),
                     'type'          => 'file',
                     'required'      => false,
                     'placeholder'   => '',
@@ -154,11 +154,11 @@ class Mas_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                     'personal_data'      => true,
                 ),
                 'company_video'     => array(
-                    'label'         => __( 'Video', 'wp-job-manager-resumes' ),
+                    'label'         => __( 'Video', 'mas-wp-job-manager-company' ),
                     'type'          => 'text',
                     'required'      => false,
                     'priority'      => 25,
-                    'placeholder'   => __( 'A link to a video about yourself', 'wp-job-manager-resumes' ),
+                    'placeholder'   => __( 'A link to a video about yourself', 'mas-wp-job-manager-company' ),
                 ),
                 'company_since'     => array(
                     'label'         => esc_html__( 'Since', 'mas-wp-job-manager-company' ),
@@ -329,7 +329,7 @@ class Mas_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                             }
                             $file_url = esc_url( $file_url, array( 'http', 'https' ) );
                             if ( empty( $file_url ) ) {
-                                throw new Exception( __( 'Invalid attachment provided.', 'wp-job-manager' ) );
+                                throw new Exception( __( 'Invalid attachment provided.', 'mas-wp-job-manager-company' ) );
                             }
                         }
                     }

@@ -2,7 +2,7 @@
 /**
  * Creates a company search widget
  *
- * @class       Mas_WPJMC_Widget_Company_Search
+ * @class       MAS_WPJMC_Widget_Company_Search
  * @version     1.0.0
  * @package     Widgets
  * @category    Class
@@ -15,15 +15,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if( class_exists( 'WP_Widget' ) ) :
     /**
-     * Mas company search widget class
+     * MAS company search widget class
      *
      * @since 1.0.0
      */
-    class Mas_WPJMC_Widget_Company_Search extends WP_Widget {
+    class MAS_WPJMC_Widget_Company_Search extends WP_Widget {
 
         public function __construct() {
             $widget_ops = array( 'description' => esc_html__( 'Add company search widgets to your sidebar.', 'mas-wp-job-manager-company' ) );
-            parent::__construct( 'mas_wpjmc_search', esc_html__( 'Mas Company Search', 'mas-wp-job-manager-company' ), $widget_ops );
+            parent::__construct( 'mas_wpjmc_search', esc_html__( 'MAS Company Search', 'mas-wp-job-manager-company' ), $widget_ops );
         }
 
         public function widget($args, $instance) {
@@ -37,7 +37,7 @@ if( class_exists( 'WP_Widget' ) ) :
             }
 
             $link = $this->get_current_page_url();
-            $query_vars = Mas_WPJMC::get_current_page_query_args();
+            $query_vars = MAS_WPJMC::get_current_page_query_args();
             ?>
             <form method="get" class="mas-wpjmc-search" action="<?php echo esc_url( $link ); ?>">
                 <label class="sr-only" for="<?php echo esc_attr( $args['widget_id'] ); ?>-search-field"><?php echo esc_html__( 'Keywords', 'mas-wp-job-manager-company' ); ?></label>

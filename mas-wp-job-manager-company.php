@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Mas Company for WP Job Manager
+ * Plugin Name: MAS Company for WP Job Manager
  * Description: This plugin helps to create a custom post type company for WP Job Manager
  * Version: 1.0.0
  * Author: MadrasThemes
@@ -20,22 +20,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Mas_WP_Job_Manager_Company.
+ * Class MAS_WP_Job_Manager_Company.
  *
- * Main Mas_WPJMC class initializes the plugin.
+ * Main MAS_WPJMC class initializes the plugin.
  *
- * @class     Mas_WP_Job_Manager_Company
+ * @class     MAS_WP_Job_Manager_Company
  * @version   1.0.0
  * @author    Madras Themes
  */
-class Mas_WP_Job_Manager_Company {
+class MAS_WP_Job_Manager_Company {
 
     /**
-     * Instace of Mas_WP_Job_Manager_Company.
+     * Instace of MAS_WP_Job_Manager_Company.
      *
      * @since 1.0.0
      * @access private
-     * @var object $instance The instance of Mas_WPJMC.
+     * @var object $instance The instance of MAS_WPJMC.
      */
     private static $instance;
 
@@ -44,7 +44,7 @@ class Mas_WP_Job_Manager_Company {
     /**
      * Query instance.
      *
-     * @var Mas_WPJMC_Query
+     * @var MAS_WPJMC_Query
      */
     public $query = null;
 
@@ -110,25 +110,25 @@ class Mas_WP_Job_Manager_Company {
         /* === CLASSES === */
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company.php' );
-        $this->company = new Mas_WPJMC();
+        $this->company = new MAS_WPJMC();
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-cpt.php' );
-        $this->cpt = new Mas_WPJMC_CPT();
+        $this->cpt = new MAS_WPJMC_CPT();
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-shortcode.php' );
-        $this->shortcode = new Mas_WPJMC_Shortcode();
+        $this->shortcode = new MAS_WPJMC_Shortcode();
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-forms.php' );
-        $this->forms = new Mas_WPJMC_Forms();
+        $this->forms = new MAS_WPJMC_Forms();
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-query.php' );
-        $this->query = new Mas_WPJMC_Query();
+        $this->query = new MAS_WPJMC_Query();
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-template-loader.php' );
 
         if( is_admin() ) {
             require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company-writepanels.php' );
-            $this->writepanels = new Mas_WPJMC_Writepanels();
+            $this->writepanels = new MAS_WPJMC_Writepanels();
         }
 
         //
@@ -185,19 +185,19 @@ class Mas_WP_Job_Manager_Company {
 }
 
 /**
- * The main function responsible for returning the Mas_WP_Job_Manager_Company object.
+ * The main function responsible for returning the MAS_WP_Job_Manager_Company object.
  *
  * Use this function like you would a global variable, except without needing to declare the global.
  *
  * @since 1.0.0
  *
- * @return object Mas_WP_Job_Manager_Company class object.
+ * @return object MAS_WP_Job_Manager_Company class object.
  */
 function mas_wpjmc() {
     if ( ! class_exists( 'WP_Job_Manager' ) )
         return;
 
-    return Mas_WP_Job_Manager_Company::instance();
+    return MAS_WP_Job_Manager_Company::instance();
 }
 
 // Load plugin instance on plugins loaded.

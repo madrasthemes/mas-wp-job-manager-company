@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Template loader class.
  */
-class Mas_WPJMC_Template_Loader {
+class MAS_WPJMC_Template_Loader {
 
     /**
      * Store the company page ID.
@@ -33,12 +33,12 @@ class Mas_WPJMC_Template_Loader {
      *
      * Handles template usage so that we can use our own templates instead of the themes.
      *
-     * Templates are in the 'templates' folder. mas-wp-job-manager-companies looks for theme.
-     * overrides in /theme/mas-wp-job-manager-companies/ by default.
+     * Templates are in the 'templates' folder. mas-wp-job-manager-company looks for theme.
+     * overrides in /theme/mas-wp-job-manager-company/ by default.
      *
-     * For beginners, it also looks for a mas-wp-job-manager-companies.php template first. If the user adds.
-     * this to the theme (containing a mas-wp-job-manager-companies() inside) this will be used for all.
-     * mas-wp-job-manager-companies templates.
+     * For beginners, it also looks for a mas-wp-job-manager-company.php template first. If the user adds.
+     * this to the theme (containing a mas-wp-job-manager-company() inside) this will be used for all.
+     * mas-wp-job-manager-company templates.
      *
      * @param string $template Template to load.
      * @return string
@@ -114,18 +114,18 @@ class Mas_WPJMC_Template_Loader {
         if ( is_company_taxonomy() ) {
             $object      = get_queried_object();
             $templates[] = 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
-            $templates[] = get_template_directory() .'/mas-wp-job-manager-companies/' . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
+            $templates[] = get_template_directory() .'/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
 
             $templates[] = 'taxonomy-' . $object->taxonomy . '.php';
-            $templates[] = get_template_directory() .'/mas-wp-job-manager-companies/' . 'taxonomy-' . $object->taxonomy . '.php';
+            $templates[] = get_template_directory() .'/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '.php';
         }
 
         $templates[] = $default_file;
-        $templates[] = get_template_directory() .'/mas-wp-job-manager-companies/' . $default_file;
+        $templates[] = get_template_directory() .'/mas-wp-job-manager-company/' . $default_file;
 
         return array_unique( $templates );
     }
 
 }
 
-add_action( 'init', array( 'Mas_WPJMC_Template_Loader', 'init' ) );
+add_action( 'init', array( 'MAS_WPJMC_Template_Loader', 'init' ) );

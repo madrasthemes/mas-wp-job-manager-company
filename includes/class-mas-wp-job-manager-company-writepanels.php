@@ -4,7 +4,7 @@ if ( ! class_exists( 'WP_Job_Manager_Writepanels' ) ) {
     include( JOB_MANAGER_PLUGIN_DIR . '/includes/admin/class-wp-job-manager-writepanels.php' );
 }
 
-class Mas_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
+class MAS_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
 
     /**
      * __construct function.
