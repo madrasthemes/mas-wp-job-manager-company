@@ -114,14 +114,14 @@ class MAS_WPJMC_Template_Loader {
         if ( is_company_taxonomy() ) {
             $object      = get_queried_object();
             $templates[] = 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
-            $templates[] = get_template_directory() .'/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
+            $templates[] = '/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
 
             $templates[] = 'taxonomy-' . $object->taxonomy . '.php';
-            $templates[] = get_template_directory() .'/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '.php';
+            $templates[] = '/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '.php';
         }
 
         $templates[] = $default_file;
-        $templates[] = get_template_directory() .'/mas-wp-job-manager-company/' . $default_file;
+        $templates[] = '/mas-wp-job-manager-company/' . $default_file;
 
         return array_unique( $templates );
     }

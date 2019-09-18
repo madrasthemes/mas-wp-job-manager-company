@@ -432,6 +432,10 @@ if ( ! function_exists( 'get_company_class' ) ) {
             $classes[] = 'company_featured';
         }
 
+        if ( ! empty( $class ) ) {
+            $classes[] = $class;
+        }
+
         return get_post_class( $classes, $post->ID );
     }
 }
