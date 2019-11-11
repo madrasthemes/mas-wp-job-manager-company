@@ -39,8 +39,8 @@ if ( ! function_exists( 'mas_wpjmc_is_company_taxonomy' ) ) {
 }
 
 
-if ( ! function_exists( 'mas_add_showing_to_company_listings_result' ) ) {
-    function mas_add_showing_to_company_listings_result( $results, $companies ) {
+if ( ! function_exists( 'mas_wpjmc_add_showing_to_company_listings_result' ) ) {
+    function mas_wpjmc_add_showing_to_company_listings_result( $results, $companies ) {
 
         $search_location    = isset( $_REQUEST['search_location'] ) ? sanitize_text_field( stripslashes( $_REQUEST['search_location'] ) ) : '';
         $search_keywords    = isset( $_REQUEST['search_keywords'] ) ? sanitize_text_field( stripslashes( $_REQUEST['search_keywords'] ) ) : '';

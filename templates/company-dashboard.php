@@ -18,7 +18,7 @@ $submission_limit           = get_option( 'job_manager_company_submission_limit'
 $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page_id' );
 ?>
 <div id="job-manager-company-dashboard">
-	<p><?php echo _n( 'Your company can be viewed, edited or removed below.', 'Your companies can be viewed, edited or removed below.', mas_wpjmc_company_manager_count_user_companies(), 'mas-wp-job-manager-company' ); ?></p>
+	<p><?php echo esc_html( _n( 'Your company can be viewed, edited or removed below.', 'Your companies can be viewed, edited or removed below.', mas_wpjmc_company_manager_count_user_companies(), 'mas-wp-job-manager-company' ) ); ?></p>
 	<table class="job-manager-companies">
 		<thead>
 			<tr>
