@@ -7,17 +7,17 @@
 
 if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
     function mas_wpjmc_edit_submit_job_form_fields( $fields ) {
-        $fields['company']['company_name']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch  Name', 'mas-wp-job-manager-company' ) : __( 'Company / Branch  Name', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_name']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch  Name', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch  Name', 'mas-wp-job-manager-company' ) ;
         $fields['company']['company_name']['required'] = get_option( 'job_manager_job_submission_required_company' ) ? false : true ;
-        $fields['company']['company_website']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  __( 'Branch Website', 'mas-wp-job-manager-company' ) : __( 'Company / Branch Website', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_video']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch Video', 'mas-wp-job-manager-company' ) : __( 'Company / Branch Video', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_twitter']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  __( 'Branch Twitter', 'mas-wp-job-manager-company' ) :  __( 'Company / Branch Twitter', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_logo']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch Logo', 'mas-wp-job-manager-company' ) : __( 'Company / Branch Logo', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_website']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch Website', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Website', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_video']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Video', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Video', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_twitter']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch Twitter', 'mas-wp-job-manager-company' ) :  esc_html__( 'Company / Branch Twitter', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_logo']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Logo', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Logo', 'mas-wp-job-manager-company' ) ;
         $fields['company']['company_id'] = array(
-            'label'         => __( 'Company', 'mas-wp-job-manager-company' ),
+            'label'         => esc_html__( 'Company', 'mas-wp-job-manager-company' ),
             'type'          => 'select',
             'required'      => get_option( 'job_manager_job_submission_required_company' ) ? true : false,
-            'placeholder'   => __( 'Choose a Company', 'mas-wp-job-manager-company' ),
+            'placeholder'   => esc_html__( 'Choose a Company', 'mas-wp-job-manager-company' ),
             'priority'      => 0,
             'options'       => mas_wpjmc()->company->job_manager_get_current_user_companies_select_options(),
         );
@@ -105,27 +105,27 @@ if ( ! function_exists( 'mas_wpjmc_single_company_features' ) ) {
     function mas_wpjmc_single_company_features() {
         $args = apply_filters( 'mas_wpjmc_single_company_features_args', array(
             'company_headquarters'  => array(
-                'title' => __( 'Headquarters', 'mas-wp-job-manager-company' ),
+                'title' => esc_html__( 'Headquarters', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_the_meta_data( '_company_headquarters' ),
             ),
             'company_since'  => array(
-                'title' => __( 'Founded', 'mas-wp-job-manager-company' ),
+                'title' => esc_html__( 'Founded', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_the_meta_data( '_company_since' ),
             ),
             'company_strength'  => array(
-                'title' => __( 'Employees', 'mas-wp-job-manager-company' ),
+                'title' => esc_html__( 'Employees', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_strength' ),
             ),
             'company_category'  => array(
-                'title' => __( 'Industry', 'mas-wp-job-manager-company' ),
+                'title' => esc_html__( 'Industry', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_category' ),
             ),
             'company_revenue'  => array(
-                'title' => __( 'Revenue', 'mas-wp-job-manager-company' ),
+                'title' => esc_html__( 'Revenue', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_revenue' ),
             ),
             'company_average_salary'  => array(
-                'title' => __( 'Avg. Salary', 'mas-wp-job-manager-company' ),
+                'title' => esc_html__( 'Avg. Salary', 'mas-wp-job-manager-company' ),
                 'content' => mas_wpjmc_get_taxomony_data( 'company_average_salary' ),
             ),
         ) );

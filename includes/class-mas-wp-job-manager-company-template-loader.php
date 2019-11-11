@@ -54,9 +54,9 @@ class MAS_WPJMC_Template_Loader {
 
         if ( $default_file ) {
             /**
-             * Filter hook to choose which files to find before Jobhunt does it's own logic.
+             * Filter hook to choose which files to find before mas-wp-job-manager-company does it's own logic.
              *
-             * @since 3.0.0
+             * @since 1.0.0
              * @var array
              */
             $search_files = self::get_template_loader_files( $default_file );
@@ -74,13 +74,13 @@ class MAS_WPJMC_Template_Loader {
     /**
      * Get the default filename for a template.
      *
-     * @since  3.0.0
+     * @since  1.0.0
      * @return string
      */
     private static function get_template_loader_default_file() {
         if ( is_singular( 'company' ) ) {
             $default_file = 'single-company.php';
-        } elseif ( is_post_type_archive( 'company' ) || is_page( self::$companies_page_id ) || is_company_taxonomy() ) {
+        } elseif ( is_post_type_archive( 'company' ) || is_page( self::$companies_page_id ) || mas_wpjmc_is_company_taxonomy() ) {
             $default_file = 'archive-company.php';
         } else {
             $default_file = '';
@@ -91,7 +91,7 @@ class MAS_WPJMC_Template_Loader {
     /**
      * Get an array of filenames to search for a given template.
      *
-     * @since  3.0.0
+     * @since  1.0.0
      * @param  string $default_file The default file name.
      * @return string[]
      */
@@ -111,7 +111,7 @@ class MAS_WPJMC_Template_Loader {
             $templates[] = "single-company-{$object->post_name}.php";
         }
 
-        if ( is_company_taxonomy() ) {
+        if ( mas_wpjmc_is_company_taxonomy() ) {
             $object      = get_queried_object();
             $templates[] = 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';
             $templates[] = '/mas-wp-job-manager-company/' . 'taxonomy-' . $object->taxonomy . '-' . $object->slug . '.php';

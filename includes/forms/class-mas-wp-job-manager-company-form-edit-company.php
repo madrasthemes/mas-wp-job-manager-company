@@ -28,7 +28,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
     public function __construct() {
         $this->company_id = ! empty( $_REQUEST['company_id'] ) ? absint( $_REQUEST[ 'company_id' ] ) : 0;
 
-        if  ( ! company_manager_user_can_edit_company( $this->company_id ) ) {
+        if  ( ! mas_wpjmc_company_manager_user_can_edit_company( $this->company_id ) ) {
             $this->company_id = 0;
         }
     }
@@ -50,7 +50,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
         $company = get_post( $this->company_id );
 
         if ( empty( $this->company_id  ) || ( $company->post_status !== 'publish' && $company->post_status !== 'hidden' ) ) {
-            echo wpautop( __( 'Invalid company', 'mas-wp-job-manager-company' ) );
+            echo wpautop( esc_html__( 'Invalid company', 'mas-wp-job-manager-company' ) );
             return;
         }
 
@@ -87,7 +87,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
             'action'                => $this->get_action(),
             'company_fields'        => $this->get_fields( 'company_fields' ),
             'step'                  => $this->get_step(),
-            'submit_button_text'    => __( 'Save changes', 'mas-wp-job-manager-company' )
+            'submit_button_text'    => esc_html__( 'Save changes', 'mas-wp-job-manager-company' )
         ), 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
     }
 
@@ -115,7 +115,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
             $this->update_company_data( $values );
 
             // Successful
-            echo '<div class="job-manager-message">' . __( 'Your changes have been saved.', 'mas-wp-job-manager-company' ), ' <a href="' . get_permalink( $this->company_id ) . '">' . __( 'View Company &rarr;', 'mas-wp-job-manager-company' ) . '</a>' . '</div>';
+            echo '<div class="job-manager-message">' . esc_html__( 'Your changes have been saved.', 'mas-wp-job-manager-company' ), ' <a href="' . get_permalink( $this->company_id ) . '">' . esc_html__( 'View Company &rarr;', 'mas-wp-job-manager-company' ) . '</a>' . '</div>';
 
         } catch ( Exception $e ) {
             echo '<div class="job-manager-error">' . $e->getMessage() . '</div>';

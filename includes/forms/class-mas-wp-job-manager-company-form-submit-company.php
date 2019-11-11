@@ -37,19 +37,19 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 
         $this->steps  = (array) apply_filters( 'submit_company_steps', array(
             'submit' => array(
-                'name'     => __( 'Submit Details', 'mas-wp-job-manager-company' ),
+                'name'     => esc_html__( 'Submit Details', 'mas-wp-job-manager-company' ),
                 'view'     => array( $this, 'submit' ),
                 'handler'  => array( $this, 'submit_handler' ),
                 'priority' => 10
                 ),
             'preview' => array(
-                'name'     => __( 'Preview', 'mas-wp-job-manager-company' ),
+                'name'     => esc_html__( 'Preview', 'mas-wp-job-manager-company' ),
                 'view'     => array( $this, 'preview' ),
                 'handler'  => array( $this, 'preview_handler' ),
                 'priority' => 20
             ),
             'done' => array(
-                'name'     => __( 'Done', 'mas-wp-job-manager-company' ),
+                'name'     => esc_html__( 'Done', 'mas-wp-job-manager-company' ),
                 'view'     => array( $this, 'done' ),
                 'handler'  => '',
                 'priority' => 30
@@ -65,7 +65,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 
         $this->company_id = ! empty( $_REQUEST['company_id'] ) ? absint( $_REQUEST[ 'company_id' ] ) : 0;
 
-        if ( ! company_manager_user_can_edit_company( $this->get_company_id() ) ) {
+        if ( ! mas_wpjmc_company_manager_user_can_edit_company( $this->get_company_id() ) ) {
             $this->company_id = 0;
         }
 
@@ -73,7 +73,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
         if ( $this->get_company_id() ) {
             $company_status = get_post_status( $this->get_company_id() );
             if ( 'expired' === $company_status ) {
-                if ( ! company_manager_user_can_edit_company( $this->get_company_id() ) ) {
+                if ( ! mas_wpjmc_company_manager_user_can_edit_company( $this->get_company_id() ) ) {
                     $this->company_id = 0;
                     $this->step      = 0;
                 }
@@ -117,17 +117,17 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
         $this->fields = apply_filters( 'submit_company_form_fields', array(
             'company_fields' => array(
                 'company_name'      => array(
-                    'label'         => __( 'Company name', 'mas-wp-job-manager-company' ),
+                    'label'         => esc_html__( 'Company name', 'mas-wp-job-manager-company' ),
                     'type'          => 'text',
                     'required'      => true,
-                    'placeholder'   => __( 'Company full name', 'mas-wp-job-manager-company' ),
+                    'placeholder'   => esc_html__( 'Company full name', 'mas-wp-job-manager-company' ),
                     'priority'      => 5,
                 ),
                 'company_tagline'   => array(
-                    'label'         => __( 'Company Tagline', 'mas-wp-job-manager-company' ),
+                    'label'         => esc_html__( 'Company Tagline', 'mas-wp-job-manager-company' ),
                     'type'          => 'text',
                     'required'      => false,
-                    'placeholder'   => __( 'Company tagline', 'mas-wp-job-manager-company' ),
+                    'placeholder'   => esc_html__( 'Company tagline', 'mas-wp-job-manager-company' ),
                     'priority'      => 10,
                 ),
                 'company_location'  => array(
@@ -139,7 +139,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                     'priority'      => 15,
                 ),
                 'company_logo'      => array(
-                    'label'         => __( 'Company Logo', 'mas-wp-job-manager-company' ),
+                    'label'         => esc_html__( 'Company Logo', 'mas-wp-job-manager-company' ),
                     'type'          => 'file',
                     'required'      => false,
                     'placeholder'   => '',
@@ -154,11 +154,11 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                     'personal_data'      => true,
                 ),
                 'company_video'     => array(
-                    'label'         => __( 'Video', 'mas-wp-job-manager-company' ),
+                    'label'         => esc_html__( 'Video', 'mas-wp-job-manager-company' ),
                     'type'          => 'text',
                     'required'      => false,
                     'priority'      => 25,
-                    'placeholder'   => __( 'A link to a video about yourself', 'mas-wp-job-manager-company' ),
+                    'placeholder'   => esc_html__( 'A link to a video about yourself', 'mas-wp-job-manager-company' ),
                 ),
                 'company_since'     => array(
                     'label'         => esc_html__( 'Since', 'mas-wp-job-manager-company' ),
@@ -168,10 +168,10 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                     'priority'      => 30,
                 ),
                 'company_website'   => array(
-                    'label'         => __( 'Company Website', 'mas-wp-job-manager-company' ),
+                    'label'         => esc_html__( 'Company Website', 'mas-wp-job-manager-company' ),
                     'type'          => 'text',
                     'required'      => false,
-                    'placeholder'   => __( 'Company website', 'mas-wp-job-manager-company' ),
+                    'placeholder'   => esc_html__( 'Company website', 'mas-wp-job-manager-company' ),
                     'priority'      => 35,
                 ),
                 'company_email'     => array(
@@ -276,7 +276,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 
     /**
      * Get the value of a posted repeated field
-     * @since  1.22.4
+     * @since  1.0.0
      * @param  string $key
      * @param  array $field
      * @return string
@@ -294,25 +294,25 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
         foreach ( $this->fields as $group_key => $fields ) {
             foreach ( $fields as $key => $field ) {
                 if ( $field['required'] && empty( $values[ $group_key ][ $key ] ) ) {
-                    return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', 'mas-wp-job-manager-company' ), $field['label'] ) );
+                    return new WP_Error( 'validation-error', sprintf( esc_html__( '%s is a required field', 'mas-wp-job-manager-company' ), $field['label'] ) );
                 }
                 if ( ! empty( $field['taxonomy'] ) && in_array( $field['type'], array( 'term-checklist', 'term-select', 'term-multiselect' ) ) ) {
                     if ( is_array( $values[ $group_key ][ $key ] ) ) {
                         foreach ( $values[ $group_key ][ $key ] as $term ) {
                             if ( ! term_exists( $term, $field['taxonomy'] ) ) {
-                                return new WP_Error( 'validation-error', sprintf( __( '%s is invalid', 'mas-wp-job-manager-company' ), $field['label'] ) );
+                                return new WP_Error( 'validation-error', sprintf( esc_html__( '%s is invalid', 'mas-wp-job-manager-company' ), $field['label'] ) );
                             }
                         }
                     } elseif ( ! empty( $values[ $group_key ][ $key ] ) ) {
                         if ( ! term_exists( $values[ $group_key ][ $key ], $field['taxonomy'] ) ) {
-                            return new WP_Error( 'validation-error', sprintf( __( '%s is invalid', 'mas-wp-job-manager-company' ), $field['label'] ) );
+                            return new WP_Error( 'validation-error', sprintf( esc_html__( '%s is invalid', 'mas-wp-job-manager-company' ), $field['label'] ) );
                         }
                     }
                 }
 
                 if ( 'company_email' === $key ) {
                     if ( ! empty( $values[ $group_key ][ $key ] ) && ! is_email( $values[ $group_key ][ $key ] ) ) {
-                        throw new Exception( __( 'Please enter a valid email address', 'mas-wp-job-manager-company' ) );
+                        throw new Exception( esc_html__( 'Please enter a valid email address', 'mas-wp-job-manager-company' ) );
                     }
                 }
 
@@ -329,7 +329,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                             }
                             $file_url = esc_url( $file_url, array( 'http', 'https' ) );
                             if ( empty( $file_url ) ) {
-                                throw new Exception( __( 'Invalid attachment provided.', 'mas-wp-job-manager-company' ) );
+                                throw new Exception( esc_html__( 'Invalid attachment provided.', 'mas-wp-job-manager-company' ) );
                             }
                         }
                     }
@@ -435,28 +435,28 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                 if ( job_manager_enable_registration() ) {
                     if ( job_manager_user_requires_account() ) {
                         if ( ! job_manager_generate_username_from_email() && empty( $_POST['create_account_username'] ) ) {
-                            throw new Exception( __( 'Please enter a username.', 'mas-wp-job-manager-company' ) );
+                            throw new Exception( esc_html__( 'Please enter a username.', 'mas-wp-job-manager-company' ) );
                         }
                         if ( ! job_manager_use_standard_password_setup_email() ) {
                             if ( empty( $_POST['create_account_password'] ) ) {
-                                throw new Exception( __( 'Please enter a password.', 'mas-wp-job-manager-company' ) );
+                                throw new Exception( esc_html__( 'Please enter a password.', 'mas-wp-job-manager-company' ) );
                             }
                         }
                         if ( empty( $_POST['company_email'] ) ) {
-                            throw new Exception( __( 'Please enter your email address.', 'mas-wp-job-manager-company' ) );
+                            throw new Exception( esc_html__( 'Please enter your email address.', 'mas-wp-job-manager-company' ) );
                         }
                     }
 
                     if ( ! job_manager_use_standard_password_setup_email() && ! empty( $_POST['create_account_password'] ) ) {
                         if ( empty( $_POST['create_account_password_verify'] ) || $_POST['create_account_password_verify'] !== $_POST['create_account_password'] ) {
-                            throw new Exception( __( 'Passwords must match.', 'mas-wp-job-manager-company' ) );
+                            throw new Exception( esc_html__( 'Passwords must match.', 'mas-wp-job-manager-company' ) );
                         }
                         if ( ! wpjm_validate_new_password( $_POST['create_account_password'] ) ) {
                             $password_hint = wpjm_get_password_rules_hint();
                             if ( $password_hint ) {
-                                throw new Exception( sprintf( __( 'Invalid Password: %s', 'mas-wp-job-manager-company' ), $password_hint ) );
+                                throw new Exception( sprintf( esc_html__( 'Invalid Password: %s', 'mas-wp-job-manager-company' ), $password_hint ) );
                             } else {
-                                throw new Exception( __( 'Password is not valid.', 'mas-wp-job-manager-company' ) );
+                                throw new Exception( esc_html__( 'Password is not valid.', 'mas-wp-job-manager-company' ) );
                             }
                         }
                     }
@@ -466,10 +466,10 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                             $create_account = wp_job_manager_create_account( $_POST['company_email'], get_option( 'job_manager_registration_role', 'employer' ) );
                         } else {
                             $create_account = wp_job_manager_create_account( array(
-                                'username' => ( job_manager_generate_username_from_email() || empty( $_POST['create_account_username'] ) ) ? '' : $_POST['create_account_username'],
-                                'password' => ( job_manager_use_standard_password_setup_email() || empty( $_POST['create_account_password'] ) ) ? '' : $_POST['create_account_password'],
-                                'email'    => $_POST['company_email'],
-                                'role'     => get_option( 'job_manager_registration_role', 'employer' ),
+                                'username' => ( job_manager_generate_username_from_email() || empty( $_POST['create_account_username'] ) ) ? '' : sanitize_user( $_POST['create_account_username'] ),
+                                'password' => ( job_manager_use_standard_password_setup_email() || empty( $_POST['create_account_password'] ) ) ? '' : sanitize_text_field( wp_unslash( $_POST['create_account_password'] ) ),
+                                'email'    => sanitize_email( $_POST['company_email'] ),
+                                'role'     => sanitize_meta( get_option( 'job_manager_registration_role', 'employer' ) ),
                             ) );
                         }
                     }
@@ -481,7 +481,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
             }
 
             if ( job_manager_user_requires_account() && ! is_user_logged_in() ) {
-                throw new Exception( __( 'You must be signed in to post your company.', 'mas-wp-job-manager-company' ) );
+                throw new Exception( esc_html__( 'You must be signed in to post your company.', 'mas-wp-job-manager-company' ) );
             }
 
             // Update the job
@@ -597,7 +597,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
         }
 
         // Handle attachments
-        if ( sizeof( $maybe_attach ) && company_manager_attach_uploaded_files() ) {
+        if ( sizeof( $maybe_attach ) && mas_wpjmc_company_manager_attach_uploaded_files() ) {
             /** WordPress Administration Image API */
             include_once( ABSPATH . 'wp-admin/includes/image.php' );
 
@@ -658,11 +658,11 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
             ?>
             <form method="post" id="company_preview">
                 <div class="company_preview_title">
-                    <input type="submit" name="continue" id="company_preview_submit_button" class="button" value="<?php echo apply_filters( 'submit_company_step_preview_submit_text', __( 'Submit Company &rarr;', 'mas-wp-job-manager-company' ) ); ?>" />
-                    <input type="submit" name="edit_company" class="button" value="<?php _e( '&larr; Edit company', 'mas-wp-job-manager-company' ); ?>" />
+                    <input type="submit" name="continue" id="company_preview_submit_button" class="button" value="<?php echo apply_filters( 'submit_company_step_preview_submit_text', esc_html__( 'Submit Company &rarr;', 'mas-wp-job-manager-company' ) ); ?>" />
+                    <input type="submit" name="edit_company" class="button" value="<?php esc_html_e( '&larr; Edit company', 'mas-wp-job-manager-company' ); ?>" />
                     <input type="hidden" name="company_id" value="<?php echo esc_attr( $this->get_company_id() ); ?>" />
                     <input type="hidden" name="step" value="<?php echo esc_attr( $this->step ); ?>" />
-                    <input type="hidden" name="company_manager_form" value="<?php echo $this->form_name; ?>" />
+                    <input type="hidden" name="company_manager_form" value="<?php echo esc_attr( $this->form_name ); ?>" />
                     <h2>
                         <?php _e( 'Preview', 'mas-wp-job-manager-company' ); ?>
                     </h2>

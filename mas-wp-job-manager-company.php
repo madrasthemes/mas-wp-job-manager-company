@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: MAS Company for WP Job Manager
+ * Plugin Name: MAS WP Job Manager Company
  * Description: This plugin helps to create a custom post type company for WP Job Manager
  * Version: 1.0.0
  * Author: MadrasThemes
@@ -9,7 +9,7 @@
  * Text Domain: mas-wp-job-manager-company
  * Domain Path: /languages/
  *
- * @package Company
+ * @package MAS WP Job Manager Company
  * @category Core
  * @author Madras Themes
  */
@@ -149,15 +149,15 @@ class MAS_WP_Job_Manager_Company {
 
         wp_localize_script(
             'mas-wp-job-manager-company-submission', 'mas_wp_job_manager_company_submission', array(
-                'i18n_navigate'       => __( 'If you wish to edit the posted details use the "edit resume" button instead, otherwise changes may be lost.', 'mas-wp-job-manager-company' ),
-                'i18n_confirm_remove' => __( 'Are you sure you want to remove this item?', 'mas-wp-job-manager-company' ),
-                'i18n_remove'         => __( 'remove', 'mas-wp-job-manager-company' ),
+                'i18n_navigate'       => esc_html__( 'If you wish to edit the posted details use the "edit resume" button instead, otherwise changes may be lost.', 'mas-wp-job-manager-company' ),
+                'i18n_confirm_remove' => esc_html__( 'Are you sure you want to remove this item?', 'mas-wp-job-manager-company' ),
+                'i18n_remove'         => esc_html__( 'remove', 'mas-wp-job-manager-company' ),
             )
         );
 
         wp_localize_script(
             'mas-wp-job-manager-company-dashboard', 'mas_wp_job_manager_company_dashboard', array(
-                'i18n_confirm_delete' => __( 'Are you sure you want to delete this resume?', 'mas-wp-job-manager-company' ),
+                'i18n_confirm_delete' => esc_html__( 'Are you sure you want to delete this resume?', 'mas-wp-job-manager-company' ),
             )
         );
 

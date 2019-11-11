@@ -85,12 +85,12 @@ if( class_exists( 'WP_Widget' ) ) :
          * Get current page URL.
          *
          * @return string
-         * @since  3.3.0
+         * @since  1.0.0
          */
         protected function get_current_page_url() {
-            if ( defined( 'COMPANIES_IS_ON_FRONT' ) ) {
+            if ( defined( 'MAS_WPJMC_COMPANIES_IS_ON_FRONT' ) ) {
                 $link = home_url( '/' );
-            } elseif( is_company_taxonomy() ) {
+            } elseif( mas_wpjmc_is_company_taxonomy() ) {
                 $queried_object = get_queried_object();
                 $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
             } else {

@@ -4,11 +4,10 @@
  *
  * This template can be overridden by copying it to yourtheme/mas-wp-job-manager-company/company-dashboard.php.
  *
- * @see         https://wpjobmanager.com/document/template-overrides/
- * @author      Automattic
+ * @author      MadrasThemes
  * @package     MAS WP Job Manager Company
  * @category    Template
- * @version     1.13.0
+ * @version     1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +18,7 @@ $submission_limit           = get_option( 'job_manager_company_submission_limit'
 $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page_id' );
 ?>
 <div id="job-manager-company-dashboard">
-	<p><?php echo _n( 'Your company can be viewed, edited or removed below.', 'Your companies can be viewed, edited or removed below.', company_manager_count_user_companies(), 'mas-wp-job-manager-company' ); ?></p>
+	<p><?php echo _n( 'Your company can be viewed, edited or removed below.', 'Your companies can be viewed, edited or removed below.', mas_wpjmc_company_manager_count_user_companies(), 'mas-wp-job-manager-company' ); ?></p>
 	<table class="job-manager-companies">
 		<thead>
 			<tr>
@@ -50,24 +49,24 @@ $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page
 
 											switch ( $company->post_status ) {
 												case 'publish' :
-													$actions['edit'] = array( 'label' => __( 'Edit', 'mas-wp-job-manager-company' ), 'nonce' => false );
-													$actions['hide'] = array( 'label' => __( 'Hide', 'mas-wp-job-manager-company' ), 'nonce' => true );
+													$actions['edit'] = array( 'label' => esc_html__( 'Edit', 'mas-wp-job-manager-company' ), 'nonce' => false );
+													$actions['hide'] = array( 'label' => esc_html__( 'Hide', 'mas-wp-job-manager-company' ), 'nonce' => true );
 												break;
 												case 'private' :
-													$actions['publish'] = array( 'label' => __( 'Publish', 'mas-wp-job-manager-company' ), 'nonce' => true );
+													$actions['publish'] = array( 'label' => esc_html__( 'Publish', 'mas-wp-job-manager-company' ), 'nonce' => true );
 												break;
 												case 'hidden' :
-													$actions['edit'] = array( 'label' => __( 'Edit', 'mas-wp-job-manager-company' ), 'nonce' => false );
-													$actions['publish'] = array( 'label' => __( 'Publish', 'mas-wp-job-manager-company' ), 'nonce' => true );
+													$actions['edit'] = array( 'label' => esc_html__( 'Edit', 'mas-wp-job-manager-company' ), 'nonce' => false );
+													$actions['publish'] = array( 'label' => esc_html__( 'Publish', 'mas-wp-job-manager-company' ), 'nonce' => true );
 												break;
 												case 'expired' :
 													if ( get_option( 'job_manager_manager_submit_company_form_page_id' ) ) {
-														$actions['relist'] = array( 'label' => __( 'Relist', 'mas-wp-job-manager-company' ), 'nonce' => true );
+														$actions['relist'] = array( 'label' => esc_html__( 'Relist', 'mas-wp-job-manager-company' ), 'nonce' => true );
 													}
 												break;
 											}
 
-											$actions['delete'] = array( 'label' => __( 'Delete', 'mas-wp-job-manager-company' ), 'nonce' => true );
+											$actions['delete'] = array( 'label' => esc_html__( 'Delete', 'mas-wp-job-manager-company' ), 'nonce' => true );
 
 											$actions = apply_filters( 'mas_job_manager_company_my_company_actions', $actions, $company );
 
@@ -80,7 +79,7 @@ $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page
 										?>
 									</ul>
 								<?php elseif ( 'status' === $key ) : ?>
-									<?php the_company_status( $company ); ?>
+									<?php mas_wpjmc_the_company_status( $company ); ?>
 								<?php elseif ( 'date' === $key ) : ?>
 									<?php echo date_i18n( get_option( 'date_format' ), strtotime( $company->post_date ) ); ?>
 								<?php else : ?>
@@ -92,7 +91,7 @@ $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</tbody>
-		<?php if ( $submit_company_form_page_id && ( company_manager_count_user_companies() < $submission_limit || ! $submission_limit ) ) : ?>
+		<?php if ( $submit_company_form_page_id && ( mas_wpjmc_company_manager_count_user_companies() < $submission_limit || ! $submission_limit ) ) : ?>
 			<tfoot>
 				<tr>
 					<td colspan="<?php echo sizeof( $company_dashboard_columns ); ?>">

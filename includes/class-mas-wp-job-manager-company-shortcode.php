@@ -33,7 +33,7 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
             $submit_company_form_page_id    = get_option( 'job_manager_submit_company_form_page_id' );
             $company_dashboard_page_id      = get_option( 'job_manager_company_dashboard_page_id' );
             $submission_limit               = get_option( 'job_manager_company_submission_limit' );
-            $company_count                  = company_manager_count_user_companies();
+            $company_count                  = mas_wpjmc_company_manager_count_user_companies();
 
             if ( $submit_company_form_page_id && $company_dashboard_page_id && $submission_limit && $company_count >= $submission_limit && is_page( $submit_company_form_page_id ) ) {
                 wp_redirect( get_permalink( $company_dashboard_page_id ) );
@@ -102,7 +102,7 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
                     do_action( 'mas_job_manager_company_my_company_do_action', $action, $company_id );
 
                 } catch ( Exception $e ) {
-                    $this->company_dashboard_message = '<div class="job-manager-error">' . $e->getMessage() . '</div>';
+                    $this->company_dashboard_message = '<div class="job-manager-error">' . wp_kses_post( $e->getMessage() ) . '</div>';
                 }
             }
         }
@@ -150,12 +150,12 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
 
             ob_start();
 
-            echo $this->company_dashboard_message;
+            echo wp_kses_post( $this->company_dashboard_message );
 
             $company_dashboard_columns = apply_filters( 'mas_job_manager_company_dashboard_columns', array(
-                'company-title'     => __( 'Name', 'mas-wp-job-manager-company' ),
-                'status'            => __( 'Status', 'mas-wp-job-manager-company' ),
-                'date'              => __( 'Date Posted', 'mas-wp-job-manager-company' )
+                'company-title'     => esc_html__( 'Name', 'mas-wp-job-manager-company' ),
+                'status'            => esc_html__( 'Status', 'mas-wp-job-manager-company' ),
+                'date'              => esc_html__( 'Date Posted', 'mas-wp-job-manager-company' )
             ) );
 
             get_job_manager_template( 'company-dashboard.php', array( 'companies' => $companies->query( $args ), 'max_num_pages' => $companies->max_num_pages, 'company_dashboard_columns' => $company_dashboard_columns ), 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
@@ -191,7 +191,7 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
             $average_salary = is_array( $average_salary ) ? $average_salary : array_filter( array_map( 'trim', explode( ',', $average_salary ) ) );
             $post_status            = is_array( $post_status ) ? $post_status : array_filter( array_map( 'trim', explode( ',', $post_status ) ) );
 
-            $companies = get_companies( apply_filters( 'mas_job_manager_company_output_companies_args', array(
+            $companies = mas_wpjmc_get_companies( apply_filters( 'mas_job_manager_company_output_companies_args', array(
                 'post_status'       => $post_status,
                 'category'          => $category,
                 'average_salary'    => $average_salary,

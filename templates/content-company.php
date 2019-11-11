@@ -19,7 +19,7 @@ if ( empty( $post ) ) {
 
 ?>
 
-<li <?php company_class(); ?>>
+<li <?php mas_wpjmc_company_class(); ?>>
     <?php
         do_action( 'company_content_area_before' );
 

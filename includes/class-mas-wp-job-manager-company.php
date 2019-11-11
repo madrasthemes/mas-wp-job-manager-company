@@ -20,11 +20,11 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
         public function company_body_classes( $classes ) {
             $classes[] = 'mas-wpjmc-activated';
 
-            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) || is_page( mas_wpjmc_get_page_id( 'company_dashboard' ) ) || is_page( mas_wpjmc_get_page_id( 'submit_company_form' ) ) || is_company_taxonomy() || is_singular( 'company' ) ) {
+            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) || is_page( mas_wpjmc_get_page_id( 'company_dashboard' ) ) || is_page( mas_wpjmc_get_page_id( 'submit_company_form' ) ) || mas_wpjmc_is_company_taxonomy() || is_singular( 'company' ) ) {
                 $classes[] = 'mas-wpjmc-pages';
             }
 
-            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) || is_company_taxonomy() ) {
+            if( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) || mas_wpjmc_is_company_taxonomy() ) {
                 $classes[] = 'post-type-archive-company';
             }
 
@@ -48,11 +48,11 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
         }
 
         public static function get_current_page_url() {
-            if ( ! ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) ) && ! is_company_taxonomy() ) {
+            if ( ! ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) ) && ! mas_wpjmc_is_company_taxonomy() ) {
                 return;
             }
 
-            if ( defined( 'COMPANIES_IS_ON_FRONT' ) ) {
+            if ( defined( 'MAS_WPJMC_COMPANIES_IS_ON_FRONT' ) ) {
                 $link = home_url( '/' );
             } elseif ( is_post_type_archive( 'company' ) || is_page( mas_wpjmc_get_page_id( 'companies' ) ) ) {
                 $link = get_permalink( mas_wpjmc_get_page_id( 'companies' ) );
@@ -155,7 +155,7 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
         public function job_manager_get_current_user_companies_select_options() {
             global $current_user;
             $options = array(
-                ''  => __( 'Select Company', 'mas-wp-job-manager-company' ),
+                ''  => esc_html__( 'Select Company', 'mas-wp-job-manager-company' ),
             );
 
             if( is_user_logged_in() && ! empty( $current_user ) ) {
@@ -174,12 +174,12 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
 
                 } else {
                     $options = array(
-                        ''  => __( 'No Company Found', 'mas-wp-job-manager-company' ),
+                        ''  => esc_html__( 'No Company Found', 'mas-wp-job-manager-company' ),
                     );
                 }
             } else {
                 $options = array(
-                    ''  => __( 'User Not Logged In', 'mas-wp-job-manager-company' ),
+                    ''  => esc_html__( 'User Not Logged In', 'mas-wp-job-manager-company' ),
                 );
             }
 

@@ -79,8 +79,8 @@ class MAS_WPJMC_Query {
             }
 
             // Define a variable so we know this is the front page companies later on.
-            if( ! defined( 'COMPANIES_IS_ON_FRONT' ) ) {
-                define( 'COMPANIES_IS_ON_FRONT', true );
+            if( ! defined( 'MAS_WPJMC_COMPANIES_IS_ON_FRONT' ) ) {
+                define( 'MAS_WPJMC_COMPANIES_IS_ON_FRONT', true );
             }
 
             // Get the actual WP page to avoid errors and let us use is_mas_page().
@@ -144,14 +144,14 @@ class MAS_WPJMC_Query {
 
             if ( ! empty( $mas_wpjmc_search_keyword ) && strlen( $mas_wpjmc_search_keyword ) >= apply_filters( 'job_manager_get_companies_keyword_length_threshold', 2 ) ) {
                 $q->set( 's' , $mas_wpjmc_search_keyword );
-                add_filter( 'posts_search', 'mas_get_company_keyword_search' );
+                add_filter( 'posts_search', 'mas_wpjmc_get_company_keyword_search' );
             }
         } elseif ( ! empty( $_GET['s'] ) ) {
             global $mas_wpjmc_search_keyword;
             $mas_wpjmc_search_keyword = sanitize_text_field( $_GET['s'] );
 
             if ( ! empty( $mas_wpjmc_search_keyword ) && strlen( $mas_wpjmc_search_keyword ) >= apply_filters( 'job_manager_get_companies_keyword_length_threshold', 2 ) ) {
-                add_filter( 'posts_search', 'mas_get_company_keyword_search' );
+                add_filter( 'posts_search', 'mas_wpjmc_get_company_keyword_search' );
             }
         }
     }
@@ -265,7 +265,7 @@ class MAS_WPJMC_Query {
             foreach ( $location_meta_keys as $meta_key ) {
                 $location_search[] = array(
                     'key'     => $meta_key,
-                    'value'   => $_GET['search_location'],
+                    'value'   => sanitize_text_field(  $_GET['search_location'] ),
                     'compare' => 'like'
                 );
             }

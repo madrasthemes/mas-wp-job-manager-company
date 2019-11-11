@@ -1,75 +1,79 @@
 <?php
 
-function mas_wpjmc_get_page_id( $page ) {
+if ( ! function_exists( 'mas_wpjmc_get_page_id' ) ) {
+    function mas_wpjmc_get_page_id( $page ) {
 
-    $option_name = '';
-    switch( $page ) {
-        case 'companies':
-            $option_name = 'job_manager_companies_page_id';
-        break;
-        case 'company_dashboard':
-            $option_name = 'job_manager_company_dashboard_page_id';
-        break;
-        case 'submit_company_form':
-            $option_name = 'job_manager_submit_company_form_page_id';
-        break;
+        $option_name = '';
+        switch( $page ) {
+            case 'companies':
+                $option_name = 'job_manager_companies_page_id';
+            break;
+            case 'company_dashboard':
+                $option_name = 'job_manager_company_dashboard_page_id';
+            break;
+            case 'submit_company_form':
+                $option_name = 'job_manager_submit_company_form_page_id';
+            break;
+        }
+
+        $page_id = 0;
+
+        if ( ! empty( $option_name ) ) {
+            $page_id = get_option( $option_name );
+        }
+
+        $page_id = apply_filters( 'mas_wpjmc_get_' . $page . '_page_id', $page_id );
+        return $page_id ? absint( $page_id ) : -1;
     }
-
-    $page_id = 0;
-
-    if ( ! empty( $option_name ) ) {
-        $page_id = get_option( $option_name );
-    }
-
-    $page_id = apply_filters( 'mas_wpjmc_get_' . $page . '_page_id', $page_id );
-    return $page_id ? absint( $page_id ) : -1;
 }
 
-if ( ! function_exists( 'is_company_taxonomy' ) ) {
-
-    /**
-     * Is_company_taxonomy - Returns true when viewing a company taxonomy archive.
-     *
-     * @return bool
-     */
-    function is_company_taxonomy() {
+/**
+ * Is_company_taxonomy - Returns true when viewing a company taxonomy archive.
+ *
+ * @return bool
+ */
+if ( ! function_exists( 'mas_wpjmc_is_company_taxonomy' ) ) {
+    function mas_wpjmc_is_company_taxonomy() {
         return is_tax( get_object_taxonomies( 'company' ) );
     }
 }
 
-function mas_add_showing_to_company_listings_result( $results, $companies ) {
 
-    $search_location    = isset( $_REQUEST['search_location'] ) ? sanitize_text_field( stripslashes( $_REQUEST['search_location'] ) ) : '';
-    $search_keywords    = isset( $_REQUEST['search_keywords'] ) ? sanitize_text_field( stripslashes( $_REQUEST['search_keywords'] ) ) : '';
+if ( ! function_exists( 'mas_add_showing_to_company_listings_result' ) ) {
+    function mas_add_showing_to_company_listings_result( $results, $companies ) {
 
-    $showing     = '';
-    $showing_all = false;
+        $search_location    = isset( $_REQUEST['search_location'] ) ? sanitize_text_field( stripslashes( $_REQUEST['search_location'] ) ) : '';
+        $search_keywords    = isset( $_REQUEST['search_keywords'] ) ? sanitize_text_field( stripslashes( $_REQUEST['search_keywords'] ) ) : '';
 
-    if ( $companies->post_count ) {
+        $showing     = '';
+        $showing_all = false;
 
-        $showing_all = true;
+        if ( $companies->post_count ) {
 
-        $start = (int) $companies->get( 'offset' ) + 1;
-        $end   = $start + (int)$companies->post_count - 1;
+            $showing_all = true;
 
-        if ( $companies->max_num_pages > 1 ) {
-            $showing = sprintf( esc_html__( 'Showing %s - %s of %s companies', 'mas-wp-job-manager-company'), $start, $end, $companies->found_posts );
-        } else {
-            $showing =  sprintf( _n( 'Showing one job', 'Showing all %s companies', $companies->found_posts, 'mas-wp-job-manager-company' ), $companies->found_posts );
+            $start = (int) $companies->get( 'offset' ) + 1;
+            $end   = $start + (int)$companies->post_count - 1;
+
+            if ( $companies->max_num_pages > 1 ) {
+                $showing = sprintf( esc_html__( 'Showing %s - %s of %s companies', 'mas-wp-job-manager-company'), $start, $end, $companies->found_posts );
+            } else {
+                $showing =  sprintf( _n( 'Showing one job', 'Showing all %s companies', $companies->found_posts, 'mas-wp-job-manager-company' ), $companies->found_posts );
+            }
+
+
+            if ( ! empty( $search_keywords ) ) {
+                $showing = sprintf( wp_kses_post( '%s matching <span class="highlight">%s</span>', 'mas-wp-job-manager-company' ), $showing, $search_keywords );
+            }
+
+            if ( ! empty( $search_location ) ) {
+                $showing = sprintf( wp_kses_post( '%s in <span class="highlight">%s</span>', 'mas-wp-job-manager-company' ), $showing, $search_location );
+            }
         }
-
-
-        if ( ! empty( $search_keywords ) ) {
-            $showing = sprintf( wp_kses_post( '%s matching <span class="highlight">%s</span>', 'mas-wp-job-manager-company' ), $showing, $search_keywords );
-        }
-
-        if ( ! empty( $search_location ) ) {
-            $showing = sprintf( wp_kses_post( '%s in <span class="highlight">%s</span>', 'mas-wp-job-manager-company' ), $showing, $search_location );
-        }
+        $results['showing']     = $showing;
+        $results['showing_all'] = $showing_all;
+        return $results;
     }
-    $results['showing']     = $showing;
-    $results['showing_all'] = $showing_all;
-    return $results;
 }
 
 /**
@@ -77,47 +81,51 @@ function mas_add_showing_to_company_listings_result( $results, $companies ) {
  *
  * @param array $args Args to pass into the global.
  */
-function mas_wpjmc_setup_loop( $args = array() ) {
-    $default_args = array(
-        'loop'         => 0,
-        'columns'      => 1,
-        'name'         => '',
-        'is_shortcode' => false,
-        'is_paginated' => true,
-        'is_search'    => false,
-        'is_filtered'  => false,
-        'total'        => 0,
-        'total_pages'  => 0,
-        'per_page'     => 0,
-        'current_page' => 1,
-    );
+if ( ! function_exists( 'mas_wpjmc_setup_loop' ) ) {
+    function mas_wpjmc_setup_loop( $args = array() ) {
+        $default_args = array(
+            'loop'         => 0,
+            'columns'      => 1,
+            'name'         => '',
+            'is_shortcode' => false,
+            'is_paginated' => true,
+            'is_search'    => false,
+            'is_filtered'  => false,
+            'total'        => 0,
+            'total_pages'  => 0,
+            'per_page'     => 0,
+            'current_page' => 1,
+        );
 
-    // If this is a main WC query, use global args as defaults.
-    if ( $GLOBALS['wp_query']->get( 'mas_wpjmc_query' ) ) {
-        $default_args = array_merge( $default_args, array(
-            'is_search'    => $GLOBALS['wp_query']->is_search(),
-            // 'is_filtered'  => is_filtered(),
-            'total'        => $GLOBALS['wp_query']->found_posts,
-            'total_pages'  => $GLOBALS['wp_query']->max_num_pages,
-            'per_page'     => $GLOBALS['wp_query']->get( 'posts_per_page' ),
-            'current_page' => max( 1, $GLOBALS['wp_query']->get( 'paged', 1 ) ),
-        ) );
+        // If this is a main WC query, use global args as defaults.
+        if ( $GLOBALS['wp_query']->get( 'mas_wpjmc_query' ) ) {
+            $default_args = array_merge( $default_args, array(
+                'is_search'    => $GLOBALS['wp_query']->is_search(),
+                // 'is_filtered'  => is_filtered(),
+                'total'        => $GLOBALS['wp_query']->found_posts,
+                'total_pages'  => $GLOBALS['wp_query']->max_num_pages,
+                'per_page'     => $GLOBALS['wp_query']->get( 'posts_per_page' ),
+                'current_page' => max( 1, $GLOBALS['wp_query']->get( 'paged', 1 ) ),
+            ) );
+        }
+
+        // Merge any existing values.
+        if ( isset( $GLOBALS['mas_wpjmc_loop'] ) ) {
+            $default_args = array_merge( $default_args, $GLOBALS['mas_wpjmc_loop'] );
+        }
+
+        $GLOBALS['mas_wpjmc_loop'] = wp_parse_args( $args, $default_args );
     }
-
-    // Merge any existing values.
-    if ( isset( $GLOBALS['mas_wpjmc_loop'] ) ) {
-        $default_args = array_merge( $default_args, $GLOBALS['mas_wpjmc_loop'] );
-    }
-
-    $GLOBALS['mas_wpjmc_loop'] = wp_parse_args( $args, $default_args );
 }
 
 /**
  * Resets the mas_wpjmc_loop global.
  *
  */
-function mas_wpjmc_reset_loop() {
-    unset( $GLOBALS['mas_wpjmc_loop'] );
+if ( ! function_exists( 'mas_wpjmc_reset_loop' ) ) {
+    function mas_wpjmc_reset_loop() {
+        unset( $GLOBALS['mas_wpjmc_loop'] );
+    }
 }
 
 /**
@@ -127,10 +135,12 @@ function mas_wpjmc_reset_loop() {
  * @param string $default Default if the prop does not exist.
  * @return mixed
  */
-function mas_wpjmc_get_loop_prop( $prop, $default = '' ) {
-    mas_wpjmc_setup_loop(); // Ensure shop loop is setup.
+if ( ! function_exists( 'mas_wpjmc_get_loop_prop' ) ) {
+    function mas_wpjmc_get_loop_prop( $prop, $default = '' ) {
+        mas_wpjmc_setup_loop(); // Ensure shop loop is setup.
 
-    return isset( $GLOBALS['mas_wpjmc_loop'], $GLOBALS['mas_wpjmc_loop'][ $prop ] ) ? $GLOBALS['mas_wpjmc_loop'][ $prop ] : $default;
+        return isset( $GLOBALS['mas_wpjmc_loop'], $GLOBALS['mas_wpjmc_loop'][ $prop ] ) ? $GLOBALS['mas_wpjmc_loop'][ $prop ] : $default;
+    }
 }
 
 /**
@@ -139,61 +149,69 @@ function mas_wpjmc_get_loop_prop( $prop, $default = '' ) {
  * @param string $prop Prop to set.
  * @param string $value Value to set.
  */
-function mas_wpjmc_set_loop_prop( $prop, $value = '' ) {
-    if ( ! isset( $GLOBALS['mas_wpjmc_loop'] ) ) {
-        mas_wpjmc_setup_loop();
-    }
-    $GLOBALS['mas_wpjmc_loop'][ $prop ] = $value;
-}
-
-function mas_wpjmc_clean( $var ) {
-    if ( is_array( $var ) ) {
-        return array_map( 'mas_wpjmc_clean', $var );
-    } else {
-        return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
+if ( ! function_exists( 'mas_wpjmc_set_loop_prop' ) ) {
+    function mas_wpjmc_set_loop_prop( $prop, $value = '' ) {
+        if ( ! isset( $GLOBALS['mas_wpjmc_loop'] ) ) {
+            mas_wpjmc_setup_loop();
+        }
+        $GLOBALS['mas_wpjmc_loop'][ $prop ] = $value;
     }
 }
 
-function mas_wpjmc_strlen( $var ) {
-    if ( is_array( $var ) ) {
-        return array_map( 'mas_wpjmc_strlen', $var );
-    } else {
-        return strlen( $var );
+if ( ! function_exists( 'mas_wpjmc_clean' ) ) {
+    function mas_wpjmc_clean( $var ) {
+        if ( is_array( $var ) ) {
+            return array_map( 'mas_wpjmc_clean', $var );
+        } else {
+            return is_scalar( $var ) ? sanitize_text_field( $var ) : $var;
+        }
     }
 }
 
-function mas_wpjmc_number_format_i18n( $n ) {
-    // first strip any formatting;
-    $n = ( 0 + str_replace( ",", "", $n ) );
-
-    // is this a number?
-    if( ! is_numeric( $n ) ) {
-        return $n;
+if ( ! function_exists( 'mas_wpjmc_strlen' ) ) {
+    function mas_wpjmc_strlen( $var ) {
+        if ( is_array( $var ) ) {
+            return array_map( 'mas_wpjmc_strlen', $var );
+        } else {
+            return strlen( $var );
+        }
     }
-
-    // now filter it;
-    if( $n >= 1000000000000 ) {
-        return round( ( $n/1000000000000 ), 1 ) . 'T';
-    } elseif( $n >= 1000000000 ) {
-        return round( ( $n/1000000000 ), 1 ) . 'B';
-    } elseif( $n >= 1000000 ) {
-        return round( ( $n/1000000 ), 1 ) . 'M';
-    } elseif( $n >= 10000 ) {
-        return round( ( $n/10000 ), 10 ) . 'K';
-    }
-
-    return number_format_i18n( $n );
 }
 
-if ( ! function_exists( 'mas_get_company_keyword_search' ) ) {
-    /**
-     * Adds join and where query for keywords.
-     *
-     * @since 1.0.0
-     * @param string $search
-     * @return string
-     */
-    function mas_get_company_keyword_search( $search ) {
+if ( ! function_exists( 'mas_wpjmc_number_format_i18n' ) ) {
+    function mas_wpjmc_number_format_i18n( $n ) {
+        // first strip any formatting;
+        $n = ( 0 + str_replace( ",", "", $n ) );
+
+        // is this a number?
+        if( ! is_numeric( $n ) ) {
+            return $n;
+        }
+
+        // now filter it;
+        if( $n >= 1000000000000 ) {
+            return round( ( $n/1000000000000 ), 1 ) . 'T';
+        } elseif( $n >= 1000000000 ) {
+            return round( ( $n/1000000000 ), 1 ) . 'B';
+        } elseif( $n >= 1000000 ) {
+            return round( ( $n/1000000 ), 1 ) . 'M';
+        } elseif( $n >= 10000 ) {
+            return round( ( $n/10000 ), 10 ) . 'K';
+        }
+
+        return number_format_i18n( $n );
+    }
+}
+
+/**
+ * Adds join and where query for keywords.
+ *
+ * @since 1.0.0
+ * @param string $search
+ * @return string
+ */
+if ( ! function_exists( 'mas_wpjmc_get_company_keyword_search' ) ) {
+    function mas_wpjmc_get_company_keyword_search( $search ) {
         global $wpdb, $mas_wpjmc_search_keyword;
 
         // Searchable Meta Keys: set to empty to search all meta keys
@@ -230,7 +248,7 @@ if ( ! function_exists( 'mas_get_company_keyword_search' ) ) {
         /**
          * Filters the conditions to use when querying job listings. Resulting array is joined with OR statements.
          *
-         * @since 1.26.0
+         * @since 1.0.0
          *
          * @param array  $conditions          Conditions to join by OR when querying job listings.
          * @param string $mas_wpjmc_search_keyword Search query.
@@ -253,29 +271,31 @@ if ( ! function_exists( 'mas_get_company_keyword_search' ) ) {
     }
 }
 
-function mas_wpjmc_get_all_taxonomies() {
-    $taxonomies = array();
+if ( ! function_exists( 'mas_wpjmc_get_all_taxonomies' ) ) {
+    function mas_wpjmc_get_all_taxonomies() {
+        $taxonomies = array();
 
-    $taxonomy_objects = get_object_taxonomies( 'company', 'objects' );
-    foreach ( $taxonomy_objects as $taxonomy_object ) {
-        $taxonomies[] = array(
-            'taxonomy'  => $taxonomy_object->name,
-            'name'      => $taxonomy_object->label,
-        );
+        $taxonomy_objects = get_object_taxonomies( 'company', 'objects' );
+        foreach ( $taxonomy_objects as $taxonomy_object ) {
+            $taxonomies[] = array(
+                'taxonomy'  => $taxonomy_object->name,
+                'name'      => $taxonomy_object->label,
+            );
+        }
+
+        return $taxonomies;
     }
-
-    return $taxonomies;
 }
 
-if ( ! function_exists( 'get_companies' ) ) {
-    /**
-     * Queries company listings with certain criteria and returns them.
-     *
-     * @since 1.0.5
-     * @param string|array|object $args Arguments used to retrieve company listings.
-     * @return WP_Query
-     */
-    function get_companies( $args = array() ) {
+/**
+ * Queries company listings with certain criteria and returns them.
+ *
+ * @since 1.0.0
+ * @param string|array|object $args Arguments used to retrieve company listings.
+ * @return WP_Query
+ */
+if ( ! function_exists( 'mas_wpjmc_get_companies' ) ) {
+    function mas_wpjmc_get_companies( $args = array() ) {
         $args = wp_parse_args(
             $args,
             array(
@@ -295,11 +315,11 @@ if ( ! function_exists( 'get_companies' ) ) {
         /**
          * Perform actions that need to be done prior to the start of the company listings query.
          *
-         * @since 1.26.0
+         * @since 1.0.0
          *
          * @param array $args Arguments used to retrieve company listings.
          */
-        do_action( 'get_companies_init', $args );
+        do_action( 'mas_wpjmc_get_companies_init', $args );
 
         if ( ! empty( $args['post_status'] ) ) {
             $post_status = $args['post_status'];
@@ -383,13 +403,13 @@ if ( ! function_exists( 'get_companies' ) ) {
         $query_args['lang'] = apply_filters( 'mas_wpjmc_lang', null );
 
         // Filter args.
-        $query_args = apply_filters( 'get_companies_query_args', $query_args, $args );
+        $query_args = apply_filters( 'mas_wpjmc_get_companies_query_args', $query_args, $args );
 
-        do_action( 'before_get_companies', $query_args, $args );
+        do_action( 'before_mas_wpjmc_get_companies', $query_args, $args );
 
         $result = new WP_Query( $query_args );
 
-        do_action( 'after_get_companies', $query_args, $args );
+        do_action( 'after_mas_wpjmc_get_companies', $query_args, $args );
 
         return $result;
     }
@@ -402,9 +422,9 @@ if ( ! function_exists( 'get_companies' ) ) {
  * @param mixed $post_id (default: null)
  * @return void
  */
-if ( ! function_exists( 'company_class' ) ) {
-    function company_class( $class = '', $post_id = null ) {
-        echo 'class="' . join( ' ', get_company_class( $class, $post_id ) ) . '"';
+if ( ! function_exists( 'mas_wpjmc_company_class' ) ) {
+    function mas_wpjmc_company_class( $class = '', $post_id = null ) {
+        echo 'class="' . join( ' ', mas_wpjmc_get_company_class( $class, $post_id ) ) . '"';
     }
 }
 
@@ -414,8 +434,8 @@ if ( ! function_exists( 'company_class' ) ) {
  * @access public
  * @return array
  */
-if ( ! function_exists( 'get_company_class' ) ) {
-    function get_company_class( $class = '', $post_id = null ) {
+if ( ! function_exists( 'mas_wpjmc_get_company_class' ) ) {
+    function mas_wpjmc_get_company_class( $class = '', $post_id = null ) {
         $post = get_post( $post_id );
         if ( $post->post_type !== 'company' )
             return array();
@@ -428,7 +448,7 @@ if ( ! function_exists( 'get_company_class' ) ) {
 
         $classes[] = 'company';
 
-        if ( is_company_featured( $post ) ) {
+        if ( mas_wpjmc_is_company_featured( $post ) ) {
             $classes[] = 'company_featured';
         }
 
@@ -446,8 +466,8 @@ if ( ! function_exists( 'get_company_class' ) ) {
  * @param  object $post
  * @return boolean
  */
-if ( ! function_exists( 'is_company_featured' ) ) {
-    function is_company_featured( $post = null ) {
+if ( ! function_exists( 'mas_wpjmc_is_company_featured' ) ) {
+    function mas_wpjmc_is_company_featured( $post = null ) {
         $post = get_post( $post );
 
         return $post->_featured ? true : false;
@@ -459,8 +479,10 @@ if ( ! function_exists( 'is_company_featured' ) ) {
  *
  * @param WP_Post|int $post (default: null)
  */
-function the_company_status( $post = null ) {
-    echo get_the_company_status( $post );
+if ( ! function_exists( 'mas_wpjmc_the_company_status' ) ) {
+    function mas_wpjmc_the_company_status( $post = null ) {
+        echo mas_wpjmc_get_the_company_status( $post );
+    }
 }
 
 /**
@@ -468,25 +490,27 @@ function the_company_status( $post = null ) {
  * @param WP_Post|int $post (default: null)
  * @return string
  */
-function get_the_company_status( $post = null ) {
-    $post = get_post( $post );
+if ( ! function_exists( 'mas_wpjmc_get_the_company_status' ) ) {
+    function mas_wpjmc_get_the_company_status( $post = null ) {
+        $post = get_post( $post );
 
-    $status = $post->post_status;
+        $status = $post->post_status;
 
-    if ( $status == 'publish' )
-        $status = __( 'Published', 'mas-wp-job-manager-company' );
-    elseif ( $status == 'expired' )
-        $status = __( 'Expired', 'mas-wp-job-manager-company' );
-    elseif ( $status == 'pending' )
-        $status = __( 'Pending Review', 'mas-wp-job-manager-company' );
-    elseif ( $status == 'hidden' )
-        $status = __( 'Hidden', 'mas-wp-job-manager-company' );
-    elseif ( $status == 'private' )
-        $status = __( 'Private', 'mas-wp-job-manager-company' );
-    else
-        $status = __( 'Inactive', 'mas-wp-job-manager-company' );
+        if ( $status == 'publish' )
+            $status = esc_html__( 'Published', 'mas-wp-job-manager-company' );
+        elseif ( $status == 'expired' )
+            $status = esc_html__( 'Expired', 'mas-wp-job-manager-company' );
+        elseif ( $status == 'pending' )
+            $status = esc_html__( 'Pending Review', 'mas-wp-job-manager-company' );
+        elseif ( $status == 'hidden' )
+            $status = esc_html__( 'Hidden', 'mas-wp-job-manager-company' );
+        elseif ( $status == 'private' )
+            $status = esc_html__( 'Private', 'mas-wp-job-manager-company' );
+        else
+            $status = esc_html__( 'Inactive', 'mas-wp-job-manager-company' );
 
-    return apply_filters( 'the_company_status', $status, $post );
+        return apply_filters( 'mas_wpjmc_the_company_status', $status, $post );
+    }
 }
 
 /**
@@ -494,16 +518,18 @@ function get_the_company_status( $post = null ) {
  *
  * @return bool
  */
-function company_manager_user_can_post_company() {
-    $can_post = true;
+if ( ! function_exists( 'mas_wpjmc_company_manager_user_can_post_company' ) ) {
+    function mas_wpjmc_company_manager_user_can_post_company() {
+        $can_post = true;
 
-    if ( ! is_user_logged_in() ) {
-        if ( job_manager_user_requires_account() && ! job_manager_enable_registration() ) {
-            $can_post = false;
+        if ( ! is_user_logged_in() ) {
+            if ( job_manager_user_requires_account() && ! job_manager_enable_registration() ) {
+                $can_post = false;
+            }
         }
-    }
 
-    return apply_filters( 'company_manager_user_can_post_company', $can_post );
+        return apply_filters( 'mas_wpjmc_company_manager_user_can_post_company', $can_post );
+    }
 }
 
 /**
@@ -513,41 +539,43 @@ function company_manager_user_can_post_company() {
  *
  * @return bool
  */
-function company_manager_user_can_edit_company( $company_id ) {
-    $can_edit = true;
+if ( ! function_exists( 'mas_wpjmc_company_manager_user_can_edit_company' ) ) {
+    function mas_wpjmc_company_manager_user_can_edit_company( $company_id ) {
+        $can_edit = true;
 
-    if ( ! $company_id || ! is_user_logged_in() ) {
-        $can_edit = false;
-        if ( $company_id
-             && ! job_manager_user_requires_account()
-             && isset( $_COOKIE[ 'mas-wp-job-manager-company-submitting-company-key-' . $company_id ] )
-             && $_COOKIE[ 'mas-wp-job-manager-company-submitting-company-key-' . $company_id ] === get_post_meta( $company_id, '_submitting_key', true )
-        ) {
-            $can_edit = true;
-        }
-    } else {
-
-        $company = get_post( $company_id );
-
-        if ( ! $company || ( absint( $company->post_author ) !== get_current_user_id() && ! current_user_can( 'edit_post', $company_id ) ) ) {
+        if ( ! $company_id || ! is_user_logged_in() ) {
             $can_edit = false;
+            if ( $company_id
+                 && ! job_manager_user_requires_account()
+                 && isset( $_COOKIE[ 'mas-wp-job-manager-company-submitting-company-key-' . $company_id ] )
+                 && $_COOKIE[ 'mas-wp-job-manager-company-submitting-company-key-' . $company_id ] === get_post_meta( $company_id, '_submitting_key', true )
+            ) {
+                $can_edit = true;
+            }
+        } else {
+
+            $company = get_post( $company_id );
+
+            if ( ! $company || ( absint( $company->post_author ) !== get_current_user_id() && ! current_user_can( 'edit_post', $company_id ) ) ) {
+                $can_edit = false;
+            }
         }
+
+        return apply_filters( 'mas_wpjmc_company_manager_user_can_edit_company', $can_edit, $company_id );
     }
-
-    return apply_filters( 'company_manager_user_can_edit_company', $can_edit, $company_id );
 }
-
-
 
 /**
  * Whether to create attachments for files that are uploaded with a Company.
  *
- * @since 1.17.1
+ * @since 1.0.0
  *
  * @return bool
  */
-function company_manager_attach_uploaded_files() {
-    return apply_filters( 'company_manager_attach_uploaded_files', false );
+if ( ! function_exists( 'mas_wpjmc_company_manager_attach_uploaded_files' ) ) {
+    function mas_wpjmc_company_manager_attach_uploaded_files() {
+        return apply_filters( 'mas_wpjmc_company_manager_attach_uploaded_files', false );
+    }
 }
 
 /**
@@ -555,14 +583,16 @@ function company_manager_attach_uploaded_files() {
  * @param  integer $user_id
  * @return int
  */
-function company_manager_count_user_companies( $user_id = 0 ) {
-    global $wpdb;
+if ( ! function_exists( 'mas_wpjmc_company_manager_count_user_companies' ) ) {
+    function mas_wpjmc_company_manager_count_user_companies( $user_id = 0 ) {
+        global $wpdb;
 
-    if ( ! $user_id ) {
-        $user_id = get_current_user_id();
+        if ( ! $user_id ) {
+            $user_id = get_current_user_id();
+        }
+
+        return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_author = %d AND post_type = 'company' AND post_status IN ( 'publish', 'pending', 'expired', 'hidden' );", $user_id ) );
     }
-
-    return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_author = %d AND post_type = 'company' AND post_status IN ( 'publish', 'pending', 'expired', 'hidden' );", $user_id ) );
 }
 
 /**
