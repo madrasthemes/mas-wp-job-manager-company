@@ -1,9 +1,11 @@
 === MAS Companies For WP Job Manager ===
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood
-Requires PHP: 5.6
 Requires at least: 4.7
-Tested up to: 5.2
-License: GNU General Public License v3.0
+Tested up to: 5.3
+Requires PHP: 5.6
+Stable tag: 1.0.0
+License: GPLv3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 MAS Companies For WP Job Manager is a free plugin that allow you to manage companies from the WordPress admin panel, and allow employers to post their companies directly to your site.
 
