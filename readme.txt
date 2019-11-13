@@ -1,5 +1,6 @@
 === MAS Companies For WP Job Manager ===
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood
+Tags: companies, company, company listings, company management, company manager, job, job listing
 Requires at least: 4.7
 Tested up to: 5.3
 Requires PHP: 5.6
@@ -56,6 +57,16 @@ Bugs can be reported either in our support forum or preferably on the [MAS Compa
 = Can I contribute? =
 
 Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/mas-wp-job-manager-company) :)
+
+== Screenshots ==
+
+1. Companies Listing.
+2. Company Submit Form.
+3. Company Single.
+4. Company Dashboard.
+5. Companies Admin.
+6. Company Data Panel.
+7. Company Settings.
 
 == Changelog ==
 
