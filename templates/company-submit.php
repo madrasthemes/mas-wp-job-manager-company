@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/wp-job-manager-company/company-submit.php.
  *
  * @author      MadrasThemes
- * @package     MAS WP Job Manager Company
+ * @package     MAS Companies For WP Job Manager
  * @category    Template
  * @version     1.0.0
  */

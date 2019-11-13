@@ -1,6 +1,6 @@
 <?php
 /**
- * MAS WP Job Manager Company Query Class
+ * MAS Companies For WP Job Manager Query Class
  *
  */
 

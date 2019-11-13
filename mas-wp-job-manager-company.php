@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: MAS WP Job Manager Company
+ * Plugin Name: MAS Companies For WP Job Manager
  * Description: This plugin helps to create a custom post type company for WP Job Manager
  * Version: 1.0.0
  * Author: MadrasThemes
@@ -9,7 +9,7 @@
  * Text Domain: mas-wp-job-manager-company
  * Domain Path: /languages/
  *
- * @package MAS WP Job Manager Company
+ * @package MAS Companies For WP Job Manager
  * @category Core
  * @author Madras Themes
  */

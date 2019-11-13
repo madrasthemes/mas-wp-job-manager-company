@@ -1,10 +1,10 @@
 # Copyright (C) 2019 MadrasThemes
-# This file is distributed under the same license as the MAS WP Job Manager Company package.
+# This file is distributed under the same license as the MAS Companies For WP Job Manager package.
 msgid ""
 msgstr ""
-"Project-Id-Version: MAS WP Job Manager Company 1.0.0\n"
+"Project-Id-Version: MAS Companies For WP Job Manager 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/madrasthemes/masvideos/issues\n"
-"POT-Creation-Date: 2019-11-11 06:58:33+00:00\n"
+"POT-Creation-Date: 2019-11-13 07:39:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -745,7 +745,7 @@ msgid "Your company has been submitted successfully and is pending approval."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "MAS WP Job Manager Company"
+msgid "MAS Companies For WP Job Manager"
 msgstr ""
 
 #. Description of the plugin/theme

@@ -2,7 +2,7 @@
 /**
  * The template for displaying all single posts.
  *
- * @package MAS WP Job Manager Company
+ * @package MAS Companies For WP Job Manager
  */
 
 get_header();

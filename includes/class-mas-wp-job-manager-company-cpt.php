@@ -1,6 +1,6 @@
 <?php
 /**
- * MAS WP Job Manager Company CPT Class
+ * MAS Companies For WP Job Manager CPT Class
  *
  */
 
