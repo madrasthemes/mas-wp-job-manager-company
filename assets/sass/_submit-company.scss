@@ -1,0 +1,159 @@
+.company-manager-form {
+    fieldset {
+        margin: 0 0 1em 0;
+        padding: 0 0 1em 0;
+        line-height: 2em;
+        border: 0;
+        border-bottom: 1px solid #eee;
+        zoom: 1;
+
+        &:after,
+        &:before {
+            content: "";
+            display: table;
+        }
+
+        &:after {
+            clear: both;
+        }
+
+        label {
+            display: block;
+            margin: 0;
+            width: 29%;
+            float: left;
+            vertical-align: middle;
+
+            small {
+                opacity: .75;
+                font-size: .83em;
+            }
+        }
+
+        div.field {
+            width: 70%;
+            float: right;
+            vertical-align: middle
+        }
+
+        .wp-editor-container {
+            border: 1px solid #ccc;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px
+        }
+
+        .account-sign-in .button {
+            margin-right: .5em;
+        }
+
+        abbr.required {
+            color: red;
+            font-weight: 700;
+            border: 0
+        }
+
+        input.input-date,
+        input.input-text,
+        select,
+        textarea {
+            margin: 0;
+            vertical-align: middle;
+            width: 100%;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        small.description {
+            opacity: .75;
+            font-size: .83em;
+            margin: 1.2em 0 0 0;
+            display: block;
+            line-height: 1.2em
+        }
+
+        .job-manager-uploaded-files {
+            display: table;
+
+            .job-manager-uploaded-file {
+                line-height: 2em;
+                font-style: italic;
+                margin-bottom: 1em;
+                display: block;
+
+                .job-manager-uploaded-file-preview img {
+                    height: 64px;
+                    margin: 0;
+                    vertical-align: top
+                }
+
+                .job-manager-uploaded-file-preview a {
+                    line-height: 64px;
+                    display: inline-block;
+                    padding: 0 0 0 1em
+                }
+
+                .job-manager-uploaded-file-name {
+                    display: block
+                }
+            }
+        }
+    }
+
+    .submit-job {
+        padding: 1em 0
+    }
+
+    .job-manager-term-checklist {
+        list-style: none outside;
+        max-height: 200px;
+        overflow: auto;
+        margin: 0;
+
+        li {
+            list-style: none outside;
+            margin: 0;
+            display: block;
+            float: none;
+
+            label {
+                width: auto;
+                float: none
+            }
+
+            li {
+                margin: 0 0 0 2em
+            }
+        }
+    }
+
+    input[type=submit].disabled,
+    input[type=submit]:disabled {
+        opacity: .5;
+        cursor: not-allowed
+    }
+
+    .spinner {
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+        display: inline-block;
+        visibility: hidden;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        vertical-align: middle;
+
+        &.is-active {
+            visibility: visible
+        }
+    }
+}
+
+.rtl .company-manager-form label {
+    float: right
+}
+
+.rtl .company-manager-form div.field {
+    float: left
+}

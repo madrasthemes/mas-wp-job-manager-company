@@ -1,0 +1,90 @@
+#job-manager-company-dashboard {
+    .account-sign-in .button {
+        margin-right: .5em;
+
+        &:before {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            -webkit-font-smoothing: antialiased;
+            font-family: job-manager !important;
+            text-decoration: none;
+            font-weight: 400;
+            font-style: normal;
+            vertical-align: top;
+            font-size: 16px;
+            margin: 0 2px 0 0;
+            content: '\e808';
+        }
+    }
+
+    table {
+        ul.company-dashboard-actions {
+            margin: 0;
+            padding: 0;
+            visibility: hidden;
+            font-size: .92em;
+
+            li {
+                float: none;
+                display: inline;
+                padding: 0;
+                margin: 0 .5em 0 0;
+                font-weight: 400;
+                list-style: none outside;
+
+                &:after {
+                    padding: 0 0 0 .5em;
+                    content: "\2023";
+                }
+
+                &:last-child:after {
+                    content: '';
+                }
+
+                .company-dashboard-action-delete {
+                    color: red;
+                }
+            }
+        }
+
+        tr {
+            &:focus,
+            &:hover {
+                ul.company-dashboard-actions {
+                    visibility: visible;
+                }
+            }
+        }
+
+        td,
+        th {
+            padding: .5em 1em .5em 0;
+        }
+
+        .company-title small {
+            color: #999;
+        }
+
+        .featured-job-icon:before {
+            content: '\e803';
+            font-family: job-manager !important;
+            font-style: normal;
+            font-weight: 400;
+            speak: none;
+            display: inline-block;
+            text-decoration: inherit;
+            width: 1em;
+            text-align: center;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1em;
+        }
+
+        .applications,
+        .expires,
+        .filled {
+            text-align: center;
+        }
+    }
+}
