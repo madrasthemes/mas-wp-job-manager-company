@@ -309,6 +309,7 @@ if ( ! function_exists( 'mas_wpjmc_get_companies' ) ) {
                 'category'          => array(),
                 'average_salary'    => array(),
                 'author'            => array(),
+                'paged'             => 1,
             )
         );
 
@@ -342,6 +343,7 @@ if ( ! function_exists( 'mas_wpjmc_get_companies' ) ) {
             'update_post_meta_cache' => false,
             'cache_results'          => false,
             'fields'                 => $args['fields'],
+            'paged'                  => $args['paged'],
         );
 
         if ( $args['posts_per_page'] < 0 ) {
