@@ -1,14 +1,14 @@
-# Copyright (C) 2019 MadrasThemes
+# Copyright (C) 2020 MadrasThemes
 # This file is distributed under the same license as the MAS Companies For WP Job Manager package.
 msgid ""
 msgstr ""
-"Project-Id-Version: MAS Companies For WP Job Manager 1.0.0\n"
+"Project-Id-Version: MAS Companies For WP Job Manager 1.0.1\n"
 "Report-Msgid-Bugs-To: https://github.com/madrasthemes/masvideos/issues\n"
-"POT-Creation-Date: 2019-11-13 11:59:37+00:00\n"
+"POT-Creation-Date: 2020-05-21 08:15:53+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2020-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-cpt.php:57
 #: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:206
-#: includes/mas-wpjmc-template-functions.php:120
+#: includes/mas-wpjmc-template-functions.php:129
 msgid "Industry"
 msgstr ""
 
@@ -37,13 +37,13 @@ msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-cpt.php:69
 #: includes/class-mas-wp-job-manager-company-cpt.php:70
-#: includes/mas-wpjmc-template-functions.php:128
+#: includes/mas-wpjmc-template-functions.php:137
 msgid "Avg. Salary"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-cpt.php:75
 #: includes/class-mas-wp-job-manager-company-cpt.php:76
-#: includes/mas-wpjmc-template-functions.php:124
+#: includes/mas-wpjmc-template-functions.php:133
 msgid "Revenue"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:47
 #: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:134
-#: includes/mas-wpjmc-template-functions.php:108
+#: includes/mas-wpjmc-template-functions.php:117
 msgid "Headquarters"
 msgstr ""
 
@@ -540,27 +540,27 @@ msgid_plural "Showing all %s companies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/mas-wpjmc-functions.php:500
+#: includes/mas-wpjmc-functions.php:502
 msgid "Published"
 msgstr ""
 
-#: includes/mas-wpjmc-functions.php:502
+#: includes/mas-wpjmc-functions.php:504
 msgid "Expired"
 msgstr ""
 
-#: includes/mas-wpjmc-functions.php:504
+#: includes/mas-wpjmc-functions.php:506
 msgid "Pending Review"
 msgstr ""
 
-#: includes/mas-wpjmc-functions.php:506
+#: includes/mas-wpjmc-functions.php:508
 msgid "Hidden"
 msgstr ""
 
-#: includes/mas-wpjmc-functions.php:508
+#: includes/mas-wpjmc-functions.php:510
 msgid "Private"
 msgstr ""
 
-#: includes/mas-wpjmc-functions.php:510
+#: includes/mas-wpjmc-functions.php:512
 msgid "Inactive"
 msgstr ""
 
@@ -608,11 +608,11 @@ msgstr ""
 msgid "Choose a Company"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:112
+#: includes/mas-wpjmc-template-functions.php:121
 msgid "Founded"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:116
+#: includes/mas-wpjmc-template-functions.php:125
 msgid "Employees"
 msgstr ""
 
