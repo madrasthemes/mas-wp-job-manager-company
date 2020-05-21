@@ -30,6 +30,15 @@ if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
     }
 }
 
+if ( ! function_exists( 'mas_wpjmc_edit_job_listing_search_conditions' ) ) {
+    function mas_wpjmc_edit_job_listing_search_conditions( $conditions, $job_manager_keyword ) {
+        global $wpdb;
+        $conditions[] = "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( '_company_id' ) AND meta_value Like ( SELECT ID FROM {$wpdb->posts} WHERE post_type IN ( 'company' ) AND post_title LIKE '%" . esc_sql( $job_manager_keyword ) . "%' ) )";
+
+        return $conditions;
+    }
+}
+
 if ( ! function_exists( 'mas_wpjmc_single_company_content_open' ) ) {
     function mas_wpjmc_single_company_content_open() {
         ?><div class="container"><?php

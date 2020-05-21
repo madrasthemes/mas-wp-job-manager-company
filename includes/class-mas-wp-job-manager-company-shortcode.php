@@ -185,11 +185,18 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
                 'category'          => '',
                 'average_salary'    => '',
                 'post_status'       => '',
+                'show_pagination'   => false,
             ), $atts ) );
 
             $category       = is_array( $category ) ? $category : array_filter( array_map( 'trim', explode( ',', $category ) ) );
             $average_salary = is_array( $average_salary ) ? $average_salary : array_filter( array_map( 'trim', explode( ',', $average_salary ) ) );
-            $post_status            = is_array( $post_status ) ? $post_status : array_filter( array_map( 'trim', explode( ',', $post_status ) ) );
+            $post_status    = is_array( $post_status ) ? $post_status : array_filter( array_map( 'trim', explode( ',', $post_status ) ) );
+
+            $show_pagination = wp_validate_boolean( $show_pagination );
+
+            $paged = ( get_query_var('paged') ) ? get_query_var('paged') : 1;
+
+            $offset = intval( $per_page * ( $paged - 1 ) ) ;
 
             $companies = mas_wpjmc_get_companies( apply_filters( 'mas_job_manager_company_output_companies_args', array(
                 'post_status'       => $post_status,
@@ -198,6 +205,8 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
                 'orderby'           => $orderby,
                 'order'             => $order,
                 'posts_per_page'    => $per_page,
+                'page'              => $paged,
+                'offset'            => $offset,
             ) ) );
 
             ob_start();
@@ -213,6 +222,10 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
                 <?php endwhile; ?>
 
                 </ul>
+
+                <?php if ( $show_pagination ) : ?>
+                    <?php get_job_manager_template( 'pagination.php', array( 'max_num_pages' => $companies->max_num_pages ) ); ?>
+                <?php endif; ?>
 
             <?php else :
                 do_action( 'job_manager_output_jobs_no_results' );
