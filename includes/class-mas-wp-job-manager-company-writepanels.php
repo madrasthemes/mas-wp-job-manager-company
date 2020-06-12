@@ -42,7 +42,7 @@ class MAS_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
             'sanitize_callback'  => array( __CLASS__, 'sanitize_meta_field_based_on_input_type' ),
         );
 
-        $fields = apply_filters( 'company_manager_company_fields', array(
+        $fields = array(
             '_company_location' => array(
                 'label'       => esc_html__( 'Headquarters', 'mas-wp-job-manager-company' ),
                 'placeholder' => esc_html__( 'e.g. "London, UK", "New York", "Houston, TX"', 'mas-wp-job-manager-company' ),
@@ -84,7 +84,18 @@ class MAS_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
                 'label' => esc_html__( 'Posted by', 'mas-wp-job-manager-company' ),
                 'type'  => 'author'
             ),
-        ) );
+        );
+
+        $current_user = wp_get_current_user();
+        if( $current_user->has_cap( 'edit_others_job_listings' ) ) {
+            $fields['_company_author'] = [
+                'label'    => __( 'Posted by', 'mas-wp-job-manager-company' ),
+                'type'     => 'author',
+                'priority' => 0,
+            ];
+        }
+
+        $fields = apply_filters( 'company_manager_company_fields', $fields );
 
         // Ensure default fields are set.
         foreach ( $fields as $key => $field ) {

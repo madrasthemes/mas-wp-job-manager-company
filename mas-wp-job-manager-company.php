@@ -169,8 +169,38 @@ class MAS_WP_Job_Manager_Company {
     }
 
     public function mas_wpjmc_admin_enqueue_scripts() {
-        wp_enqueue_style( 'job_manager_admin_css', JOB_MANAGER_PLUGIN_URL . '/assets/css/admin.css', array(), JOB_MANAGER_VERSION );
-        wp_enqueue_script( 'job_manager_admin_js', JOB_MANAGER_PLUGIN_URL . '/assets/js/admin.min.js', array( 'jquery', 'jquery-tiptip' ), JOB_MANAGER_VERSION, true );
+        $screen = get_current_screen();
+        if ( in_array( $screen->id, apply_filters( 'mas_wpjmc_admin_screen_ids', [ 'edit-company', 'plugins', 'company' ] ), true ) ) {
+            $script_deps = array( 'jquery', 'jquery-tiptip' );
+
+            if ( wp_script_is( 'select2', 'registered' ) ) {
+                $script_deps[] = 'select2';
+                wp_enqueue_style( 'select2' );
+            } elseif ( wp_script_is( 'chosen', 'registered' ) && apply_filters( 'job_manager_chosen_enabled', true ) ) {
+                // Support for themes and plugins not using WP Job Manager 1.32.0's select2 support.
+                $script_deps[] = 'chosen';
+            }
+
+            wp_enqueue_style( 'job_manager_admin_css', JOB_MANAGER_PLUGIN_URL . '/assets/css/admin.css', array(), JOB_MANAGER_VERSION );
+            wp_enqueue_script( 'job_manager_admin_js', JOB_MANAGER_PLUGIN_URL . '/assets/js/admin.min.js', $script_deps, JOB_MANAGER_VERSION, true );
+
+            wp_localize_script(
+                'job_manager_admin_js',
+                'job_manager_admin_params',
+                [
+                    'user_selection_strings' => [
+                        'no_matches'        => _x( 'No matches found', 'user selection', 'mas-wp-job-manager-company' ),
+                        'ajax_error'        => _x( 'Loading failed', 'user selection', 'mas-wp-job-manager-company' ),
+                        'input_too_short_1' => _x( 'Please enter 1 or more characters', 'user selection', 'mas-wp-job-manager-company' ),
+                        'input_too_short_n' => _x( 'Please enter %qty% or more characters', 'user selection', 'mas-wp-job-manager-company' ),
+                        'load_more'         => _x( 'Loading more results&hellip;', 'user selection', 'mas-wp-job-manager-company' ),
+                        'searching'         => _x( 'Searching&hellip;', 'user selection', 'mas-wp-job-manager-company' ),
+                    ],
+                    'ajax_url'               => admin_url( 'admin-ajax.php' ),
+                    'search_users_nonce'     => wp_create_nonce( 'search-users' ),
+                ]
+            );
+        }
     }
 
     /**
