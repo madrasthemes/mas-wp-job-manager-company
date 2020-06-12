@@ -1,7 +1,7 @@
 {
     "name": "mas-wp-job-manager-company",
     "title": "MAS Companies For WP Job Manager",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "homepage": "https://madrasthemes.com/mas-wp-job-manager-company",
     "repository": {
         "type": "git",
@@ -10,12 +10,12 @@
     "license": "GPL-3.0+",
     "main": "Gruntfile.js",
     "devDependencies": {
-        "autoprefixer": "^9.6.1",
-        "bootstrap": "^4.3.1",
-        "grunt": "^1.0.4",
+        "autoprefixer": "^9.8.0",
+        "bootstrap": "^4.5.0",
+        "grunt": "^1.1.0",
         "grunt-checktextdomain": "^1.0.1",
         "grunt-contrib-clean": "^2.0.0",
-        "grunt-contrib-compress": "^1.5.0",
+        "grunt-contrib-compress": "^1.6.0",
         "grunt-contrib-concat": "^1.0.1",
         "grunt-contrib-copy": "^1.0.0",
         "grunt-contrib-cssmin": "^3.0.0",
@@ -23,12 +23,12 @@
         "grunt-contrib-uglify": "^4.0.1",
         "grunt-contrib-watch": "^1.1.0",
         "grunt-postcss": "^0.9.0",
-        "grunt-rtlcss": "^2.0.1",
-        "grunt-sass": "^3.0.2",
-        "grunt-stylelint": "^0.11.0",
+        "grunt-rtlcss": "^2.0.2",
+        "grunt-sass": "^3.1.0",
+        "grunt-stylelint": "^0.15.0",
         "grunt-wp-i18n": "^1.0.3",
-        "node-sass": "^4.13.0",
-        "stylelint": "^10.1.0"
+        "node-sass": "^4.14.1",
+        "stylelint": "^13.5.0"
     },
     "browserslist": [
         "last 1 version",

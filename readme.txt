@@ -2,9 +2,9 @@
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood
 Tags: companies, company, company listings, company management, company manager, job, job listing
 Requires at least: 4.7
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,10 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.0.1 - 2020-05-21 =
+* Fix – Job search by company name issue fixed
+* Fix – Company listing pagination issue fixed
 
 = 1.0.0 - 2019-11-13 =
 * Initial Release
