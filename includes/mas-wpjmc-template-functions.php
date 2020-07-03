@@ -30,6 +30,18 @@ if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
     }
 }
 
+if ( ! function_exists( 'mas_wpjmc_job_listing_company_details_structured_data' ) ) {
+    function mas_wpjmc_job_listing_company_details_structured_data( $data, $post ) {
+        if( get_post_type( $post ) == 'job_listing' && get_option( 'job_manager_job_submission_required_company' ) ) {
+            $company_id = get_post_meta( $post->ID, '_company_id', true );
+            if( isset( $data['hiringOrganization'] ) && ! empty( $company_id ) ) {
+                $company_name = get_the_title( $company_id );
+                $data['hiringOrganization']['name'] = $company_name;
+            }
+        }
+    }
+}
+
 if ( ! function_exists( 'mas_wpjmc_edit_job_listing_search_conditions' ) ) {
     function mas_wpjmc_edit_job_listing_search_conditions( $conditions, $job_manager_keyword ) {
         global $wpdb;

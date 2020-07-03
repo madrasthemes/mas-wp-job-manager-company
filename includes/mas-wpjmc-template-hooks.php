@@ -6,6 +6,7 @@
  */
 
 add_filter( 'submit_job_form_fields', 'mas_wpjmc_edit_submit_job_form_fields', 10 );
+add_filter( 'wpjm_get_job_listing_structured_data', 'mas_wpjmc_job_listing_company_details_structured_data', 10, 2 );
 add_filter( 'job_listing_search_conditions', 'mas_wpjmc_edit_job_listing_search_conditions', 10, 2 );
 
 add_action( 'single_company_start', 'mas_wpjmc_single_company_content_open', 10 );
