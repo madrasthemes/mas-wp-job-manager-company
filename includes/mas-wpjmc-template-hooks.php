@@ -12,6 +12,7 @@ add_filter( 'job_listing_search_conditions', 'mas_wpjmc_edit_job_listing_search_
 /*
  * Email Handling
  */
+add_filter( 'job_manager_emails_job_detail_fields', 'mas_wpjmc_job_manager_emails_company_name', 10, 2 );
 add_filter( 'job_manager_email_notifications', 'mas_wpjmc_email_notifications', 20 );
 add_action( 'job_manager_email_init', 'mas_wpjmc_email_init', 20 );
 add_action( 'company_manager_company_submitted', 'mas_wpjmc_send_new_company_notification', 10 );

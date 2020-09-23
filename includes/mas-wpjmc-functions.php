@@ -598,6 +598,30 @@ if ( ! function_exists( 'mas_wpjmc_company_manager_count_user_companies' ) ) {
 }
 
 /**
+ * Get the job company name
+ */
+if ( ! function_exists( 'mas_wpjmc_get_job_listing_company_name' ) ) {
+    function mas_wpjmc_get_job_listing_company_name( $post = null ) {
+        if( ! is_object( $post ) ) {
+            $post = get_post( $post );
+        }
+
+        if ( ! $post || 'job_listing' !== $post->post_type ) {
+            return '';
+        }
+
+        $company_id = get_post_meta( $post->ID, '_company_id', true );
+
+        if( ! empty( $company_id ) ) {
+            return apply_filters( 'mas_wpjmc_get_job_listing_company_name', get_the_title( $company_id ) );
+        }
+
+        return apply_filters( 'mas_wpjmc_get_job_listing_company_name', $post->_company_name, $post );
+    }
+}
+
+
+/**
  * Get the company openings jobs
  */
 if ( ! function_exists( 'mas_wpjmc_get_the_company_job_listing' ) ) {

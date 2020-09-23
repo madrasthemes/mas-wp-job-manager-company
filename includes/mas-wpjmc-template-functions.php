@@ -32,12 +32,9 @@ if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
 
 if ( ! function_exists( 'mas_wpjmc_job_listing_company_details_structured_data' ) ) {
     function mas_wpjmc_job_listing_company_details_structured_data( $data, $post ) {
-        if( get_post_type( $post ) == 'job_listing' && get_option( 'job_manager_job_submission_required_company' ) ) {
-            $company_id = get_post_meta( $post->ID, '_company_id', true );
-            if( isset( $data['hiringOrganization'] ) && ! empty( $company_id ) ) {
-                $company_name = get_the_title( $company_id );
-                $data['hiringOrganization']['name'] = $company_name;
-            }
+        if( isset( $data['hiringOrganization'] ) ) {
+            $company_name = mas_wpjmc_get_job_listing_company_name( $post );
+            $data['hiringOrganization']['name'] = $company_name;
         }
 
         return $data;
@@ -50,6 +47,22 @@ if ( ! function_exists( 'mas_wpjmc_edit_job_listing_search_conditions' ) ) {
         $conditions[] = "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( '_company_id' ) AND meta_value Like ( SELECT ID FROM {$wpdb->posts} WHERE post_type IN ( 'company' ) AND post_title LIKE '%" . esc_sql( $job_manager_keyword ) . "%' ) )";
 
         return $conditions;
+    }
+}
+
+if ( ! function_exists( 'mas_wpjmc_job_manager_emails_company_name' ) ) {
+    function mas_wpjmc_job_manager_emails_company_name( $fields, $job ) {
+        $company_name = mas_wpjmc_get_job_listing_company_name( $job );
+        if( isset( $fields['company_name'] ) ) {
+            $fields['company_name']['value'] = $company_name;
+        } else {
+            $fields['company_name'] = [
+                'label' => __( 'Company name', 'mas-wp-job-manager-company' ),
+                'value' => $company_name,
+            ];
+        }
+
+        return $fields;
     }
 }
 
