@@ -39,6 +39,8 @@ if ( ! function_exists( 'mas_wpjmc_job_listing_company_details_structured_data' 
                 $data['hiringOrganization']['name'] = $company_name;
             }
         }
+
+        return $data;
     }
 }
 
