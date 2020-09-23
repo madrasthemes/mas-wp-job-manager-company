@@ -51,6 +51,33 @@ if ( ! function_exists( 'mas_wpjmc_edit_job_listing_search_conditions' ) ) {
     }
 }
 
+if ( ! function_exists( 'mas_wpjmc_email_notifications' ) ) {
+    function mas_wpjmc_email_notifications( $email_notifications ) {
+        $email_notifications[] = 'MAS_WPJMC_Email_Admin_New_Company';
+        $email_notifications[] = 'MAS_WPJMC_Email_Admin_Updated_Company';
+        return $email_notifications;
+    }
+}
+
+if ( ! function_exists( 'mas_wpjmc_email_init' ) ) {
+    function mas_wpjmc_email_init() {
+        include_once mas_wpjmc()->plugin_dir . 'includes/emails/class-mas-wp-job-manager-company-email-admin-new-company.php';
+        include_once mas_wpjmc()->plugin_dir . 'includes/emails/class-mas-wp-job-manager-company-email-admin-updated-company.php';
+    }
+}
+
+if ( ! function_exists( 'mas_wpjmc_send_new_company_notification' ) ) {
+    function mas_wpjmc_send_new_company_notification( $company_id ) {
+        do_action( 'job_manager_send_notification', 'admin_new_company', [ 'company_id' => $company_id ] );
+    }
+}
+
+if ( ! function_exists( 'mas_wpjmc_send_updated_company_notification' ) ) {
+    function mas_wpjmc_send_updated_company_notification( $company_id ) {
+        do_action( 'job_manager_send_notification', 'admin_updated_company', [ 'company_id' => $company_id ] );
+    }
+}
+
 if ( ! function_exists( 'mas_wpjmc_single_company_content_open' ) ) {
     function mas_wpjmc_single_company_content_open() {
         ?><div class="container"><?php

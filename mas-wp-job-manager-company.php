@@ -107,6 +107,9 @@ class MAS_WP_Job_Manager_Company {
         // Template Hooks.
         require( $this->plugin_dir . 'includes/mas-wpjmc-template-hooks.php' );
 
+        // Abstracts Class
+        include_once( $this->plugin_dir . 'includes/abstracts/abstract-mas-wp-job-manager-company-email-template.php' );
+
         /* === CLASSES === */
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company.php' );
@@ -131,7 +134,7 @@ class MAS_WP_Job_Manager_Company {
             $this->writepanels = new MAS_WPJMC_Writepanels();
         }
 
-        //
+        // Trigger Styles & Srcipts
         add_action( 'wp_enqueue_scripts', array( $this, 'mas_wpjmc_enqueue_scripts' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'mas_wpjmc_admin_enqueue_scripts' ), 20 );
     }

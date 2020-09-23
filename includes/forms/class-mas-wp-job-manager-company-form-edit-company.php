@@ -114,6 +114,16 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
             $this->save_company( $values['company_fields']['company_name'], $values['company_fields']['company_content'], $values['company_fields']['company_excerpt'], '', $values );
             $this->update_company_data( $values );
 
+            /**
+             * Fire action after the user edits a company.
+             *
+             * @since 1.0.2
+             *
+             * @param int    $company_id    Company ID.
+             * @param array  $values        Submitted values for company.
+             */
+            do_action( 'company_manager_user_edit_comapny', $this->company_id, $values );
+
             // Successful
             echo '<div class="job-manager-message">' . esc_html__( 'Your changes have been saved.', 'mas-wp-job-manager-company' ), ' <a href="' . get_permalink( $this->company_id ) . '">' . esc_html__( 'View Company &rarr;', 'mas-wp-job-manager-company' ) . '</a>' . '</div>';
 

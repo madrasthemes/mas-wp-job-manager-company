@@ -51,6 +51,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
             'done' => array(
                 'name'     => esc_html__( 'Done', 'mas-wp-job-manager-company' ),
                 'view'     => array( $this, 'done' ),
+                'before'   => array(  $this, 'done_before' ),
                 'handler'  => '',
                 'priority' => 30
             )
@@ -717,6 +718,13 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
      */
     public function done() {
         get_job_manager_template( 'company-submitted.php', array( 'company' => get_post( $this->get_company_id() ) ), 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
+    }
+
+    /**
+     * Handles the company submissions before the view is called.
+     */
+    public function done_before() {
+        do_action( 'company_manager_company_submitted', $this->company_id );
     }
 
     /**
