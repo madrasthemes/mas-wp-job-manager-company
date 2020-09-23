@@ -5,14 +5,14 @@
  *
  */
 
+add_filter( 'the_company_name', 'mas_wpjmc_get_job_listing_company_name', 10, 2 );
 add_filter( 'submit_job_form_fields', 'mas_wpjmc_edit_submit_job_form_fields', 10 );
-add_filter( 'wpjm_get_job_listing_structured_data', 'mas_wpjmc_job_listing_company_details_structured_data', 10, 2 );
 add_filter( 'job_listing_search_conditions', 'mas_wpjmc_edit_job_listing_search_conditions', 10, 2 );
 
 /*
  * Email Handling
  */
-add_filter( 'job_manager_emails_job_detail_fields', 'mas_wpjmc_job_manager_emails_company_name', 10, 2 );
+
 add_filter( 'job_manager_email_notifications', 'mas_wpjmc_email_notifications', 20 );
 add_action( 'job_manager_email_init', 'mas_wpjmc_email_init', 20 );
 add_action( 'company_manager_company_submitted', 'mas_wpjmc_send_new_company_notification', 10 );
