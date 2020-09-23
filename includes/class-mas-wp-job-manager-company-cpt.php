@@ -9,12 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class MAS_WPJMC_CPT {
+    private $menu_label = '';
 
     public function __construct() {
         add_action( 'init', array( $this, 'register_post_types' ), 0 );
         add_filter( 'job_manager_settings', array( $this, 'job_manager_company_settings' ) );
         add_filter( 'manage_company_posts_columns', array( $this, 'custom_company_columns' ) );
         add_action( 'manage_company_posts_custom_column' , array( $this, 'custom_company_column' ), 10, 2 );
+        add_action( 'admin_notices', array( $this, 'pending_companies_admin_notices' ), 99 );
+        add_filter( 'admin_head', array( $this, 'admin_menu_label_pending_count' ) );
     }
 
     public function custom_company_columns($columns) {
@@ -133,6 +136,8 @@ class MAS_WPJMC_CPT {
         $supports   = array( 'title', 'editor', 'publicize', 'thumbnail', 'excerpt', 'author', 'custom-fields' );
         $companies_page_id = mas_wpjmc_get_page_id( 'companies' );
 
+        $this->menu_label = apply_filters( 'mas_wpjmc_admin_menu_name', $plural );
+
         if ( current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
             $has_archive = $companies_page_id && get_post( $companies_page_id ) ? urldecode( get_page_uri( $companies_page_id ) ) : 'companies';
         } else {
@@ -150,7 +155,7 @@ class MAS_WPJMC_CPT {
                 'labels'                => array(
                     'name'                  => $plural,
                     'singular_name'         => $singular,
-                    'menu_name'             => $plural,
+                    'menu_name'             => $this->menu_label,
                     'all_items'             => sprintf( esc_html__( 'All %s', 'mas-wp-job-manager-company' ), $plural ),
                     'add_new'               => esc_html__( 'Add New', 'mas-wp-job-manager-company' ),
                     'add_new_item'          => sprintf( esc_html__( 'Add %s', 'mas-wp-job-manager-company' ), $singular ),
@@ -195,75 +200,86 @@ class MAS_WPJMC_CPT {
     }
 
     public function job_manager_company_settings( $settings ) {
+        $company_options = [];
+
+        $company_options['job_manager_companies_per_page'] = array(
+            'name'        => 'job_manager_companies_per_page',
+            'std'         => '10',
+            'placeholder' => '',
+            'label'       => esc_html__( 'Listings Per Page', 'mas-wp-job-manager-company' ),
+            'desc'        => esc_html__( 'Number of job listings to display per page.', 'mas-wp-job-manager-company' ),
+            'attributes'  => array(),
+        );
+
+        if ( current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
+            $company_options['job_manager_companies_page_id'] = array(
+                'name'      => 'job_manager_companies_page_id',
+                'std'       => '',
+                'label'     => esc_html__( 'Company Listings Page', 'mas-wp-job-manager-company' ),
+                'desc'      => esc_html__( 'Select the page for company listing. This lets the plugin know the location of the company listings page.', 'mas-wp-job-manager-company' ),
+                'type'      => 'page',
+            );
+        }
+
+        $company_options['job_manager_company_dashboard_page_id'] = array(
+            'name'  => 'job_manager_company_dashboard_page_id',
+            'std'   => '',
+            'label' => esc_html__( 'Company Dashboard Page', 'mas-wp-job-manager-company' ),
+            'desc'  => esc_html__( 'Select the page where you\'ve used the [mas_company_dashboard] shortcode. This lets the plugin know the location of the dashboard.', 'mas-wp-job-manager-company' ),
+            'type'  => 'page',
+        );
+
+        $company_options['job_manager_submit_company_form_page_id'] = array(
+            'name'        => 'job_manager_submit_company_form_page_id',
+            'std'         => '',
+            'placeholder' => '',
+            'label'     => esc_html__( 'Submit Company Form Page', 'mas-wp-job-manager-company' ),
+            'desc'      => esc_html__( 'Select the page for company sumbit form.', 'mas-wp-job-manager-company' ),
+            'type'      => 'page',
+        );
+
+        $company_options['job_manager_company_submission_requires_approval'] = array(
+            'name'       => 'job_manager_company_submission_requires_approval',
+            'std'        => '1',
+            'label'      => esc_html__( 'Moderate New Listings', 'mas-wp-job-manager-company' ),
+            'cb_label'   => esc_html__( 'Require admin approval of all new listing submissions', 'mas-wp-job-manager-company' ),
+            'desc'       => esc_html__( 'Sets all new submissions to "pending." They will not appear on your site until an admin approves them.', 'mas-wp-job-manager-company' ),
+            'type'       => 'checkbox',
+            'attributes' => array(),
+        );
+
+        $company_options['job_manager_user_can_edit_pending_company_submissions'] = array(
+            'name'       => 'job_manager_user_can_edit_pending_company_submissions',
+            'std'        => '0',
+            'label'      => esc_html__( 'Allow Pending Edits', 'mas-wp-job-manager-company' ),
+            'cb_label'   => esc_html__( 'Allow editing of pending listings', 'mas-wp-job-manager-company' ),
+            'desc'       => esc_html__( 'Users can continue to edit pending listings until they are approved by an admin.', 'mas-wp-job-manager-company' ),
+            'type'       => 'checkbox',
+            'attributes' => array(),
+        );
+
+        $company_options['job_manager_company_submission_limit'] = array(
+            'name'        => 'job_manager_company_submission_limit',
+            'std'         => '',
+            'label'       => esc_html__( 'Listing Limit', 'mas-wp-job-manager-company' ),
+            'desc'        => esc_html__( 'How many listings are users allowed to post. Can be left blank to allow unlimited listings per account.', 'mas-wp-job-manager-company' ),
+            'attributes'  => array(),
+            'placeholder' => esc_html__( 'No limit', 'mas-wp-job-manager-company' ),
+        );
+
+        $company_options['job_manager_enable_recaptcha_company_submission'] = array(
+            'name'       => 'job_manager_enable_recaptcha_company_submission',
+            'std'        => '0',
+            'label'      => esc_html__( 'Company Submission Form', 'mas-wp-job-manager-company' ),
+            'cb_label'   => esc_html__( 'Display a reCAPTCHA field on company submission form.', 'mas-wp-job-manager-company' ),
+            'desc'       => sprintf( esc_html__( 'This will help prevent bots from submitting company listings. You must have entered a valid site key and secret key above.', 'mas-wp-job-manager-company' ), 'https://www.google.com/recaptcha/admin#list' ),
+            'type'       => 'checkbox',
+            'attributes' => array(),
+        );
+
         $settings['mas_wpjmc_settings'] = array(
             esc_html__( 'Company', 'mas-wp-job-manager-company' ),
-            array(
-                'job_manager_companies_per_page' => array(
-                    'name'        => 'job_manager_companies_per_page',
-                    'std'         => '10',
-                    'placeholder' => '',
-                    'label'       => esc_html__( 'Listings Per Page', 'mas-wp-job-manager-company' ),
-                    'desc'        => esc_html__( 'Number of job listings to display per page.', 'mas-wp-job-manager-company' ),
-                    'attributes'  => array(),
-                ),
-                'job_manager_companies_page_id' => array(
-                    'name'      => 'job_manager_companies_page_id',
-                    'std'       => '',
-                    'label'     => esc_html__( 'Company Listings Page', 'mas-wp-job-manager-company' ),
-                    'desc'      => esc_html__( 'Select the page for company listing. This lets the plugin know the location of the company listings page.', 'mas-wp-job-manager-company' ),
-                    'type'      => 'page',
-                ),
-                'job_manager_company_dashboard_page_id' => array(
-                    'name'  => 'job_manager_company_dashboard_page_id',
-                    'std'   => '',
-                    'label' => esc_html__( 'Company Dashboard Page', 'mas-wp-job-manager-company' ),
-                    'desc'  => esc_html__( 'Select the page where you\'ve used the [mas_company_dashboard] shortcode. This lets the plugin know the location of the dashboard.', 'mas-wp-job-manager-company' ),
-                    'type'  => 'page',
-                ),
-                'job_manager_submit_company_form_page_id' => array(
-                    'name'        => 'job_manager_submit_company_form_page_id',
-                    'std'         => '',
-                    'placeholder' => '',
-                    'label'     => esc_html__( 'Submit Company Form Page', 'mas-wp-job-manager-company' ),
-                    'desc'      => esc_html__( 'Select the page for company sumbit form.', 'mas-wp-job-manager-company' ),
-                    'type'      => 'page',
-                ),
-                'job_manager_company_submission_requires_approval' => array(
-                    'name'       => 'job_manager_company_submission_requires_approval',
-                    'std'        => '1',
-                    'label'      => esc_html__( 'Moderate New Listings', 'mas-wp-job-manager-company' ),
-                    'cb_label'   => esc_html__( 'Require admin approval of all new listing submissions', 'mas-wp-job-manager-company' ),
-                    'desc'       => esc_html__( 'Sets all new submissions to "pending." They will not appear on your site until an admin approves them.', 'mas-wp-job-manager-company' ),
-                    'type'       => 'checkbox',
-                    'attributes' => array(),
-                ),
-                'job_manager_user_can_edit_pending_company_submissions' => array(
-                    'name'       => 'job_manager_user_can_edit_pending_company_submissions',
-                    'std'        => '0',
-                    'label'      => esc_html__( 'Allow Pending Edits', 'mas-wp-job-manager-company' ),
-                    'cb_label'   => esc_html__( 'Allow editing of pending listings', 'mas-wp-job-manager-company' ),
-                    'desc'       => esc_html__( 'Users can continue to edit pending listings until they are approved by an admin.', 'mas-wp-job-manager-company' ),
-                    'type'       => 'checkbox',
-                    'attributes' => array(),
-                ),
-                'job_manager_company_submission_limit' => array(
-                    'name'        => 'job_manager_company_submission_limit',
-                    'std'         => '',
-                    'label'       => esc_html__( 'Listing Limit', 'mas-wp-job-manager-company' ),
-                    'desc'        => esc_html__( 'How many listings are users allowed to post. Can be left blank to allow unlimited listings per account.', 'mas-wp-job-manager-company' ),
-                    'attributes'  => array(),
-                    'placeholder' => esc_html__( 'No limit', 'mas-wp-job-manager-company' ),
-                ),
-                'job_manager_enable_recaptcha_company_submission' => array(
-                    'name'       => 'job_manager_enable_recaptcha_company_submission',
-                    'std'        => '0',
-                    'label'      => esc_html__( 'Company Submission Form', 'mas-wp-job-manager-company' ),
-                    'cb_label'   => esc_html__( 'Display a reCAPTCHA field on company submission form.', 'mas-wp-job-manager-company' ),
-                    'desc'       => sprintf( esc_html__( 'This will help prevent bots from submitting company listings. You must have entered a valid site key and secret key above.', 'mas-wp-job-manager-company' ), 'https://www.google.com/recaptcha/admin#list' ),
-                    'type'       => 'checkbox',
-                    'attributes' => array(),
-                ),
-            ),
+            $company_options
         );
 
         $settings['job_submission'][1][] = array(
@@ -276,10 +292,37 @@ class MAS_WPJMC_CPT {
             'attributes' => array(),
         );
 
-        if ( ! current_theme_supports( 'mas-wp-job-manager-company-archive' ) ) {
-            unset( $settings['mas_wpjmc_settings'][1]['job_manager_companies_page_id'] );
-        }
         return $settings;
+    }
+
+    public function pending_companies_admin_notices() {
+        $count_posts = wp_count_posts( 'company', 'readable' );
+        $pending_companies = isset( $count_posts->pending ) ? $count_posts->pending : 0;
+
+        if( $pending_companies <= 0 ) return;
+
+        ?><div class="notice notice-info is-dismissible">
+            <p><?php echo wp_kses_post( sprintf( __( '%s pending companies available. Please click <a href="%s">here</a> to review.', 'mas-wp-job-manager-company' ), $pending_companies, admin_url('edit.php?post_status=pending&post_type=company') ) ); ?></p>
+        </div><?php
+    }
+
+    public function admin_menu_label_pending_count() {
+        global $menu;
+        $count_posts = wp_count_posts( 'company', 'readable' );
+        $pending_companies =  isset( $count_posts->pending ) ? $count_posts->pending : 0;
+
+        // No need to go further if no pending jobs, menu is not set, or is not an array.
+        if ( $pending_companies <= 0 || empty( $menu ) || ! is_array( $menu ) ) {
+            return;
+        }
+
+        foreach ( $menu as $key => $menu_item ) {
+            if ( strpos( $menu_item[0], $this->menu_label ) === 0 ) {
+                // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Only way to add pending listing count.
+                $menu[ $key ][0] .= " <span class='awaiting-mod update-plugins count-" . esc_attr( $pending_companies ) . "'><span class='pending-count'>" . absint( number_format_i18n( $pending_companies ) ) . '</span></span>';
+                break;
+            }
+        }
     }
 
     /**
