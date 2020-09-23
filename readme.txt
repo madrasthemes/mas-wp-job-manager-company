@@ -2,9 +2,9 @@
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood
 Tags: companies, company, company listings, company management, company manager, job, job listing
 Requires at least: 4.7
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,13 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.0.2 - 2020-09-23 =
+* Enhancement – Admin emails on front-end company submit/update added
+* Enhancement – Pending companies count in admin company menu label added
+* Fix – Issue fixed with admin company author select showing current author only
+* Fix – Job single google structured data error with company name issue fixed
+* Fix – "Allow Pending Edits" settings not working issue fixed
 
 = 1.0.1 - 2020-05-21 =
 * Fix – Job search by company name issue fixed

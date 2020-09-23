@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the MAS Companies For WP Job Manager package.
 msgid ""
 msgstr ""
-"Project-Id-Version: MAS Companies For WP Job Manager 1.0.1\n"
+"Project-Id-Version: MAS Companies For WP Job Manager 1.0.2\n"
 "Report-Msgid-Bugs-To: https://github.com/madrasthemes/masvideos/issues\n"
-"POT-Creation-Date: 2020-05-21 08:15:53+00:00\n"
+"POT-Creation-Date: 2020-09-23 11:47:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,223 +13,230 @@ msgstr ""
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "X-Generator: grunt-wp-i18n 1.0.3\n"
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:25
+#: includes/class-mas-wp-job-manager-company-cpt.php:28
 msgid "Company Name"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:57
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:206
-#: includes/mas-wpjmc-template-functions.php:129
+#: includes/class-mas-wp-job-manager-company-cpt.php:60
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:207
+#: includes/mas-wpjmc-template-functions.php:170
 msgid "Industry"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:58
+#: includes/class-mas-wp-job-manager-company-cpt.php:61
 msgid "Industries"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:63
+#: includes/class-mas-wp-job-manager-company-cpt.php:66
 msgid "Employee Strength"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:64
+#: includes/class-mas-wp-job-manager-company-cpt.php:67
 msgid "Employees Strength"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:69
-#: includes/class-mas-wp-job-manager-company-cpt.php:70
-#: includes/mas-wpjmc-template-functions.php:137
+#: includes/class-mas-wp-job-manager-company-cpt.php:72
+#: includes/class-mas-wp-job-manager-company-cpt.php:73
+#: includes/mas-wpjmc-template-functions.php:178
 msgid "Avg. Salary"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:75
-#: includes/class-mas-wp-job-manager-company-cpt.php:76
-#: includes/mas-wpjmc-template-functions.php:133
+#: includes/class-mas-wp-job-manager-company-cpt.php:78
+#: includes/class-mas-wp-job-manager-company-cpt.php:79
+#: includes/mas-wpjmc-template-functions.php:174
 msgid "Revenue"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:97
-#: includes/class-mas-wp-job-manager-company-cpt.php:162
+#: includes/class-mas-wp-job-manager-company-cpt.php:100
+#: includes/class-mas-wp-job-manager-company-cpt.php:167
 msgid "Search %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:98
-#: includes/class-mas-wp-job-manager-company-cpt.php:154
+#: includes/class-mas-wp-job-manager-company-cpt.php:101
+#: includes/class-mas-wp-job-manager-company-cpt.php:159
 msgid "All %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:99
-#: includes/class-mas-wp-job-manager-company-cpt.php:165
+#: includes/class-mas-wp-job-manager-company-cpt.php:102
+#: includes/class-mas-wp-job-manager-company-cpt.php:170
 msgid "Parent %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:100
+#: includes/class-mas-wp-job-manager-company-cpt.php:103
 msgid "Parent %s:"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:101
-#: includes/class-mas-wp-job-manager-company-cpt.php:158
+#: includes/class-mas-wp-job-manager-company-cpt.php:104
+#: includes/class-mas-wp-job-manager-company-cpt.php:163
 msgid "Edit %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:102
+#: includes/class-mas-wp-job-manager-company-cpt.php:105
 msgid "Update %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:103
+#: includes/class-mas-wp-job-manager-company-cpt.php:106
 msgid "Add New %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:104
+#: includes/class-mas-wp-job-manager-company-cpt.php:107
 msgid "New %s Name"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:131
-#: includes/class-mas-wp-job-manager-company-cpt.php:199
-#: includes/class-mas-wp-job-manager-company-writepanels.php:231
-#: includes/mas-wpjmc-template-functions.php:17
+#: includes/class-mas-wp-job-manager-company-cpt.php:134
+#: includes/class-mas-wp-job-manager-company-cpt.php:281
+#: includes/class-mas-wp-job-manager-company-writepanels.php:242
+#: includes/mas-wpjmc-template-functions.php:31
 msgid "Company"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:132
+#: includes/class-mas-wp-job-manager-company-cpt.php:135
 msgid "Companies"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:155
+#: includes/class-mas-wp-job-manager-company-cpt.php:160
 msgid "Add New"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:156
+#: includes/class-mas-wp-job-manager-company-cpt.php:161
 msgid "Add %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:157
-#: templates/company-dashboard.php:52 templates/company-dashboard.php:59
+#: includes/class-mas-wp-job-manager-company-cpt.php:162
+#: templates/company-dashboard.php:53 templates/company-dashboard.php:69
+#: templates/company-dashboard.php:81
 msgid "Edit"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:159
+#: includes/class-mas-wp-job-manager-company-cpt.php:164
 msgid "New %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:160
-#: includes/class-mas-wp-job-manager-company-cpt.php:161
+#: includes/class-mas-wp-job-manager-company-cpt.php:165
+#: includes/class-mas-wp-job-manager-company-cpt.php:166
 msgid "View %s"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:163
+#: includes/class-mas-wp-job-manager-company-cpt.php:168
 msgid "No %s found"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:164
+#: includes/class-mas-wp-job-manager-company-cpt.php:169
 msgid "No %s found in trash"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:167
+#: includes/class-mas-wp-job-manager-company-cpt.php:172
 msgid "This is where you can create and manage %s."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:205
+#: includes/class-mas-wp-job-manager-company-cpt.php:209
 msgid "Listings Per Page"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:206
+#: includes/class-mas-wp-job-manager-company-cpt.php:210
 msgid "Number of job listings to display per page."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:212
+#: includes/class-mas-wp-job-manager-company-cpt.php:218
 msgid "Company Listings Page"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:213
+#: includes/class-mas-wp-job-manager-company-cpt.php:219
 msgid ""
 "Select the page for company listing. This lets the plugin know the location "
 "of the company listings page."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:219
+#: includes/class-mas-wp-job-manager-company-cpt.php:227
 msgid "Company Dashboard Page"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:220
+#: includes/class-mas-wp-job-manager-company-cpt.php:228
 msgid ""
 "Select the page where you've used the [mas_company_dashboard] shortcode. "
 "This lets the plugin know the location of the dashboard."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:227
+#: includes/class-mas-wp-job-manager-company-cpt.php:236
 msgid "Submit Company Form Page"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:228
+#: includes/class-mas-wp-job-manager-company-cpt.php:237
 msgid "Select the page for company sumbit form."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:234
+#: includes/class-mas-wp-job-manager-company-cpt.php:244
 msgid "Moderate New Listings"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:235
+#: includes/class-mas-wp-job-manager-company-cpt.php:245
 msgid "Require admin approval of all new listing submissions"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:236
+#: includes/class-mas-wp-job-manager-company-cpt.php:246
 msgid ""
 "Sets all new submissions to \"pending.\" They will not appear on your site "
 "until an admin approves them."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:243
+#: includes/class-mas-wp-job-manager-company-cpt.php:254
 msgid "Allow Pending Edits"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:244
+#: includes/class-mas-wp-job-manager-company-cpt.php:255
 msgid "Allow editing of pending listings"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:245
+#: includes/class-mas-wp-job-manager-company-cpt.php:256
 msgid ""
 "Users can continue to edit pending listings until they are approved by an "
 "admin."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:252
+#: includes/class-mas-wp-job-manager-company-cpt.php:264
 msgid "Listing Limit"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:253
+#: includes/class-mas-wp-job-manager-company-cpt.php:265
 msgid ""
 "How many listings are users allowed to post. Can be left blank to allow "
 "unlimited listings per account."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:255
+#: includes/class-mas-wp-job-manager-company-cpt.php:267
 msgid "No limit"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:260
+#: includes/class-mas-wp-job-manager-company-cpt.php:273
 msgid "Company Submission Form"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:261
+#: includes/class-mas-wp-job-manager-company-cpt.php:274
 msgid "Display a reCAPTCHA field on company submission form."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:262
+#: includes/class-mas-wp-job-manager-company-cpt.php:275
 msgid ""
 "This will help prevent bots from submitting company listings. You must have "
 "entered a valid site key and secret key above."
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:272
+#: includes/class-mas-wp-job-manager-company-cpt.php:288
 msgid "Company Required"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:273
+#: includes/class-mas-wp-job-manager-company-cpt.php:289
 msgid "Require an company to submit job listings"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:274
+#: includes/class-mas-wp-job-manager-company-cpt.php:290
 msgid "Limits job listing submissions to registered, who has company."
+msgstr ""
+
+#: includes/class-mas-wp-job-manager-company-cpt.php:305
+msgid ""
+"%s pending companies available. Please click <a href=\"%s\">here</a> to "
+"review."
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-shortcode.php:70
@@ -261,8 +268,8 @@ msgid "Date Posted"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:47
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:134
-#: includes/mas-wpjmc-template-functions.php:117
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:135
+#: includes/mas-wpjmc-template-functions.php:158
 msgid "Headquarters"
 msgstr ""
 
@@ -271,7 +278,7 @@ msgid "e.g. \"London, UK\", \"New York\", \"Houston, TX\""
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:51
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:164
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:165
 msgid "Since"
 msgstr ""
 
@@ -280,7 +287,7 @@ msgid "company founded"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:55
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:127
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:128
 msgid "Company Tagline"
 msgstr ""
 
@@ -297,7 +304,7 @@ msgid "e.g. \"www.example.com\""
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:63
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:178
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:179
 msgid "Email"
 msgstr ""
 
@@ -306,7 +313,7 @@ msgid "e.g. \"you@yourdomain.com\""
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:67
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:185
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:186
 msgid "Phone"
 msgstr ""
 
@@ -315,7 +322,7 @@ msgid "company phone number"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:71
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:192
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:193
 msgid "Twitter"
 msgstr ""
 
@@ -324,7 +331,7 @@ msgid "company twitter page link"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:75
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:199
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:200
 msgid "Facebook"
 msgstr ""
 
@@ -341,10 +348,11 @@ msgid "URL to the company video"
 msgstr ""
 
 #: includes/class-mas-wp-job-manager-company-writepanels.php:84
+#: includes/class-mas-wp-job-manager-company-writepanels.php:92
 msgid "Posted by"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-writepanels.php:103
+#: includes/class-mas-wp-job-manager-company-writepanels.php:114
 msgid "Company Data"
 msgstr ""
 
@@ -360,6 +368,36 @@ msgstr ""
 msgid "User Not Logged In"
 msgstr ""
 
+#: includes/emails/class-mas-wp-job-manager-company-email-admin-new-company.php:34
+msgid "Admin Notice of New Company"
+msgstr ""
+
+#: includes/emails/class-mas-wp-job-manager-company-email-admin-new-company.php:44
+msgid ""
+"Send a notice to the site administrator when a new comapny is submitted on "
+"the frontend."
+msgstr ""
+
+#: includes/emails/class-mas-wp-job-manager-company-email-admin-new-company.php:63
+#. translators: Placeholder %s is the company post title.
+msgid "New Company Submitted: %s"
+msgstr ""
+
+#: includes/emails/class-mas-wp-job-manager-company-email-admin-updated-company.php:34
+msgid "Admin Notice of Updated Company"
+msgstr ""
+
+#: includes/emails/class-mas-wp-job-manager-company-email-admin-updated-company.php:44
+msgid ""
+"Send a notice to the site administrator when a company is updated on the "
+"frontend."
+msgstr ""
+
+#: includes/emails/class-mas-wp-job-manager-company-email-admin-updated-company.php:63
+#. translators: Placeholder %s is the company listing post title.
+msgid "Company Updated: %s"
+msgstr ""
+
 #: includes/forms/class-mas-wp-job-manager-company-form-edit-company.php:53
 msgid "Invalid company"
 msgstr ""
@@ -368,11 +406,11 @@ msgstr ""
 msgid "Save changes"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-edit-company.php:118
+#: includes/forms/class-mas-wp-job-manager-company-form-edit-company.php:128
 msgid "Your changes have been saved."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-edit-company.php:118
+#: includes/forms/class-mas-wp-job-manager-company-form-edit-company.php:128
 msgid "View Company &rarr;"
 msgstr ""
 
@@ -381,7 +419,7 @@ msgid "Submit Details"
 msgstr ""
 
 #: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:46
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:667
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:668
 msgid "Preview"
 msgstr ""
 
@@ -389,144 +427,144 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:120
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:121
 msgid "Company name"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:123
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:124
 msgid "Company full name"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:130
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:131
 msgid "Company tagline"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:135
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:136
 msgid "Leave this blank if the headquarters location is not important"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:138
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:139
 msgid "e.g. \"London\""
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:142
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:143
 msgid "Company Logo"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:157
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:158
 msgid "Video"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:161
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:162
 msgid "A link to a video about yourself"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:167
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:168
 msgid "Established date/year"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:171
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:172
 msgid "Company Website"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:174
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:175
 msgid "Company website"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:181
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:182
 msgid "you@yourdomain.com"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:188
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:189
 msgid "Phone Number"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:195
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:196
 msgid "Twitter page url"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:202
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:203
 msgid "Facebook page url"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:209
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:210
 msgid "Choose Industry&hellip;"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:215
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:216
 msgid "Employer Strength"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:224
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:225
 msgid "Average Salary"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:233
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:234
 msgid "Company Revenue"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:242
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:243
 msgid "Short Description"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:248
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:249
 msgid "Company Content"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:297
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:298
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:303
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:308
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:304
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:309
 msgid "%s is invalid"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:315
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:316
 msgid "Please enter a valid email address"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:332
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:333
 msgid "Invalid attachment provided."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:407
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:408
 msgid "Preview &rarr;"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:438
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:439
 msgid "Please enter a username."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:442
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:443
 msgid "Please enter a password."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:446
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:447
 msgid "Please enter your email address."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:452
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:453
 msgid "Passwords must match."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:457
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:458
 msgid "Invalid Password: %s"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:459
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:460
 msgid "Password is not valid."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:484
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:485
 msgid "You must be signed in to post your company."
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:661
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:662
 msgid "Submit Company &rarr;"
 msgstr ""
 
-#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:662
+#: includes/forms/class-mas-wp-job-manager-company-form-submit-company.php:663
 msgid "&larr; Edit company"
 msgstr ""
 
@@ -564,55 +602,55 @@ msgstr ""
 msgid "Inactive"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:10
+#: includes/mas-wpjmc-template-functions.php:24
 msgid "Branch  Name"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:10
+#: includes/mas-wpjmc-template-functions.php:24
 msgid "Company / Branch  Name"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:12
+#: includes/mas-wpjmc-template-functions.php:26
 msgid "Branch Website"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:12
+#: includes/mas-wpjmc-template-functions.php:26
 msgid "Company / Branch Website"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:13
+#: includes/mas-wpjmc-template-functions.php:27
 msgid "Branch Video"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:13
+#: includes/mas-wpjmc-template-functions.php:27
 msgid "Company / Branch Video"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:14
+#: includes/mas-wpjmc-template-functions.php:28
 msgid "Branch Twitter"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:14
+#: includes/mas-wpjmc-template-functions.php:28
 msgid "Company / Branch Twitter"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:15
+#: includes/mas-wpjmc-template-functions.php:29
 msgid "Branch Logo"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:15
+#: includes/mas-wpjmc-template-functions.php:29
 msgid "Company / Branch Logo"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:20
+#: includes/mas-wpjmc-template-functions.php:34
 msgid "Choose a Company"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:121
+#: includes/mas-wpjmc-template-functions.php:162
 msgid "Founded"
 msgstr ""
 
-#: includes/mas-wpjmc-template-functions.php:125
+#: includes/mas-wpjmc-template-functions.php:166
 msgid "Employees"
 msgstr ""
 
@@ -678,21 +716,21 @@ msgstr ""
 msgid "Filter by"
 msgstr ""
 
-#: mas-wp-job-manager-company.php:152
+#: mas-wp-job-manager-company.php:155
 msgid ""
 "If you wish to edit the posted details use the \"edit resume\" button "
 "instead, otherwise changes may be lost."
 msgstr ""
 
-#: mas-wp-job-manager-company.php:153
+#: mas-wp-job-manager-company.php:156
 msgid "Are you sure you want to remove this item?"
 msgstr ""
 
-#: mas-wp-job-manager-company.php:154
+#: mas-wp-job-manager-company.php:157
 msgid "remove"
 msgstr ""
 
-#: mas-wp-job-manager-company.php:160
+#: mas-wp-job-manager-company.php:163
 msgid "Are you sure you want to delete this resume?"
 msgstr ""
 
@@ -706,23 +744,23 @@ msgstr[1] ""
 msgid "You do not have any active company listings."
 msgstr ""
 
-#: templates/company-dashboard.php:53
+#: templates/company-dashboard.php:57
 msgid "Hide"
 msgstr ""
 
-#: templates/company-dashboard.php:56 templates/company-dashboard.php:60
+#: templates/company-dashboard.php:63 templates/company-dashboard.php:73
 msgid "Publish"
 msgstr ""
 
-#: templates/company-dashboard.php:64
+#: templates/company-dashboard.php:89
 msgid "Relist"
 msgstr ""
 
-#: templates/company-dashboard.php:69
+#: templates/company-dashboard.php:96
 msgid "Delete"
 msgstr ""
 
-#: templates/company-dashboard.php:98
+#: templates/company-dashboard.php:125
 msgid "Add Company"
 msgstr ""
 
@@ -744,6 +782,66 @@ msgstr ""
 msgid "Your company has been submitted successfully and is pending approval."
 msgstr ""
 
+#: templates/emails/admin-new-company.php:26
+#. translators: %1$s placeholder is URL to the blog. %2$s placeholder is the
+#. name of the site.
+msgid "A new company has been submitted to <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: templates/emails/admin-new-company.php:33
+#: templates/emails/plain/admin-new-company.php:26
+msgid "It has been published and is now available to the public."
+msgstr ""
+
+#: templates/emails/admin-new-company.php:39
+#. translators: Placeholder %s is the admin company listings URL.
+msgid ""
+"It is awaiting approval by an administrator in <a href=\"%s\">WordPress "
+"admin</a>."
+msgstr ""
+
+#: templates/emails/admin-updated-company.php:25
+#. translators: %1$s placeholder is URL to the blog. %2$s placeholder is the
+#. name of the site.
+msgid "A company has been updated on <a href=\"%s\">%s</a>."
+msgstr ""
+
+#: templates/emails/admin-updated-company.php:28
+#: templates/emails/plain/admin-updated-company.php:26
+msgid "The changes have been published and are now available to the public."
+msgstr ""
+
+#: templates/emails/admin-updated-company.php:33
+#. translators: Placeholder %s is the admin companys URL.
+msgid ""
+"The company is not publicly available until the changes are approved by an "
+"administrator in the site's <a href=\"%s\">WordPress admin</a>."
+msgstr ""
+
+#: templates/emails/plain/admin-new-company.php:23
+#. translators: %1$s placeholder is the name of the site, %2$s placeholder is
+#. URL to the blog.
+msgid "A new company has been submitted to %1$s (%2$s)."
+msgstr ""
+
+#: templates/emails/plain/admin-new-company.php:30
+#. translators: Placeholder %s is the admin companys URL.
+msgid "It is awaiting approval by an administrator in WordPress admin (%s)."
+msgstr ""
+
+#: templates/emails/plain/admin-updated-company.php:23
+#. translators: %1$s placeholder is the name of the site, %2$s placeholder is
+#. URL to the blog.
+msgid "A company has been updated on %1$s (%2$s)."
+msgstr ""
+
+#: templates/emails/plain/admin-updated-company.php:30
+#. translators: Placeholder %s is the admin companys URL.
+msgid ""
+"The company is not publicly available until the changes are approved by an "
+"administrator in the site's WordPress admin (%s)."
+msgstr ""
+
 #. Plugin Name of the plugin/theme
 msgid "MAS Companies For WP Job Manager"
 msgstr ""
@@ -760,27 +858,27 @@ msgstr ""
 msgid "https://madrasthemes.com/"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:59
+#: includes/class-mas-wp-job-manager-company-cpt.php:62
 msgctxt "Company category permalink - resave permalinks after changing this"
 msgid "company-category"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:65
+#: includes/class-mas-wp-job-manager-company-cpt.php:68
 msgctxt "Company employees strength permalink - resave permalinks after changing this"
 msgid "company-employees-strength"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:71
+#: includes/class-mas-wp-job-manager-company-cpt.php:74
 msgctxt "Company avearge salary permalink - resave permalinks after changing this"
 msgid "company-avearge-salary"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:77
+#: includes/class-mas-wp-job-manager-company-cpt.php:80
 msgctxt "Company revenue permalink - resave permalinks after changing this"
 msgid "company-revenue"
 msgstr ""
 
-#: includes/class-mas-wp-job-manager-company-cpt.php:143
+#: includes/class-mas-wp-job-manager-company-cpt.php:148
 msgctxt "Company permalink - resave permalinks after changing this"
 msgid "company"
 msgstr ""
@@ -788,4 +886,34 @@ msgstr ""
 #: includes/widgets/class-mas-wpjmc-widget-company-search.php:45
 msgctxt "submit button"
 msgid "Search"
+msgstr ""
+
+#: mas-wp-job-manager-company.php:195
+msgctxt "user selection"
+msgid "No matches found"
+msgstr ""
+
+#: mas-wp-job-manager-company.php:196
+msgctxt "user selection"
+msgid "Loading failed"
+msgstr ""
+
+#: mas-wp-job-manager-company.php:197
+msgctxt "user selection"
+msgid "Please enter 1 or more characters"
+msgstr ""
+
+#: mas-wp-job-manager-company.php:198
+msgctxt "user selection"
+msgid "Please enter %qty% or more characters"
+msgstr ""
+
+#: mas-wp-job-manager-company.php:199
+msgctxt "user selection"
+msgid "Loading more results&hellip;"
+msgstr ""
+
+#: mas-wp-job-manager-company.php:200
+msgctxt "user selection"
+msgid "Searching&hellip;"
 msgstr ""
