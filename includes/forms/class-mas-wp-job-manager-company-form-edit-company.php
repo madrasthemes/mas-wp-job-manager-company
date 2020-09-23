@@ -49,7 +49,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
 
         $company = get_post( $this->company_id );
 
-        if ( empty( $this->company_id  ) || ( $company->post_status !== 'publish' && $company->post_status !== 'hidden' ) ) {
+        if ( empty( $this->company_id  ) || ( $company->post_status !== 'publish' && $company->post_status !== 'hidden' && ! get_option( 'job_manager_user_can_edit_pending_company_submissions' ) ) ) {
             echo wpautop( esc_html__( 'Invalid company', 'mas-wp-job-manager-company' ) );
             return;
         }
@@ -111,7 +111,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
                 throw new Exception( $return->get_error_message() );
 
             // Update the company
-            $this->save_company( $values['company_fields']['company_name'], $values['company_fields']['company_content'], $values['company_fields']['company_excerpt'], 'publish', $values );
+            $this->save_company( $values['company_fields']['company_name'], $values['company_fields']['company_content'], $values['company_fields']['company_excerpt'], '', $values );
             $this->update_company_data( $values );
 
             // Successful
