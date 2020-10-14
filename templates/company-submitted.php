@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 switch ( $company->post_status ) :
 	case 'publish' :
 		if ( $company->ID ) {
-			printf( '<p class="company-submitted">' . esc_html__( 'Your company has been submitted successfully. To view your company <a href="%s">click here</a>.', 'mas-wp-job-manager-company' ) . '</p>', get_permalink( $company->ID ) );
+			printf( '<p class="company-submitted">' . __( 'Your company has been submitted successfully. To view your company <a href="%s">click here</a>.', 'mas-wp-job-manager-company' ) . '</p>', get_permalink( $company->ID ) );
 		} else {
 			print( '<p class="company-submitted">' . esc_html__( 'Your company has been submitted successfully.', 'mas-wp-job-manager-company' ) . '</p>' );
 		}
