@@ -438,7 +438,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                         if ( ! job_manager_generate_username_from_email() && empty( $_POST['create_account_username'] ) ) {
                             throw new Exception( esc_html__( 'Please enter a username.', 'mas-wp-job-manager-company' ) );
                         }
-                        if ( ! job_manager_use_standard_password_setup_email() ) {
+                        if ( ! wpjm_use_standard_password_setup_email() ) {
                             if ( empty( $_POST['create_account_password'] ) ) {
                                 throw new Exception( esc_html__( 'Please enter a password.', 'mas-wp-job-manager-company' ) );
                             }
@@ -448,7 +448,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                         }
                     }
 
-                    if ( ! job_manager_use_standard_password_setup_email() && ! empty( $_POST['create_account_password'] ) ) {
+                    if ( ! wpjm_use_standard_password_setup_email() && ! empty( $_POST['create_account_password'] ) ) {
                         if ( empty( $_POST['create_account_password_verify'] ) || $_POST['create_account_password_verify'] !== $_POST['create_account_password'] ) {
                             throw new Exception( esc_html__( 'Passwords must match.', 'mas-wp-job-manager-company' ) );
                         }
@@ -468,7 +468,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                         } else {
                             $create_account = wp_job_manager_create_account( array(
                                 'username' => ( job_manager_generate_username_from_email() || empty( $_POST['create_account_username'] ) ) ? '' : sanitize_user( $_POST['create_account_username'] ),
-                                'password' => ( job_manager_use_standard_password_setup_email() || empty( $_POST['create_account_password'] ) ) ? '' : sanitize_text_field( wp_unslash( $_POST['create_account_password'] ) ),
+                                'password' => ( wpjm_use_standard_password_setup_email() || empty( $_POST['create_account_password'] ) ) ? '' : sanitize_text_field( wp_unslash( $_POST['create_account_password'] ) ),
                                 'email'    => sanitize_email( $_POST['company_email'] ),
                                 'role'     => sanitize_meta( get_option( 'job_manager_registration_role', 'employer' ) ),
                             ) );
