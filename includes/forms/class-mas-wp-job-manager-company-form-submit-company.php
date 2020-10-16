@@ -470,7 +470,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
                                 'username' => ( job_manager_generate_username_from_email() || empty( $_POST['create_account_username'] ) ) ? '' : sanitize_user( $_POST['create_account_username'] ),
                                 'password' => ( wpjm_use_standard_password_setup_email() || empty( $_POST['create_account_password'] ) ) ? '' : sanitize_text_field( wp_unslash( $_POST['create_account_password'] ) ),
                                 'email'    => sanitize_email( $_POST['company_email'] ),
-                                'role'     => sanitize_meta( get_option( 'job_manager_registration_role', 'employer' ) ),
+                                'role'     => sanitize_key( get_option( 'job_manager_registration_role', 'employer' ) ),
                             ) );
                         }
                     }
