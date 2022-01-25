@@ -1,0 +1,10 @@
+{
+	"core": null,
+	"plugins": [ "./" ],
+	"port": 8801,
+	"testsPort": 8802,
+	"config": {
+		"WP_DEBUG_DISPLAY": true,
+		"WP_DEBUG": true
+	}
+}
