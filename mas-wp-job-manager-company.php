@@ -110,6 +110,9 @@ class MAS_WP_Job_Manager_Company {
         // Abstracts Class
         include_once( $this->plugin_dir . 'includes/abstracts/abstract-mas-wp-job-manager-company-email-template.php' );
 
+         //Admin Class
+        include_once( $this->plugin_dir . 'includes/admin/class-wp-job-manager-company-admin.php' );
+
         /* === CLASSES === */
 
         require( $this->plugin_dir . 'includes/class-mas-wp-job-manager-company.php' );
