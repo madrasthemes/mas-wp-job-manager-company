@@ -39,7 +39,7 @@ class MAS_WP_Job_Manager_Company {
      */
     private static $instance;
 
-    public $version = '1.0.4';
+    public $version = '1.0.5';
 
     /**
      * Query instance.
