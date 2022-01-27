@@ -71,12 +71,12 @@ class WP_Job_Manager_Company_Admin {
 				'job_manager_admin_params',
 				[
 					'user_selection_strings' => [
-						'no_matches'        => _x( 'No matches found', 'user selection', 'wp-job-manager' ),
-						'ajax_error'        => _x( 'Loading failed', 'user selection', 'wp-job-manager' ),
-						'input_too_short_1' => _x( 'Please enter 1 or more characters', 'user selection', 'wp-job-manager' ),
-						'input_too_short_n' => _x( 'Please enter %qty% or more characters', 'user selection', 'wp-job-manager' ),
-						'load_more'         => _x( 'Loading more results&hellip;', 'user selection', 'wp-job-manager' ),
-						'searching'         => _x( 'Searching&hellip;', 'user selection', 'wp-job-manager' ),
+						'no_matches'        => _x( 'No matches found', 'user selection', 'mas-wp-job-manager-company' ),
+						'ajax_error'        => _x( 'Loading failed', 'user selection', 'mas-wp-job-manager-company' ),
+						'input_too_short_1' => _x( 'Please enter 1 or more characters', 'user selection', 'mas-wp-job-manager-company' ),
+						'input_too_short_n' => _x( 'Please enter %qty% or more characters', 'user selection', 'mas-wp-job-manager-company' ),
+						'load_more'         => _x( 'Loading more results&hellip;', 'user selection', 'mas-wp-job-manager-company' ),
+						'searching'         => _x( 'Searching&hellip;', 'user selection', 'mas-wp-job-manager-company' ),
 					],
 					'ajax_url'               => admin_url( 'admin-ajax.php' ),
 					'search_users_nonce'     => wp_create_nonce( 'search-users' ),
