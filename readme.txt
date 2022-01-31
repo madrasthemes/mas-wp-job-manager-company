@@ -4,7 +4,7 @@ Tags: companies, company, company listings, company management, company manager,
 Requires at least: 4.7
 Tested up to: 5.7
 Requires PHP: 5.7
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.0.5 - 2022-01-29 =
+* Fix - Changing user issue in the company editor fixed.
 
 = 1.0.4 - 2021-03-29 =
 * Tested PHP version upto 5.7
