@@ -159,13 +159,18 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
             );
 
             if( is_user_logged_in() && ! empty( $current_user ) ) {
-                $companies = get_posts( array(
+                $args = array(
                     'post_type'     => 'company',
                     'orderby'       => 'title',
                     'order'         => 'ASC',
                     'numberposts'   => -1,
-                    'author'        => $current_user->ID, // I could also use $user_ID, right?
-                ) );
+                );
+                
+                $has_capability = $current_user->has_cap( 'edit_posts' );
+                if( ! $has_capability ){
+                    $args['author'] = $current_user->ID;
+                }
+                $companies = get_posts( $args );
 
                 if( ! empty( $companies ) ) {
                     foreach( $companies as $company ) {
