@@ -170,7 +170,7 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
                 if( ! $has_capability ){
                     $args['author'] = $current_user->ID;
                 }
-                $companies = get_posts( $args );
+                $companies = get_posts( apply_filters( 'masjm_get_current_user_companies_args', $args ) );
 
                 if( ! empty( $companies ) ) {
                     foreach( $companies as $company ) {
