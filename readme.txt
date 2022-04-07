@@ -1,10 +1,10 @@
 === MAS Companies For WP Job Manager ===
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood, nilofer07
 Tags: companies, company, company listings, company management, company manager, job, job listing
-Requires at least: 4.7
-Tested up to: 5.7
-Requires PHP: 5.7
-Stable tag: 1.0.5
+Requires at least: 5.7
+Tested up to: 5.9
+Requires PHP: 7.4
+Stable tag: 1.0.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -24,7 +24,7 @@ Also you can simply customize the dashboard, company submit form and etc with yo
 
 = Minimum Requirements =
 
-* PHP version 5.7 or greater (PHP 7.0 or greater is recommended)
+* PHP version 7.4 or greater
 
 = Automatic installation =
 
@@ -69,6 +69,9 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.0.6 - 2022-04-07 =
+* Fix - Allow admin to access companies dropdown.
 
 = 1.0.5 - 2022-01-29 =
 * Fix - Changing user issue in the company editor fixed.
