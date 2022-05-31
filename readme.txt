@@ -2,7 +2,7 @@
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood, nilofer07
 Tags: companies, company, company listings, company management, company manager, job, job listing
 Requires at least: 5.7
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 7.4
 Stable tag: 1.0.6
 License: GPLv3
