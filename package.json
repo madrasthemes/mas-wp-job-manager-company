@@ -13,7 +13,7 @@
 		"wp-env": "wp-env"
 	},
 	"devDependencies": {
-		"@wordpress/env": "^4.1.3",
+		"@wordpress/env": "^4.9.0",
 		"autoprefixer": "^9.8.0",
 		"bootstrap": "^4.5.0",
 		"grunt": "^1.4.1",
