@@ -1,10 +1,10 @@
 === MAS Companies For WP Job Manager ===
 Contributors: madrasthemes, yousufansa, farookibrahim, ibndawood, nilofer07
 Tags: companies, company, company listings, company management, company manager, job, job listing
-Requires at least: 5.7
-Tested up to: 6.0
+Requires at least: 6.3
+Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
