@@ -4,17 +4,15 @@
  *
  * This template can be overridden by copying it to yourtheme/mas-wp-job-manager-company/company-dashboard.php.
  *
- * @author      MadrasThemes
- * @package     MAS Companies For WP Job Manager
- * @category    Template
- * @version     1.0.2
+ * @package MAS Companies For WP Job Manager
+ * @version 1.0.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$submission_limit           = get_option( 'job_manager_company_submission_limit' );
+$submission_limit            = get_option( 'job_manager_company_submission_limit' );
 $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page_id' );
 ?>
 <div id="job-manager-company-dashboard">

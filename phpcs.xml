@@ -30,7 +30,7 @@
 	<!-- Set the appropriate text domain. -->
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="facebook-for-woocommerce"/>
+			<property name="text_domain" type="array" value="mas-wp-job-manager-company"/>
 		</properties>
 	</rule>
 
