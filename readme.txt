@@ -72,7 +72,6 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 
 = 1.0.8 - 2024-02-05 =
 * Feature - Compatible with WordPress 6.4.x
-* Feature - Improved coding standards
 
 = 1.0.7 - 2024-02-05 =
 * Feature - Improved coding standards
