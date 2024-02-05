@@ -48,7 +48,7 @@ You can configure the company settings on Job Listings -> Settings -> Company (T
 
 = Will MAS Companies For WP Job Manager work with my theme? =
 
-Yes; MAS Companies For WP Job Manager will work with any theme having active WP Job Manager plugin.
+Yes; However, themes will have to declare their compatibility for the Companies archive page to work. MAS Companies For WP Job Manager will work with any theme having active WP Job Manager plugin.
 
 = Where can I report bugs or contribute to the project? =
 
@@ -69,6 +69,10 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.0.7 - 2024-02-05 =
+* Feature - Compatible with WordPress 6.4.x
+* Feature - Improved coding standards
 
 = 1.0.6 - 2022-04-07 =
 * Fix - Allow admin to access companies dropdown.
