@@ -65,7 +65,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var string $plugin_url Plugin URL.
 	 */
-	public $plugin_url = '';
+	protected $plugin_url = '';
 
 	/**
 	 * Plugin Dir.
@@ -73,7 +73,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var string $plugin_dir Plugin directory.
 	 */
-	public $plugin_dir = '';
+	protected $plugin_dir = '';
 
 	/**
 	 * Company
@@ -81,7 +81,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC $company MAS Companies For WP Job Manager Class instance.
 	 */
-	public $company;
+	protected $company;
 
 	/**
 	 * CPT
@@ -89,7 +89,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_CPT $cpt MAS Companies For WP Job Manager CPT Class instance.
 	 */
-	public $cpt;
+	protected $cpt;
 
 	/**
 	 * Shortcode
@@ -97,7 +97,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_Shortcode $shortcode MAS Companies For WP Job Manager CPT Class instance.
 	 */
-	public $shortcode;
+	protected $shortcode;
 
 	/**
 	 * Forms
@@ -105,7 +105,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_Forms $forms WP_Resume_Manager_Forms class instance.
 	 */
-	public $forms;
+	protected $forms;
 
 	/**
 	 * Writepanels
@@ -113,7 +113,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_Writepanels $writepanels The Write panels class instance.
 	 */
-	public $writepanels;
+	protected $writepanels;
 
 	/**
 	 * Construct.
