@@ -1,10 +1,14 @@
 {
-    "require": {
-        "woocommerce/woocommerce-sniffs": "^1.0"
+    "require-dev": {
+        "woocommerce/woocommerce-sniffs": "^1.0",
+        "phpcompatibility/php-compatibility": "^9.3"
     },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
+    },
+    "scripts": {
+        "sniffer:php8": "phpcs -p ./class-mas-wp-job-manager-company.php --standard=vendor/phpcompatibility/php-compatibility/PHPCompatibility --runtime-set testVersion 8.2"
     }
 }

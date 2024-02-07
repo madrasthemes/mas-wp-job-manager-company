@@ -77,14 +77,6 @@ class MAS_WP_Job_Manager_Company {
 	protected $plugin_dir = '';
 
 	/**
-	 * Company
-	 *
-	 * @since 1.0.9
-	 * @var MAS_WPJMC $company MAS Companies For WP Job Manager Class instance.
-	 */
-	protected $company;
-
-	/**
 	 * CPT
 	 *
 	 * @since 1.0.9

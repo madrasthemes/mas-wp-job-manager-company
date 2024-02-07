@@ -11,6 +11,27 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 	protected $company_id;
 	protected $preview_company;
 
+	/**
+	 * Number of steps in the form.
+	 *
+	 * @param array $steps
+	 */
+	protected $steps = array();
+
+	/**
+	 * The current step.
+	 *
+	 * @param int $step
+	 */
+	protected $step;
+
+	/**
+	 * Fields of the form.
+	 *
+	 * @param array $fields
+	 */
+	protected $fields;
+
 	/** @var MAS_WP_Job_Manager_Company_Form_Submit_Company The single instance of the class */
 	protected static $_instance = null;
 
