@@ -42,7 +42,7 @@ wp_enqueue_script( 'mas-wp-job-manager-company-submission' );
 
 		<p>
 			<?php wp_nonce_field( 'submit_form_posted' ); ?>
-			<input type="hidden" name="company_manager_form" value="<?php  echo esc_attr( $form ); ?>" />
+			<input type="hidden" name="company_manager_form" value="<?php echo esc_attr( $form ); ?>" />
 			<input type="hidden" name="company_id" value="<?php echo esc_attr( $company_id ); ?>" />
 			<input type="hidden" name="step" value="<?php echo esc_attr( $step ); ?>" />
 			<input type="submit" name="submit_company" class="button" value="<?php echo esc_attr( $submit_button_text ); ?>" />

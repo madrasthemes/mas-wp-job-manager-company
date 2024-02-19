@@ -1,9 +1,8 @@
 <?php
 /**
- * company in the loop.
+ * Company in the loop.
  *
  * This template can be overridden by copying it to yourtheme/mas-wp-job-manager-company/content-company.php.
- *
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
