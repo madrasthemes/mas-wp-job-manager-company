@@ -4,9 +4,7 @@
  *
  * This template can be overridden by copying it to yourtheme/mas-wp-job-manager-company/emails/plain/admin-new-job.php.
  *
- * @author      MadrasThemes
  * @package     mas-wp-job-manager-company
- * @category    Template
  * @version     1.0.2
  */
 

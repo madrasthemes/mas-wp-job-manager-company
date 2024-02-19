@@ -7,18 +7,28 @@
 
 get_header();
 
-    do_action( 'single_company_content_before' );
+do_action( 'single_company_content_before' );
 
-        while ( have_posts() ) : the_post();
+?>
 
-            do_action( 'single_company_content_start' );
+<?php
 
-            get_job_manager_template( 'content-single-company.php', array() , 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
+while ( have_posts() ) :
 
-            do_action( 'single_company_content_end' );
+	the_post();
 
-        endwhile;
+	do_action( 'single_company_content_start' );
 
-    do_action( 'single_company_content_after' );
+	get_job_manager_template( 'content-single-company.php', array(), 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
+
+	do_action( 'single_company_content_end' );
+
+endwhile;
+
+?>
+
+<?php
+
+do_action( 'single_company_content_after' );
 
 get_footer();

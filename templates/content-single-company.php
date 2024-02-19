@@ -1,14 +1,14 @@
 <?php
 
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 global $post;
 
 // Ensure visibility.
 if ( empty( $post ) ) {
-    return;
+	return;
 }
 
 do_action( 'single_company_before_start' );
