@@ -4,7 +4,7 @@ Tags: companies, company, company listings, company management, company manager,
 Requires at least: 6.3
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.0.10
+Stable tag: 1.0.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,7 +70,10 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 
 == Changelog ==
 
-= 1.0.10 - 2024-02-05 =
+= 1.0.11 - 2024-02-20 =
+* Fix - Property access issues causing fatal errors
+
+= 1.0.10 - 2024-02-19 =
 * Feature - Improved coding standards for templates
 
 = 1.0.9 - 2024-02-19 =

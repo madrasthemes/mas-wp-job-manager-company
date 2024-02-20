@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       MAS Companies For WP Job Manager
  * Description:       This plugin helps to create a custom post type company for WP Job Manager
- * Version:           1.0.10
+ * Version:           1.0.11
  * Requires at least: 6.3
  * Requires PHP:      7.4
  * Author:            MadrasThemes
@@ -43,7 +43,7 @@ class MAS_WP_Job_Manager_Company {
 	 *
 	 * @var string $version
 	 */
-	public $version = '1.0.10';
+	public $version = '1.0.11';
 
 	/**
 	 * Query instance.
@@ -66,15 +66,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var string $plugin_url Plugin URL.
 	 */
-	protected $plugin_url = '';
-
-	/**
-	 * Plugin Dir.
-	 *
-	 * @since 1.0.9
-	 * @var string $plugin_dir Plugin directory.
-	 */
-	protected $plugin_dir = '';
+	public $plugin_url = '';
 
 	/**
 	 * CPT
@@ -82,7 +74,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_CPT $cpt MAS Companies For WP Job Manager CPT Class instance.
 	 */
-	protected $cpt;
+	public $cpt;
 
 	/**
 	 * Shortcode
@@ -90,7 +82,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_Shortcode $shortcode MAS Companies For WP Job Manager CPT Class instance.
 	 */
-	protected $shortcode;
+	public $shortcode;
 
 	/**
 	 * Forms
@@ -98,7 +90,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_Forms $forms WP_Resume_Manager_Forms class instance.
 	 */
-	protected $forms;
+	public $forms;
 
 	/**
 	 * Writepanels
@@ -106,7 +98,7 @@ class MAS_WP_Job_Manager_Company {
 	 * @since 1.0.9
 	 * @var MAS_WPJMC_Writepanels $writepanels The Write panels class instance.
 	 */
-	protected $writepanels;
+	public $writepanels;
 
 	/**
 	 * Construct.

@@ -15,7 +15,7 @@ class MAS_WPJMC_Query {
      *
      * @var array
      */
-    private static $mas_wpjmc_query;
+    public static $mas_wpjmc_query;
 
     /**
      * Stores chosen taxonomies.

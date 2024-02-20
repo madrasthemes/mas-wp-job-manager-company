@@ -16,7 +16,7 @@ class MAS_WPJMC_Template_Loader {
      *
      * @var integer
      */
-    private static $companies_page_id = 0;
+    public static $companies_page_id = 0;
 
     /**
      * Hook in methods.

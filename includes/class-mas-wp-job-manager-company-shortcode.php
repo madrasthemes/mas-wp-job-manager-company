@@ -12,7 +12,7 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
 
     class MAS_WPJMC_Shortcode {
 
-        private $company_dashboard_message = '';
+        public $company_dashboard_message = '';
 
         public function __construct() {
             add_action( 'wp', array( $this, 'handle_redirects' ) );
