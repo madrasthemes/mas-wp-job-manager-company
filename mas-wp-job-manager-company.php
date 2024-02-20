@@ -69,6 +69,22 @@ class MAS_WP_Job_Manager_Company {
 	public $plugin_url = '';
 
 	/**
+	 * Plugin Dir.
+	 *
+	 * @since 1.0.9
+	 * @var string $plugin_dir Plugin directory.
+	 */
+	public $plugin_dir = '';
+
+	/**
+	 * Company Instance
+	 *
+	 * @since 1.0.12
+	 * @var MAS_WPJMC $company MAS Companies instance.
+	 */
+	public $company;
+
+	/**
 	 * CPT
 	 *
 	 * @since 1.0.9
