@@ -253,8 +253,8 @@ class MAS_WP_Job_Manager_Company {
 				$script_deps[] = 'chosen';
 			}
 
-			wp_enqueue_style( 'job_manager_admin_css', JOB_MANAGER_PLUGIN_URL . '/assets/css/admin.css', array(), JOB_MANAGER_VERSION );
-			wp_enqueue_script( 'job_manager_admin_js', JOB_MANAGER_PLUGIN_URL . '/assets/js/admin.min.js', $script_deps, JOB_MANAGER_VERSION, true );
+			wp_enqueue_style( 'job_manager_admin_css' );
+			wp_enqueue_script( 'job_manager_admin_js' );
 
 			wp_localize_script(
 				'job_manager_admin_js',
