@@ -99,7 +99,7 @@ $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page
 												$action_url = add_query_arg( array( 'action' => $action, 'company_id' => $company->ID ) );
 												if ( $value['nonce'] )
 													$action_url = wp_nonce_url( $action_url, 'mas_job_manager_company_my_company_actions' );
-												echo '<li><a href="' . $action_url . '" class="company-dashboard-action-' . $action . '">' . $value['label'] . '</a></li>';
+												echo '<li><a href="' . esc_url($action_url) . '" class=" company-dashboard-action-' . esc_attr($action) . '">' .  esc_html($value['label']) . '</a></li>';
 											}
 										?>
 									</ul>
