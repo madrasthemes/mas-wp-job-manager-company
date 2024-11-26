@@ -17,7 +17,7 @@ if ( have_posts() ) {
 
 		do_action( 'company_loop' );
 
-		get_job_manager_template_part( 'content', 'company', 'mas-wp-job-manager-company', mas_wpjmc()->plugin_dir . 'templates/' );
+		get_job_manager_template_part( 'content', 'company' );
 
 	endwhile; // End of the loop.
 
