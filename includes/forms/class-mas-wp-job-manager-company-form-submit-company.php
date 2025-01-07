@@ -189,11 +189,11 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 					'placeholder'   => esc_html__( 'Phone Number', 'mas-wp-job-manager-company' ),
 					'priority'      => 45,
 				),
-				'company_twitter'   => array(
-					'label'         => esc_html__( 'Twitter', 'mas-wp-job-manager-company' ),
+				'company_x'   => array(
+					'label'         => esc_html__( 'X', 'mas-wp-job-manager-company' ),
 					'type'          => 'text',
 					'required'      => false,
-					'placeholder'   => esc_html__( 'Twitter page url', 'mas-wp-job-manager-company' ),
+					'placeholder'   => esc_html__( 'X page url', 'mas-wp-job-manager-company' ),
 					'priority'      => 50,
 				),
 				'company_facebook'  => array(
@@ -269,7 +269,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 	 * @return bool
 	 */
 	public function use_recaptcha_field() {
-		if ( ! method_exists( $this, 'is_recaptcha_available' ) || ! $this->is_recaptcha_available() ) {
+		if ( ! method_exists( $this, 'is_recaptcha_available' )) {
 			return false;
 		}
 		return 1 === absint( get_option( 'job_manager_enable_recaptcha_company_submission' ) );

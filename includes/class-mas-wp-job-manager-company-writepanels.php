@@ -67,9 +67,9 @@ class MAS_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
                 'label'       => esc_html__( 'Phone', 'mas-wp-job-manager-company' ),
                 'placeholder' => esc_html__( 'company phone number', 'mas-wp-job-manager-company' ),
             ),
-            '_company_twitter' => array(
-                'label'       => esc_html__( 'Twitter', 'mas-wp-job-manager-company' ),
-                'placeholder' => esc_html__( 'company twitter page link', 'mas-wp-job-manager-company' ),
+            '_company_x' => array(
+                'label'       => esc_html__( 'X', 'mas-wp-job-manager-company' ),
+                'placeholder' => esc_html__( 'company x page link', 'mas-wp-job-manager-company' ),
             ),
             '_company_facebook' => array(
                 'label'       => esc_html__( 'Facebook', 'mas-wp-job-manager-company' ),
