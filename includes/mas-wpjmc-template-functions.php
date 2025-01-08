@@ -132,6 +132,27 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
                                     </a>
                                 </span>
                             <?php endif; ?>
+                            <?php if( ! empty ( $company_linkedin = mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) ) : ?>
+                                <span class="company-data__content--list-item">
+                                    <a href="<?php echo esc_url( $company_linkedin ); ?>" target="_blank">
+                                        <?php echo esc_html( $company_linkedin ); ?>
+                                    </a>
+                                </span>
+                            <?php endif; ?>
+                            <?php if( ! empty ( $company_instagram = mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) ) : ?>
+                                <span class="company-data__content--list-item">
+                                    <a href="<?php echo esc_url( $company_instagram ); ?>" target="_blank">
+                                        <?php echo esc_html( $company_instagram ); ?>
+                                    </a>
+                                </span>
+                            <?php endif; ?>
+                            <?php if( ! empty ( $company_tiktok = mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) ) : ?>
+                                <span class="company-data__content--list-item">
+                                    <a href="<?php echo esc_url( $company_tiktok ); ?>" target="_blank">
+                                        <?php echo esc_html( $company_tiktok ); ?>
+                                    </a>
+                                </span>
+                            <?php endif; ?>
                             <?php if( ! empty ( $company_phone = mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
                                     <a href="tel:<?php echo esc_url( $company_phone ); ?>" target="_blank">

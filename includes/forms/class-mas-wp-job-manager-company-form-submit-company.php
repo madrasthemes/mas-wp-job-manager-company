@@ -203,6 +203,27 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 					'placeholder'   => esc_html__( 'Facebook page url', 'mas-wp-job-manager-company' ),
 					'priority'      => 55,
 				),
+				'company_linkedin'  => array(
+					'label'         => esc_html__( 'Linkedin', 'mas-wp-job-manager-company' ),
+					'type'          => 'text',
+					'required'      => false,
+					'placeholder'   => esc_html__( 'Linkedin page url', 'mas-wp-job-manager-company' ),
+					'priority'      => 55,
+				),
+				'company_instagram'  => array(
+					'label'         => esc_html__( 'Instagram', 'mas-wp-job-manager-company' ),
+					'type'          => 'text',
+					'required'      => false,
+					'placeholder'   => esc_html__( 'Instagram page url', 'mas-wp-job-manager-company' ),
+					'priority'      => 55,
+				),
+				'company_tiktok'  => array(
+					'label'         => esc_html__( 'Tiktok', 'mas-wp-job-manager-company' ),
+					'type'          => 'text',
+					'required'      => false,
+					'placeholder'   => esc_html__( 'Tiktok page url', 'mas-wp-job-manager-company' ),
+					'priority'      => 55,
+				),
 				'company_category'  => array(
 					'label'         => esc_html__( 'Industry', 'mas-wp-job-manager-company' ),
 					'type'          => 'term-select',

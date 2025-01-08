@@ -223,6 +223,9 @@ if ( ! function_exists( 'mas_wpjmc_get_company_keyword_search' ) ) {
             '_company_phone',
             '_company_x',
             '_company_facebook',
+            '_company_linkedin',
+            '_company_instagram',
+            '_company_tiktok',
         );
 
         $searchable_meta_keys = apply_filters( 'mas_wpjmc_searchable_meta_keys', $searchable_meta_keys );
