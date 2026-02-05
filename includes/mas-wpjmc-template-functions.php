@@ -92,10 +92,7 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
         <div class="company-contact-details">
             <?php if( ! ( function_exists( 'twentynineteen_can_show_post_thumbnail' ) && twentynineteen_can_show_post_thumbnail() ) ) : ?>
             <div class="company-data">
-                <div class="company-logo">
-                    <?php $logo =  get_the_company_logo( null, 'thumbnail' ) ? get_the_company_logo( null, 'thumbnail' ) : apply_filters( 'job_manager_default_company_logo', JOB_MANAGER_PLUGIN_URL . '/assets/images/company.png' ); ?>
-                    <img src="<?php echo esc_url( $logo ) ?>" class="company-logo--image" alt="<?php the_title(); ?>">
-                </div>
+                <div class="company-logo"><?php mas_wpjmc_the_company_logo( apply_filters( 'mas_wpjmc_company_single_logo_size', 'thumbnail' ) ); ?></div>
                 <div class="company-data__content media-body">
                     <?php 
                     the_title( '<h1 class="company-title">', '</h1>' );
@@ -281,9 +278,14 @@ if ( ! function_exists( 'mas_wpjmc_the_company_logo' ) ) {
         }
 
         if ( has_post_thumbnail( $post ) ) {
+            $company_name = get_the_company_name( $post );
+            if ( empty( $company_name ) ) {
+                $company_name = get_the_title( $post );
+            }
+
             $attr = array(
                 'class' => 'company_logo company-logo--image',
-                'alt'   => get_the_company_name( $post ),
+                'alt'   => $company_name,
             );
             the_post_thumbnail( $size, $attr );
             return;
@@ -296,7 +298,7 @@ if ( ! function_exists( 'mas_wpjmc_the_company_logo' ) ) {
 if ( ! function_exists( 'mas_wpjmc_company_loop_content' ) ) {
     function mas_wpjmc_company_loop_content() {
         ?>
-        <div class="company-logo"><?php mas_wpjmc_the_company_logo( 'thumbnail' ); ?></div>
+        <div class="company-logo"><?php mas_wpjmc_the_company_logo( apply_filters( 'mas_wpjmc_company_loop_logo_size', 'thumbnail' ) ); ?></div>
         <div class="company-body">
             <h3 class="company-title">
                 <a href="<?php the_permalink(); ?>" class="company-title--link">
