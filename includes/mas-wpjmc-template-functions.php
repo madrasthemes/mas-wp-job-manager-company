@@ -274,13 +274,29 @@ if ( ! function_exists( 'mas_wpjmc_company_loop_open' ) ) {
     }
 }
 
+if ( ! function_exists( 'mas_wpjmc_the_company_logo' ) ) {
+    function mas_wpjmc_the_company_logo( $size = 'thumbnail', $default = null, $post = null ) {
+        if ( null === $default ) {
+            $default = apply_filters( 'job_manager_default_company_logo', JOB_MANAGER_PLUGIN_URL . '/assets/images/company.png' );
+        }
+
+        if ( has_post_thumbnail( $post ) ) {
+            $attr = array(
+                'class' => 'company_logo company-logo--image',
+                'alt'   => get_the_company_name( $post ),
+            );
+            the_post_thumbnail( $size, $attr );
+            return;
+        }
+
+        the_company_logo( $size, $default, $post );
+    }
+}
+
 if ( ! function_exists( 'mas_wpjmc_company_loop_content' ) ) {
     function mas_wpjmc_company_loop_content() {
         ?>
-        <div class="company-logo">
-            <?php $logo =  get_the_company_logo( null, 'thumbnail' ) ? get_the_company_logo( null, 'thumbnail' ) : apply_filters( 'job_manager_default_company_logo', JOB_MANAGER_PLUGIN_URL . '/assets/images/company.png' ); ?>
-            <img src="<?php echo esc_url( $logo ) ?>" class="company-logo--image" alt="<?php the_title(); ?>">
-        </div>
+        <div class="company-logo"><?php mas_wpjmc_the_company_logo( 'thumbnail' ); ?></div>
         <div class="company-body">
             <h3 class="company-title">
                 <a href="<?php the_permalink(); ?>" class="company-title--link">
