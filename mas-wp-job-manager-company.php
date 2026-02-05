@@ -4,6 +4,7 @@
  * Description:       This plugin helps to create a custom post type company for WP Job Manager
  * Version:           1.0.15
  * Requires at least: 6.3
+ * Tested up to:	  6.9.1
  * Requires PHP:      7.4
  * Author:            MadrasThemes
  * Author URI:        https://madrasthemes.com/
