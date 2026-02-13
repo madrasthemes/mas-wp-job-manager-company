@@ -189,11 +189,11 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 					'placeholder'   => esc_html__( 'Phone Number', 'mas-wp-job-manager-company' ),
 					'priority'      => 45,
 				),
-				'company_x'   => array(
-					'label'         => esc_html__( 'X', 'mas-wp-job-manager-company' ),
+				'company_twitter'   => array(
+					'label'         => esc_html__( 'X (Formerly Twitter)', 'mas-wp-job-manager-company' ),
 					'type'          => 'text',
 					'required'      => false,
-					'placeholder'   => esc_html__( 'X page url', 'mas-wp-job-manager-company' ),
+					'placeholder'   => esc_html__( 'https://x.com/company-name', 'mas-wp-job-manager-company' ),
 					'priority'      => 50,
 				),
 				'company_facebook'  => array(

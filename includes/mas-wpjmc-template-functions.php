@@ -21,12 +21,13 @@ if ( ! function_exists( 'mas_wpjmc_get_job_listing_company_name' ) ) {
 
 if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
     function mas_wpjmc_edit_submit_job_form_fields( $fields ) {
-        $fields['company']['company_name']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch  Name', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch  Name', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_name']['label']    = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch  Name', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch  Name', 'mas-wp-job-manager-company' ) ;
         $fields['company']['company_name']['required'] = get_option( 'job_manager_job_submission_required_company' ) ? false : true ;
-        $fields['company']['company_website']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch Website', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Website', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_video']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Video', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Video', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_x']['label'] =get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch X', 'mas-wp-job-manager-company' ) :  esc_html__( 'Company / Branch X', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_logo']['label'] = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Logo', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Logo', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_website']['label'] = get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch Website', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Website', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_video']['label']   = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Video', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Video', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_twitter']['label'] = get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch X (Formerly Twitter)', 'mas-wp-job-manager-company' ) :  esc_html__( 'Company / Branch X (Formerly Twitter)', 'mas-wp-job-manager-company' ) ;
+        $fields['company']['company_logo']['label']    = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Logo', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Logo', 'mas-wp-job-manager-company' ) ;
+
         $fields['company']['company_id'] = array(
             'label'         => esc_html__( 'Company', 'mas-wp-job-manager-company' ),
             'type'          => 'select',
@@ -97,7 +98,7 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
                     <?php 
                     the_title( '<h1 class="company-title">', '</h1>' );
                     endif;
-                    if( ! empty ( mas_wpjmc_get_the_meta_data( '_company_tagline' ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_website' ) ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_email' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_x' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) {
+                    if( ! empty ( mas_wpjmc_get_the_meta_data( '_company_tagline' ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_website' ) ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_email' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) {
                         ?>
                         <div class="company-data__content--list">
                             <?php if( ! empty ( $company_tagline = mas_wpjmc_get_the_meta_data( '_company_tagline' ) ) ) : ?>
@@ -115,10 +116,10 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
                                     <a href="mailto:<?php echo esc_url( $company_email ); ?>" target="_blank"><?php echo esc_html( $company_email ); ?></a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_x = mas_wpjmc_get_the_meta_data( '_company_x' ) ) ) : ?>
+                            <?php if( ! empty ( $company_twitter = mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_x ); ?>" target="_blank">
-                                        <?php echo esc_html( $company_x ); ?>
+                                    <a href="<?php echo esc_url( $company_twitter ); ?>" target="_blank">
+                                        <?php echo esc_html( $company_twitter ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
