@@ -1,10 +1,10 @@
 === MAS Companies For WP Job Manager ===
 Contributors: madrasthemes
-Tags: companies, company, company listings, company management, company manager, job, job listing
+Tags: companies, company listings, company manager, job, job listing
 Requires at least: 6.3
 Tested up to: 6.9.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,14 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.1.1 - 2026-02-13 =
+* Fix - Add backward compatibility for company fields
+
+= 1.1.0 - 2026-02-05 =
+* Add - New Social icons
+* Add - FSE theme compatibility
+* Fix - Company logo srcset
 
 = 1.0.15 - 2024-11-29 =
 * Fixed shortcode issue for companies
