@@ -21,23 +21,35 @@ if ( ! function_exists( 'mas_wpjmc_get_job_listing_company_name' ) ) {
 
 if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
     function mas_wpjmc_edit_submit_job_form_fields( $fields ) {
-        $fields['company']['company_name']['label']    = get_option( 'job_manager_job_submission_required_company' ) ? __( 'Branch  Name', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch  Name', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_name']['required'] = get_option( 'job_manager_job_submission_required_company' ) ? false : true ;
-        $fields['company']['company_website']['label'] = get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch Website', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Website', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_video']['label']   = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Video', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Video', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_twitter']['label'] = get_option( 'job_manager_job_submission_required_company' ) ?  esc_html__( 'Branch X (Formerly Twitter)', 'mas-wp-job-manager-company' ) :  esc_html__( 'Company / Branch X (Formerly Twitter)', 'mas-wp-job-manager-company' ) ;
-        $fields['company']['company_logo']['label']    = get_option( 'job_manager_job_submission_required_company' ) ? esc_html__( 'Branch Logo', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Logo', 'mas-wp-job-manager-company' ) ;
+        $company_required = (bool) get_option( 'job_manager_job_submission_required_company' );
+
+        if ( isset( $fields['company']['company_name'] ) ) {
+            $fields['company']['company_name']['label']    = $company_required ? esc_html__( 'Branch Name', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Name', 'mas-wp-job-manager-company' );
+            $fields['company']['company_name']['required'] = ! $company_required;
+        }
+        if ( isset( $fields['company']['company_website'] ) ) {
+            $fields['company']['company_website']['label'] = $company_required ? esc_html__( 'Branch Website', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Website', 'mas-wp-job-manager-company' );
+        }
+        if ( isset( $fields['company']['company_video'] ) ) {
+            $fields['company']['company_video']['label'] = $company_required ? esc_html__( 'Branch Video', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Video', 'mas-wp-job-manager-company' );
+        }
+        if ( isset( $fields['company']['company_twitter'] ) ) {
+            $fields['company']['company_twitter']['label'] = $company_required ? esc_html__( 'Branch X (Formerly Twitter)', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch X (Formerly Twitter)', 'mas-wp-job-manager-company' );
+        }
+        if ( isset( $fields['company']['company_logo'] ) ) {
+            $fields['company']['company_logo']['label'] = $company_required ? esc_html__( 'Branch Logo', 'mas-wp-job-manager-company' ) : esc_html__( 'Company / Branch Logo', 'mas-wp-job-manager-company' );
+        }
 
         $fields['company']['company_id'] = array(
-            'label'         => esc_html__( 'Company', 'mas-wp-job-manager-company' ),
-            'type'          => 'select',
-            'required'      => get_option( 'job_manager_job_submission_required_company' ) ? true : false,
-            'placeholder'   => esc_html__( 'Choose a Company', 'mas-wp-job-manager-company' ),
-            'priority'      => 0,
-            'options'       => mas_wpjmc()->company->job_manager_get_current_user_companies_select_options(),
+            'label'       => esc_html__( 'Company', 'mas-wp-job-manager-company' ),
+            'type'        => 'select',
+            'required'    => $company_required,
+            'placeholder' => esc_html__( 'Choose a Company', 'mas-wp-job-manager-company' ),
+            'priority'    => 0,
+            'options'     => mas_wpjmc()->company->job_manager_get_current_user_companies_select_options(),
         );
 
-        if( get_option( 'job_manager_job_submission_required_company' ) ) {
+        if ( $company_required ) {
             unset( $fields['company']['company_tagline'] );
         }
 
@@ -48,7 +60,8 @@ if ( ! function_exists( 'mas_wpjmc_edit_submit_job_form_fields' ) ) {
 if ( ! function_exists( 'mas_wpjmc_edit_job_listing_search_conditions' ) ) {
     function mas_wpjmc_edit_job_listing_search_conditions( $conditions, $job_manager_keyword ) {
         global $wpdb;
-        $conditions[] = "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( '_company_id' ) AND meta_value Like ( SELECT ID FROM {$wpdb->posts} WHERE post_type IN ( 'company' ) AND post_title LIKE '%" . esc_sql( $job_manager_keyword ) . "%' ) )";
+        $like_keyword = '%' . $wpdb->esc_like( (string) $job_manager_keyword ) . '%';
+        $conditions[] = $wpdb->prepare( "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_company_id' AND meta_value IN ( SELECT ID FROM {$wpdb->posts} WHERE post_type = 'company' AND post_title LIKE %s ) )", $like_keyword );
 
         return $conditions;
     }
@@ -98,62 +111,62 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
                     <?php 
                     the_title( '<h1 class="company-title">', '</h1>' );
                     endif;
-                    if( ! empty ( mas_wpjmc_get_the_meta_data( '_company_tagline' ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_website' ) ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_email' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) || ! empty ( mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) {
+                    if ( ! empty( mas_wpjmc_get_the_meta_data( '_company_tagline' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_website' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_email' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) || ! empty( mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) {
                         ?>
                         <div class="company-data__content--list">
-                            <?php if( ! empty ( $company_tagline = mas_wpjmc_get_the_meta_data( '_company_tagline' ) ) ) : ?>
+                            <?php if ( ! empty( $company_tagline = mas_wpjmc_get_the_meta_data( '_company_tagline' ) ) ) : ?>
                                 <span class="company-data__content--list-item"><?php echo esc_html( $company_tagline ); ?></span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_website = mas_wpjmc_get_the_meta_data( '_company_website' ) ) ) : ?>
+                            <?php if ( ! empty( $company_website = mas_wpjmc_get_the_meta_data( '_company_website' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_website ); ?>" target="_blank">
+                                    <a href="<?php echo esc_url( $company_website ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php echo esc_html( $company_website ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_email = mas_wpjmc_get_the_meta_data( '_company_email' ) ) ) : ?>
+                            <?php if ( ! empty( $company_email = mas_wpjmc_get_the_meta_data( '_company_email' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="mailto:<?php echo esc_url( $company_email ); ?>" target="_blank"><?php echo esc_html( $company_email ); ?></a>
+                                    <a href="mailto:<?php echo esc_attr( sanitize_email( $company_email ) ); ?>"><?php echo esc_html( $company_email ); ?></a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_twitter = mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) ) : ?>
+                            <?php if ( ! empty( $company_twitter = mas_wpjmc_get_the_meta_data( '_company_twitter' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_twitter ); ?>" target="_blank">
+                                    <a href="<?php echo esc_url( $company_twitter ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php echo esc_html( $company_twitter ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_facebook = mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) ) : ?>
+                            <?php if ( ! empty( $company_facebook = mas_wpjmc_get_the_meta_data( '_company_facebook' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_facebook ); ?>" target="_blank">
+                                    <a href="<?php echo esc_url( $company_facebook ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php echo esc_html( $company_facebook ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_linkedin = mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) ) : ?>
+                            <?php if ( ! empty( $company_linkedin = mas_wpjmc_get_the_meta_data( '_company_linkedin' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_linkedin ); ?>" target="_blank">
+                                    <a href="<?php echo esc_url( $company_linkedin ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php echo esc_html( $company_linkedin ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_instagram = mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) ) : ?>
+                            <?php if ( ! empty( $company_instagram = mas_wpjmc_get_the_meta_data( '_company_instagram' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_instagram ); ?>" target="_blank">
+                                    <a href="<?php echo esc_url( $company_instagram ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php echo esc_html( $company_instagram ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_tiktok = mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) ) : ?>
+                            <?php if ( ! empty( $company_tiktok = mas_wpjmc_get_the_meta_data( '_company_tiktok' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="<?php echo esc_url( $company_tiktok ); ?>" target="_blank">
+                                    <a href="<?php echo esc_url( $company_tiktok ); ?>" target="_blank" rel="noopener noreferrer">
                                         <?php echo esc_html( $company_tiktok ); ?>
                                     </a>
                                 </span>
                             <?php endif; ?>
-                            <?php if( ! empty ( $company_phone = mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) : ?>
+                            <?php if ( ! empty( $company_phone = mas_wpjmc_get_the_meta_data( '_company_phone' ) ) ) : ?>
                                 <span class="company-data__content--list-item">
-                                    <a href="tel:<?php echo esc_url( $company_phone ); ?>" target="_blank">
+                                    <a href="tel:<?php echo esc_attr( $company_phone ); ?>">
                                         <?php echo esc_html( $company_phone ); ?>
                                     </a>
                                 </span>
@@ -172,10 +185,15 @@ if ( ! function_exists( 'mas_wpjmc_single_company_header' ) ) {
 
 if ( ! function_exists( 'mas_wpjmc_single_company_features' ) ) {
     function mas_wpjmc_single_company_features() {
+        $headquarters = mas_wpjmc_get_the_meta_data( '_company_location' );
+        if ( empty( $headquarters ) ) {
+            $headquarters = mas_wpjmc_get_the_meta_data( '_company_headquarters' );
+        }
+
         $args = apply_filters( 'mas_wpjmc_single_company_features_args', array(
             'company_headquarters'  => array(
                 'title' => esc_html__( 'Headquarters', 'mas-wp-job-manager-company' ),
-                'content' => mas_wpjmc_get_the_meta_data( '_company_headquarters' ),
+                'content' => $headquarters,
             ),
             'company_since'  => array(
                 'title' => esc_html__( 'Founded', 'mas-wp-job-manager-company' ),

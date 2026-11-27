@@ -51,19 +51,29 @@ class WP_Job_Manager_Company_Admin {
 	 * Enqueues CSS and JS assets.
 	 */
 	public function admin_enqueue_scripts() {
-		WP_Job_Manager::register_select2_assets();
+		if ( ! class_exists( 'WP_Job_Manager' ) ) {
+			return;
+		}
+
+		if ( method_exists( 'WP_Job_Manager', 'register_select2_assets' ) ) {
+			WP_Job_Manager::register_select2_assets();
+		}
 
 		$screen = get_current_screen();
-		if ( in_array( $screen->id, apply_filters( 'job_manager_admin_screen_ids', array( 'edit-company', 'plugins', 'company' ) ), true ) ) {
+		if ( $screen && in_array( $screen->id, apply_filters( 'job_manager_admin_screen_ids', array( 'edit-company', 'plugins', 'company' ) ), true ) ) {
 			wp_enqueue_style( 'jquery-ui' );
 			wp_enqueue_style( 'select2' );
 
-			WP_Job_Manager::register_style( 'job_manager_admin_css', 'css/admin.css', array() );
+			if ( method_exists( 'WP_Job_Manager', 'register_style' ) ) {
+				WP_Job_Manager::register_style( 'job_manager_admin_css', 'css/admin.css', array() );
+			}
 			wp_enqueue_style( 'job_manager_admin_css' );
 
 			wp_enqueue_script( 'wp-job-manager-datepicker' );
 
-			WP_Job_Manager::register_script( 'job_manager_company_admin_js', 'js/admin.js', array( 'jquery', 'select2' ), true );
+			if ( method_exists( 'WP_Job_Manager', 'register_script' ) ) {
+				WP_Job_Manager::register_script( 'job_manager_company_admin_js', 'js/admin.js', array( 'jquery', 'select2' ), true );
+			}
 			wp_enqueue_script( 'job_manager_company_admin_js' );
 
 			wp_localize_script(

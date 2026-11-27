@@ -27,17 +27,17 @@ jQuery(document).ready(function($) {
 	// Confirm navigation
 	var confirm_nav = false;
 
-	if ( $('form#company_preview').size() ) {
+	if ( $('form#company_preview').length ) {
 		confirm_nav = true;
 	}
 	$( 'form#submit-company-form' ).on( 'change', 'input', function() {
 		confirm_nav = true;
 	});
-	$( 'form#submit-company-form, form#company_preview' ).submit(function(){
+	$( 'form#submit-company-form, form#company_preview' ).on('submit', function(){
 		confirm_nav = false;
 		return true;
 	});
-	$(window).bind('beforeunload', function(event) {
+	$(window).on('beforeunload', function(event) {
 		if ( confirm_nav ) {
 			return mas_wp_job_manager_company_submission.i18n_navigate;
 		}

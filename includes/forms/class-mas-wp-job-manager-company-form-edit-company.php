@@ -54,7 +54,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
 
 		$company = get_post( $this->company_id );
 
-		if ( empty( $this->company_id ) || ( $company->post_status !== 'publish' && $company->post_status !== 'hidden' && ! get_option( 'job_manager_user_can_edit_pending_company_submissions' ) ) ) {
+		if ( empty( $this->company_id ) || ! ( $company instanceof WP_Post ) || 'company' !== $company->post_type || ( 'publish' !== $company->post_status && 'hidden' !== $company->post_status && ! get_option( 'job_manager_user_can_edit_pending_company_submissions' ) ) ) {
 			echo wpautop( esc_html__( 'Invalid company', 'mas-wp-job-manager-company' ) );
 			return;
 		}
@@ -101,7 +101,7 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
 	 * Submit Step is posted
 	 */
 	public function submit_handler() {
-		if ( empty( $_POST['submit_company'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) ) {
+		if ( empty( $_POST['submit_company'] ) || empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'submit_form_posted' ) ) {
 			return;
 		}
 
@@ -134,10 +134,10 @@ class MAS_WP_Job_Manager_Company_Form_Edit_Company extends MAS_WP_Job_Manager_Co
 			do_action( 'company_manager_user_edit_comapny', $this->company_id, $values );
 
 			// Successful
-			echo '<div class="job-manager-message">' . esc_html__( 'Your changes have been saved.', 'mas-wp-job-manager-company' ), ' <a href="' . get_permalink( $this->company_id ) . '">' . esc_html__( 'View Company &rarr;', 'mas-wp-job-manager-company' ) . '</a></div>';
+			echo '<div class="job-manager-message">' . esc_html__( 'Your changes have been saved.', 'mas-wp-job-manager-company' ) . ' <a href="' . esc_url( get_permalink( $this->company_id ) ) . '">' . esc_html__( 'View Company &rarr;', 'mas-wp-job-manager-company' ) . '</a></div>';
 
 		} catch ( Exception $e ) {
-			echo '<div class="job-manager-error">' . $e->getMessage() . '</div>';
+			echo '<div class="job-manager-error">' . wp_kses_post( $e->getMessage() ) . '</div>';
 			return;
 		}
 	}

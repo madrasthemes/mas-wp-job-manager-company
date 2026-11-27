@@ -58,7 +58,12 @@ if ( ! class_exists( 'MAS_WPJMC' ) ) :
                 $link = get_permalink( mas_wpjmc_get_page_id( 'companies' ) );
             } else {
                 $queried_object = get_queried_object();
-                $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
+                if ( $queried_object instanceof WP_Term ) {
+                    $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
+                }
+                if ( empty( $link ) || is_wp_error( $link ) ) {
+                    $link = home_url( '/' );
+                }
             }
 
             // Order by.

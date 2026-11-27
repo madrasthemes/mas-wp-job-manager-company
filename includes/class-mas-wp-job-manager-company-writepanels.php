@@ -196,51 +196,50 @@ class MAS_WPJMC_Writepanels extends WP_Job_Manager_Writepanels {
         add_post_meta( $post_id, '_featured', 0, true );
 
         foreach ( $this->company_fields() as $key => $field ) {
+            $type = ! empty( $field['type'] ) ? $field['type'] : '';
 
             // Expirey date
             if ( '_company_founded' === $key ) {
                 if ( ! empty( $_POST[ $key ] ) ) {
-                    update_post_meta( $post_id, $key, date( 'Y-m-d', strtotime( sanitize_text_field( $_POST[ $key ] ) ) ) );
+                    $timestamp = strtotime( sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) );
+                    update_post_meta( $post_id, $key, $timestamp ? gmdate( 'Y-m-d', $timestamp ) : '' );
                 } else {
                     update_post_meta( $post_id, $key, '' );
                 }
-            }
-
-            elseif ( '_company_location' === $key ) {
-                if ( update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) ) ) {
-                    do_action( 'company_manager_company_location_edited', $post_id, sanitize_text_field( $_POST[ $key ] ) );
-                } elseif ( apply_filters( 'company_manager_geolocation_enabled', true ) && ! WP_Job_Manager_Geocode::has_location_data( $post_id ) ) {
-                    WP_Job_Manager_Geocode::generate_location_data( $post_id, sanitize_text_field( $_POST[ $key ] ) );
+            } elseif ( '_company_location' === $key ) {
+                $location = isset( $_POST[ $key ] ) ? sanitize_text_field( wp_unslash( $_POST[ $key ] ) ) : '';
+                if ( update_post_meta( $post_id, $key, $location ) ) {
+                    do_action( 'company_manager_company_location_edited', $post_id, $location );
+                } elseif ( class_exists( 'WP_Job_Manager_Geocode' ) && apply_filters( 'company_manager_geolocation_enabled', true ) && ! WP_Job_Manager_Geocode::has_location_data( $post_id ) ) {
+                    WP_Job_Manager_Geocode::generate_location_data( $post_id, $location );
                 }
                 continue;
-            }
-
-            elseif( '_company_author' === $key ) {
-                $wpdb->update( $wpdb->posts, array( 'post_author' => $_POST[ $key ] > 0 ? absint( $_POST[ $key ] ) : 0 ), array( 'ID' => $post_id ) );
-            }
-
-            // Everything else
-            else {
-                $type = ! empty( $field['type'] ) ? $field['type'] : '';
-
+            } elseif ( '_company_author' === $key ) {
+                if ( isset( $_POST[ $key ] ) && current_user_can( 'edit_others_job_listings' ) ) {
+                    $author_id = absint( wp_unslash( $_POST[ $key ] ) );
+                    $wpdb->update( $wpdb->posts, array( 'post_author' => $author_id > 0 ? $author_id : 0 ), array( 'ID' => $post_id ), array( '%d' ), array( '%d' ) );
+                }
+            } else {
+                // Everything else.
                 switch ( $type ) {
-                    case 'textarea' :
-                        update_post_meta( $post_id, $key, wp_kses_post( stripslashes( $_POST[ $key ] ) ) );
-                    break;
-                    case 'checkbox' :
-                        if ( isset( $_POST[ $key ] ) ) {
-                            update_post_meta( $post_id, $key, 1 );
-                        } else {
-                            update_post_meta( $post_id, $key, 0 );
+                    case 'textarea':
+                        $value = isset( $_POST[ $key ] ) ? wp_kses_post( wp_unslash( $_POST[ $key ] ) ) : '';
+                        update_post_meta( $post_id, $key, $value );
+                        break;
+                    case 'checkbox':
+                        update_post_meta( $post_id, $key, isset( $_POST[ $key ] ) ? 1 : 0 );
+                        break;
+                    default:
+                        if ( ! isset( $_POST[ $key ] ) ) {
+                            break;
                         }
-                    break;
-                    default :
-                        if ( is_array( $_POST[ $key ] ) ) {
-                            update_post_meta( $post_id, $key, array_filter( array_map( 'sanitize_text_field', $_POST[ $key ] ) ) );
+                        $raw_value = wp_unslash( $_POST[ $key ] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+                        if ( is_array( $raw_value ) ) {
+                            update_post_meta( $post_id, $key, array_filter( array_map( 'sanitize_text_field', $raw_value ) ) );
                         } else {
-                            update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
+                            update_post_meta( $post_id, $key, sanitize_text_field( $raw_value ) );
                         }
-                    break;
+                        break;
                 }
             }
         }
