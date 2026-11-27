@@ -90,9 +90,14 @@ if( class_exists( 'WP_Widget' ) ) :
         protected function get_current_page_url() {
             if ( defined( 'MAS_WPJMC_COMPANIES_IS_ON_FRONT' ) ) {
                 $link = home_url( '/' );
-            } elseif( mas_wpjmc_is_company_taxonomy() ) {
+            } elseif ( mas_wpjmc_is_company_taxonomy() ) {
                 $queried_object = get_queried_object();
-                $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
+                if ( $queried_object instanceof WP_Term ) {
+                    $link = get_term_link( $queried_object->slug, $queried_object->taxonomy );
+                }
+                if ( empty( $link ) || is_wp_error( $link ) ) {
+                    $link = home_url( '/' );
+                }
             } else {
                 $link = get_permalink( mas_wpjmc_get_page_id( 'companies' ) );
             }

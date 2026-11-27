@@ -89,11 +89,13 @@ class MAS_WPJMC_Query {
 
             $companies_page = get_post( mas_wpjmc_get_page_id( 'companies' ) );
 
-            $wp_post_types['company']->ID         = $companies_page->ID;
-            $wp_post_types['company']->post_title = $companies_page->post_title;
-            $wp_post_types['company']->post_name  = $companies_page->post_name;
-            $wp_post_types['company']->post_type  = $companies_page->post_type;
-            $wp_post_types['company']->ancestors  = get_ancestors( $companies_page->ID, $companies_page->post_type );
+            if ( $companies_page instanceof WP_Post && isset( $wp_post_types['company'] ) ) {
+                $wp_post_types['company']->ID         = $companies_page->ID;
+                $wp_post_types['company']->post_title = $companies_page->post_title;
+                $wp_post_types['company']->post_name  = $companies_page->post_name;
+                $wp_post_types['company']->post_type  = $companies_page->post_type;
+                $wp_post_types['company']->ancestors  = get_ancestors( $companies_page->ID, $companies_page->post_type );
+            }
 
             // Fix conditional Functions like is_mas_page.
             $q->is_singular          = false;
@@ -140,15 +142,15 @@ class MAS_WPJMC_Query {
     public function get_search_query( $q ) {
         if ( ! empty( $_GET['search_keywords'] ) ) {
             global $mas_wpjmc_search_keyword;
-            $mas_wpjmc_search_keyword = sanitize_text_field( $_GET['search_keywords'] );
+            $mas_wpjmc_search_keyword = sanitize_text_field( wp_unslash( $_GET['search_keywords'] ) );
 
             if ( ! empty( $mas_wpjmc_search_keyword ) && strlen( $mas_wpjmc_search_keyword ) >= apply_filters( 'job_manager_get_companies_keyword_length_threshold', 2 ) ) {
-                $q->set( 's' , $mas_wpjmc_search_keyword );
+                $q->set( 's', $mas_wpjmc_search_keyword );
                 add_filter( 'posts_search', 'mas_wpjmc_get_company_keyword_search' );
             }
         } elseif ( ! empty( $_GET['s'] ) ) {
             global $mas_wpjmc_search_keyword;
-            $mas_wpjmc_search_keyword = sanitize_text_field( $_GET['s'] );
+            $mas_wpjmc_search_keyword = sanitize_text_field( wp_unslash( $_GET['s'] ) );
 
             if ( ! empty( $mas_wpjmc_search_keyword ) && strlen( $mas_wpjmc_search_keyword ) >= apply_filters( 'job_manager_get_companies_keyword_length_threshold', 2 ) ) {
                 add_filter( 'posts_search', 'mas_wpjmc_get_company_keyword_search' );
@@ -200,16 +202,20 @@ class MAS_WPJMC_Query {
 
         // Filter by category.
         if ( ! empty( $_GET['search_category'] ) ) {
-            $categories = is_array( $_GET['search_category'] ) ? $_GET['search_category'] : array_filter( array_map( 'trim', explode( ',', $_GET['search_category'] ) ) );
-            $field      = is_numeric( $categories[0] ) ? 'term_id' : 'slug';
-            $operator   = 'all' === get_option( 'job_manager_company_category_filter_type', 'all' ) && sizeof( $categories ) > 1 ? 'AND' : 'IN';
-            $tax_query[] = array(
-                'taxonomy'         => 'company_category',
-                'field'            => $field,
-                'terms'            => array_values( $categories ),
-                'include_children' => $operator !== 'AND' ,
-                'operator'         => $operator
-            );
+            $raw_categories = wp_unslash( $_GET['search_category'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+            $categories     = is_array( $raw_categories ) ? array_filter( array_map( 'sanitize_text_field', $raw_categories ) ) : array_filter( array_map( 'trim', explode( ',', sanitize_text_field( $raw_categories ) ) ) );
+            if ( ! empty( $categories ) ) {
+                $categories = array_values( $categories );
+                $field      = is_numeric( $categories[0] ) ? 'term_id' : 'slug';
+                $operator   = 'all' === get_option( 'job_manager_company_category_filter_type', 'all' ) && count( $categories ) > 1 ? 'AND' : 'IN';
+                $tax_query[] = array(
+                    'taxonomy'         => 'company_category',
+                    'field'            => $field,
+                    'terms'            => $categories,
+                    'include_children' => 'AND' !== $operator,
+                    'operator'         => $operator,
+                );
+            }
         }
 
         return array_filter( apply_filters( 'mas_companies_query_tax_query', $tax_query, $this ) );
@@ -262,11 +268,12 @@ class MAS_WPJMC_Query {
         if ( ! empty( $_GET['search_location'] ) ) {
             $location_meta_keys = array( 'geolocation_formatted_address', '_company_location', 'geolocation_state_long' );
             $location_search    = array( 'relation' => 'OR' );
+            $search_location    = sanitize_text_field( wp_unslash( $_GET['search_location'] ) );
             foreach ( $location_meta_keys as $meta_key ) {
                 $location_search[] = array(
                     'key'     => $meta_key,
-                    'value'   => sanitize_text_field(  $_GET['search_location'] ),
-                    'compare' => 'like'
+                    'value'   => $search_location,
+                    'compare' => 'LIKE',
                 );
             }
 

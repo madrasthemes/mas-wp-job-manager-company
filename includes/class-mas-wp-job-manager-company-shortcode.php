@@ -47,7 +47,7 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
         public function shortcode_action_handler() {
             global $post;
 
-            if ( is_page() && strstr( $post->post_content, '[mas_company_dashboard' ) ) {
+            if ( is_page() && $post instanceof WP_Post && false !== strpos( (string) $post->post_content, '[mas_company_dashboard' ) ) {
                 $this->company_dashboard_handler();
             }
         }
@@ -56,18 +56,19 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
          * Handles actions on company dashboard
          */
         public function company_dashboard_handler() {
-            if ( ! empty( $_REQUEST['action'] ) && ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( $_REQUEST['_wpnonce'], 'mas_job_manager_company_my_company_actions' ) ) {
+            if ( ! empty( $_REQUEST['action'] ) && ! empty( $_REQUEST['_wpnonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'mas_job_manager_company_my_company_actions' ) ) {
 
-                $action    = sanitize_title( $_REQUEST['action'] );
-                $company_id = absint( $_REQUEST['company_id'] );
+                $action     = sanitize_title( wp_unslash( $_REQUEST['action'] ) );
+                $company_id = ! empty( $_REQUEST['company_id'] ) ? absint( $_REQUEST['company_id'] ) : 0;
 
                 try {
                     // Get company
                     $company = get_post( $company_id );
 
                     // Check ownership
-                    if ( ! $company || $company->post_author != get_current_user_id() )
+                    if ( ! $company || 'company' !== $company->post_type || absint( $company->post_author ) !== get_current_user_id() ) {
                         throw new Exception( __( 'Invalid Company ID', 'mas-wp-job-manager-company' ) );
+                    }
 
                     switch ( $action ) {
                         case 'delete' :
@@ -75,28 +76,27 @@ if ( ! class_exists( 'MAS_WPJMC_Shortcode' ) ) :
                             wp_trash_post( $company_id );
 
                             // Message
-                            $this->company_dashboard_message = '<div class="job-manager-message">' . sprintf( __( '%s has been deleted', 'mas-wp-job-manager-company' ), $company->post_title ) . '</div>';
+                            $this->company_dashboard_message = '<div class="job-manager-message">' . sprintf( esc_html__( '%s has been deleted', 'mas-wp-job-manager-company' ), esc_html( $company->post_title ) ) . '</div>';
 
                         break;
                         case 'hide' :
                             if ( $company->post_status === 'publish' ) {
                                 $update_company = array( 'ID' => $company_id, 'post_status' => 'private' );
                                 wp_update_post( $update_company );
-                                $this->company_dashboard_message = '<div class="job-manager-message">' . sprintf( __( '%s has been hidden', 'mas-wp-job-manager-company' ), $company->post_title ) . '</div>';
+                                $this->company_dashboard_message = '<div class="job-manager-message">' . sprintf( esc_html__( '%s has been hidden', 'mas-wp-job-manager-company' ), esc_html( $company->post_title ) ) . '</div>';
                             }
                         break;
                         case 'publish' :
-                            if ( in_array( $company->post_status, array( 'private', 'hidden' ) ) ) {
+                            if ( in_array( $company->post_status, array( 'private', 'hidden' ), true ) ) {
                                 $update_company = array( 'ID' => $company_id, 'post_status' => 'publish' );
                                 wp_update_post( $update_company );
-                                $this->company_dashboard_message = '<div class="job-manager-message">' . sprintf( __( '%s has been published', 'mas-wp-job-manager-company' ), $company->post_title ) . '</div>';
+                                $this->company_dashboard_message = '<div class="job-manager-message">' . sprintf( esc_html__( '%s has been published', 'mas-wp-job-manager-company' ), esc_html( $company->post_title ) ) . '</div>';
                             }
                         break;
                         case 'relist' :
                             // redirect to post page
-                            wp_redirect( add_query_arg( array( 'company_id' => absint( $company_id ) ), get_permalink( get_option( 'job_manager_submit_company_form_page_id' ) ) ) );
-
-                            break;
+                            wp_safe_redirect( add_query_arg( array( 'company_id' => absint( $company_id ) ), get_permalink( get_option( 'job_manager_submit_company_form_page_id' ) ) ) );
+                            exit;
                     }
 
                     do_action( 'mas_job_manager_company_my_company_do_action', $action, $company_id );

@@ -442,8 +442,9 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 			// Get posted values
 			$values = $this->get_posted_fields();
 
-			if ( empty( $_POST['submit_company'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) )
+			if ( empty( $_POST['submit_company'] ) || empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'submit_form_posted' ) ) {
 				return;
+			}
 
 			// Validate required
 			if ( is_wp_error( ( $return = $this->validate_fields( $values ) ) ) ) {
@@ -680,13 +681,14 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 			?>
 			<form method="post" id="company_preview">
 				<div class="company_preview_title">
-					<input type="submit" name="continue" id="company_preview_submit_button" class="button" value="<?php echo apply_filters( 'submit_company_step_preview_submit_text', esc_html__( 'Submit Company &rarr;', 'mas-wp-job-manager-company' ) ); ?>" />
-					<input type="submit" name="edit_company" class="button" value="<?php esc_html_e( '&larr; Edit company', 'mas-wp-job-manager-company' ); ?>" />
+					<?php wp_nonce_field( 'submit_form_preview_posted', '_wpnonce_preview' ); ?>
+					<input type="submit" name="continue" id="company_preview_submit_button" class="button" value="<?php echo esc_attr( apply_filters( 'submit_company_step_preview_submit_text', esc_html__( 'Submit Company &rarr;', 'mas-wp-job-manager-company' ) ) ); ?>" />
+					<input type="submit" name="edit_company" class="button" value="<?php esc_attr_e( '&larr; Edit company', 'mas-wp-job-manager-company' ); ?>" />
 					<input type="hidden" name="company_id" value="<?php echo esc_attr( $this->get_company_id() ); ?>" />
 					<input type="hidden" name="step" value="<?php echo esc_attr( $this->step ); ?>" />
 					<input type="hidden" name="company_manager_form" value="<?php echo esc_attr( $this->form_name ); ?>" />
 					<h2>
-						<?php _e( 'Preview', 'mas-wp-job-manager-company' ); ?>
+						<?php esc_html_e( 'Preview', 'mas-wp-job-manager-company' ); ?>
 					</h2>
 				</div>
 				<div class="company_preview single-company">
@@ -704,7 +706,11 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 	 * Preview Step Form handler
 	 */
 	public function preview_handler() {
-		if ( ! $_POST ) {
+		if ( empty( $_POST ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['_wpnonce_preview'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce_preview'] ) ), 'submit_form_preview_posted' ) ) {
 			return;
 		}
 
@@ -717,7 +723,7 @@ class MAS_WP_Job_Manager_Company_Form_Submit_Company extends WP_Job_Manager_Form
 		if ( ! empty( $_POST['continue'] ) ) {
 			$company = get_post( $this->get_company_id() );
 
-			if ( in_array( $company->post_status, array( 'preview' ) ) ) {
+			if ( $company instanceof WP_Post && in_array( $company->post_status, array( 'preview' ), true ) ) {
 				// Update listing
 				$update_company                  = array();
 				$update_company['ID']            = $company->ID;

@@ -20,27 +20,23 @@ class MAS_WPJMC_CPT {
         add_filter( 'admin_head', array( $this, 'admin_menu_label_pending_count' ) );
     }
 
-    public function custom_company_columns($columns) {
-        $columns_new['cb'] = $columns['cb'];
-        $columns_old = $columns;
-        unset( $columns );
+    public function custom_company_columns( $columns ) {
+        $columns_new = array();
+        if ( isset( $columns['cb'] ) ) {
+            $columns_new['cb'] = $columns['cb'];
+        }
+        $columns_old                = $columns;
         $columns_new['company_image'] = '';
-        $columns_new['title'] = esc_html__( 'Company Name', 'mas-wp-job-manager-company' );
+        $columns_new['title']         = esc_html__( 'Company Name', 'mas-wp-job-manager-company' );
 
-        $columns = array_merge( $columns_new, $columns_old );
-
-        echo '<style type="text/css">';
-        echo '.column-company_image { width:60px; box-sizing:border-box } .column-company_image img { max-width:100%; } @media (max-width: 768px) { .column-title,.column-company_image { display: table-cell !important; } .wp-list-table .is-expanded,.wp-list-table .column-primary .toggle-row { display:none !important } .wp-list-table td.column-primary { padding-right: 10px; } }';
-        echo '</style>';
-
-        return $columns;
+        return array_merge( $columns_new, $columns_old );
     }
 
     // Add the data to the custom columns for the company post type:
     public function custom_company_column( $column, $post_id ) {
         switch ( $column ) {
             case 'company_image' :
-                echo the_company_logo();
+                the_company_logo();
             break;
         }
     }
@@ -88,7 +84,7 @@ class MAS_WPJMC_CPT {
                 $plural    = $taxonomy_args['plural'];
                 $slug      = $taxonomy_args['slug'];
 
-                $args = apply_filters( 'register_taxonomy_{$taxonomy_name}_args',
+                $args = apply_filters( "register_taxonomy_{$taxonomy_name}_args",
                     array(
                         'hierarchical'      => true,
                         'update_count_callback' => '_update_post_term_count',
@@ -296,30 +292,41 @@ class MAS_WPJMC_CPT {
     }
 
     public function pending_companies_admin_notices() {
-        $count_posts = wp_count_posts( 'company', 'readable' );
-        $pending_companies = isset( $count_posts->pending ) ? $count_posts->pending : 0;
+        if ( ! current_user_can( 'manage_job_listings' ) ) {
+            return;
+        }
 
-        if( $pending_companies <= 0 ) return;
+        $count_posts       = wp_count_posts( 'company', 'readable' );
+        $pending_companies = isset( $count_posts->pending ) ? absint( $count_posts->pending ) : 0;
+
+        if ( $pending_companies <= 0 ) {
+            return;
+        }
 
         ?><div class="notice notice-info is-dismissible">
-            <p><?php echo wp_kses_post( sprintf( __( '%s pending companies available. Please click <a href="%s">here</a> to review.', 'mas-wp-job-manager-company' ), $pending_companies, admin_url('edit.php?post_status=pending&post_type=company') ) ); ?></p>
+            <p><?php echo wp_kses_post( sprintf( __( '%s pending companies available. Please click <a href="%s">here</a> to review.', 'mas-wp-job-manager-company' ), number_format_i18n( $pending_companies ), esc_url( admin_url( 'edit.php?post_status=pending&post_type=company' ) ) ) ); ?></p>
         </div><?php
     }
 
     public function admin_menu_label_pending_count() {
         global $menu;
-        $count_posts = wp_count_posts( 'company', 'readable' );
-        $pending_companies =  isset( $count_posts->pending ) ? $count_posts->pending : 0;
+        $screen = get_current_screen();
+        if ( $screen && 'edit-company' === $screen->id ) {
+            echo '<style type="text/css">.column-company_image { width:60px; box-sizing:border-box } .column-company_image img { max-width:100%; } @media (max-width: 768px) { .column-title,.column-company_image { display: table-cell !important; } .wp-list-table .is-expanded,.wp-list-table .column-primary .toggle-row { display:none !important } .wp-list-table td.column-primary { padding-right: 10px; } }</style>';
+        }
+
+        $count_posts       = wp_count_posts( 'company', 'readable' );
+        $pending_companies = isset( $count_posts->pending ) ? absint( $count_posts->pending ) : 0;
 
         // No need to go further if no pending jobs, menu is not set, or is not an array.
-        if ( $pending_companies <= 0 || empty( $menu ) || ! is_array( $menu ) ) {
+        if ( $pending_companies <= 0 || empty( $menu ) || ! is_array( $menu ) || empty( $this->menu_label ) ) {
             return;
         }
 
         foreach ( $menu as $key => $menu_item ) {
-            if ( strpos( $menu_item[0], $this->menu_label ) === 0 ) {
+            if ( isset( $menu_item[0] ) && strpos( $menu_item[0], $this->menu_label ) === 0 ) {
                 // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Only way to add pending listing count.
-                $menu[ $key ][0] .= " <span class='awaiting-mod update-plugins count-" . esc_attr( $pending_companies ) . "'><span class='pending-count'>" . absint( number_format_i18n( $pending_companies ) ) . '</span></span>';
+                $menu[ $key ][0] .= " <span class='awaiting-mod update-plugins count-" . esc_attr( $pending_companies ) . "'><span class='pending-count'>" . esc_html( number_format_i18n( $pending_companies ) ) . '</span></span>';
                 break;
             }
         }

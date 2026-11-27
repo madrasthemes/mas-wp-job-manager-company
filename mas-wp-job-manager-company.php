@@ -2,9 +2,9 @@
 /**
  * Plugin Name:       MAS Companies For WP Job Manager
  * Description:       This plugin helps to create a custom post type company for WP Job Manager
- * Version:           1.1.1
+ * Version:           1.1.2
  * Requires at least: 6.3
- * Tested up to:	  6.9.1
+ * Tested up to:      7.2
  * Requires PHP:      7.4
  * Author:            MadrasThemes
  * Author URI:        https://madrasthemes.com/
@@ -44,7 +44,7 @@ class MAS_WP_Job_Manager_Company {
 	 *
 	 * @var string $version
 	 */
-	public $version = '1.1.0';
+	public $version = '1.1.2';
 
 	/**
 	 * Query instance.
@@ -158,8 +158,8 @@ class MAS_WP_Job_Manager_Company {
 	 */
 	public function init() {
 
-		// Load Plugin Translation.
-		load_plugin_textdomain( dirname( plugin_basename( __FILE__ ) ), false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		// Load Plugin Translation on init to avoid _load_textdomain_just_in_time notices in WP 6.7+.
+		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
 		// Functions.
 		require $this->plugin_dir . 'includes/mas-wpjmc-functions.php';
@@ -198,9 +198,18 @@ class MAS_WP_Job_Manager_Company {
 			$this->writepanels = new MAS_WPJMC_Writepanels();
 		}
 
-		// Trigger Styles & Srcipts
+		// Trigger Styles & Scripts.
 		add_action( 'wp_enqueue_scripts', array( $this, 'mas_wpjmc_enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'mas_wpjmc_admin_enqueue_scripts' ), 20 );
+	}
+
+	/**
+	 * Load plugin textdomain.
+	 *
+	 * @since 1.1.2
+	 */
+	public function load_plugin_textdomain() {
+		load_plugin_textdomain( 'mas-wp-job-manager-company', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -218,7 +227,7 @@ class MAS_WP_Job_Manager_Company {
 			'mas-wp-job-manager-company-submission',
 			'mas_wp_job_manager_company_submission',
 			array(
-				'i18n_navigate'       => esc_html__( 'If you wish to edit the posted details use the "edit resume" button instead, otherwise changes may be lost.', 'mas-wp-job-manager-company' ),
+				'i18n_navigate'       => esc_html__( 'If you wish to edit the posted details use the "edit company" button instead, otherwise changes may be lost.', 'mas-wp-job-manager-company' ),
 				'i18n_confirm_remove' => esc_html__( 'Are you sure you want to remove this item?', 'mas-wp-job-manager-company' ),
 				'i18n_remove'         => esc_html__( 'remove', 'mas-wp-job-manager-company' ),
 			)
@@ -228,7 +237,7 @@ class MAS_WP_Job_Manager_Company {
 			'mas-wp-job-manager-company-dashboard',
 			'mas_wp_job_manager_company_dashboard',
 			array(
-				'i18n_confirm_delete' => esc_html__( 'Are you sure you want to delete this resume?', 'mas-wp-job-manager-company' ),
+				'i18n_confirm_delete' => esc_html__( 'Are you sure you want to delete this company?', 'mas-wp-job-manager-company' ),
 			)
 		);
 
@@ -243,37 +252,16 @@ class MAS_WP_Job_Manager_Company {
 
 	public function mas_wpjmc_admin_enqueue_scripts() {
 		$screen = get_current_screen();
-		if ( in_array( $screen->id, apply_filters( 'mas_wpjmc_admin_screen_ids', array( 'edit-company', 'plugins', 'company' ) ), true ) ) {
-			$script_deps = array( 'jquery', 'jquery-tiptip' );
-
-			if ( wp_script_is( 'select2', 'registered' ) ) {
-				$script_deps[] = 'select2';
-				wp_enqueue_style( 'select2' );
-			} elseif ( wp_script_is( 'chosen', 'registered' ) && apply_filters( 'job_manager_chosen_enabled', true ) ) {
-				// Support for themes and plugins not using WP Job Manager 1.32.0's select2 support.
-				$script_deps[] = 'chosen';
-			}
-
-			wp_enqueue_style( 'job_manager_admin_css' );
-			wp_enqueue_script( 'job_manager_admin_js' );
-
-			wp_localize_script(
-				'job_manager_admin_js',
-				'job_manager_admin_params',
-				array(
-					'user_selection_strings' => array(
-						'no_matches'        => _x( 'No matches found', 'user selection', 'mas-wp-job-manager-company' ),
-						'ajax_error'        => _x( 'Loading failed', 'user selection', 'mas-wp-job-manager-company' ),
-						'input_too_short_1' => _x( 'Please enter 1 or more characters', 'user selection', 'mas-wp-job-manager-company' ),
-						'input_too_short_n' => _x( 'Please enter %qty% or more characters', 'user selection', 'mas-wp-job-manager-company' ),
-						'load_more'         => _x( 'Loading more results&hellip;', 'user selection', 'mas-wp-job-manager-company' ),
-						'searching'         => _x( 'Searching&hellip;', 'user selection', 'mas-wp-job-manager-company' ),
-					),
-					'ajax_url'               => admin_url( 'admin-ajax.php' ),
-					'search_users_nonce'     => wp_create_nonce( 'search-users' ),
-				)
-			);
+		if ( ! $screen || ! in_array( $screen->id, apply_filters( 'mas_wpjmc_admin_screen_ids', array( 'edit-company', 'plugins', 'company' ) ), true ) ) {
+			return;
 		}
+
+		if ( wp_script_is( 'select2', 'registered' ) ) {
+			wp_enqueue_style( 'select2' );
+		}
+
+		wp_enqueue_style( 'job_manager_admin_css' );
+		wp_enqueue_script( 'job_manager_admin_js' );
 	}
 
 	/**

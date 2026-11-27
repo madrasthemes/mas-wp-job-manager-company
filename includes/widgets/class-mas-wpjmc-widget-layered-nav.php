@@ -113,11 +113,11 @@ class MAS_WPJMC_Widget_Layered_Nav extends WP_Widget {
             return;
         }
 
-        $get_terms_args = apply_filters( 'mas_wpjmc_layered_nav_terms_args', array( 'hide_empty' => '1' ) );
+        $get_terms_args = apply_filters( 'mas_wpjmc_layered_nav_terms_args', array( 'taxonomy' => $taxonomy, 'hide_empty' => '1' ) );
 
-        $terms = get_terms( $taxonomy, $get_terms_args );
+        $terms = get_terms( $get_terms_args );
 
-        if ( 0 === count( $terms ) ) {
+        if ( is_wp_error( $terms ) || empty( $terms ) ) {
             return;
         }
 
@@ -151,7 +151,8 @@ class MAS_WPJMC_Widget_Layered_Nav extends WP_Widget {
      * @return string
      */
     protected function get_current_taxonomy() {
-        return is_tax() ? get_queried_object()->taxonomy : '';
+        $queried = get_queried_object();
+        return ( is_tax() && $queried instanceof WP_Term ) ? $queried->taxonomy : '';
     }
 
     /**
@@ -160,16 +161,18 @@ class MAS_WPJMC_Widget_Layered_Nav extends WP_Widget {
      * @return int
      */
     protected function get_current_term_id() {
-        return absint( is_tax() ? get_queried_object()->term_id : 0 );
+        $queried = get_queried_object();
+        return absint( ( is_tax() && $queried instanceof WP_Term ) ? $queried->term_id : 0 );
     }
 
     /**
      * Return the currently viewed term slug.
      *
-     * @return int
+     * @return string
      */
     protected function get_current_term_slug() {
-        return absint( is_tax() ? get_queried_object()->slug : 0 );
+        $queried = get_queried_object();
+        return ( is_tax() && $queried instanceof WP_Term ) ? $queried->slug : '';
     }
 
     /**

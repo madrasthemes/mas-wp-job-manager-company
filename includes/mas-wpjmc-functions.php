@@ -173,30 +173,32 @@ if ( ! function_exists( 'mas_wpjmc_strlen' ) ) {
         if ( is_array( $var ) ) {
             return array_map( 'mas_wpjmc_strlen', $var );
         } else {
-            return strlen( $var );
+            return strlen( (string) $var );
         }
     }
 }
 
 if ( ! function_exists( 'mas_wpjmc_number_format_i18n' ) ) {
     function mas_wpjmc_number_format_i18n( $n ) {
-        // first strip any formatting;
-        $n = ( 0 + str_replace( ",", "", $n ) );
+        // First strip any formatting.
+        $stripped = str_replace( ',', '', (string) $n );
 
-        // is this a number?
-        if( ! is_numeric( $n ) ) {
+        // Is this a number?
+        if ( ! is_numeric( $stripped ) ) {
             return $n;
         }
 
-        // now filter it;
-        if( $n >= 1000000000000 ) {
-            return round( ( $n/1000000000000 ), 1 ) . 'T';
-        } elseif( $n >= 1000000000 ) {
-            return round( ( $n/1000000000 ), 1 ) . 'B';
-        } elseif( $n >= 1000000 ) {
-            return round( ( $n/1000000 ), 1 ) . 'M';
-        } elseif( $n >= 10000 ) {
-            return round( ( $n/10000 ), 10 ) . 'K';
+        $n = 0 + $stripped;
+
+        // Now filter it.
+        if ( $n >= 1000000000000 ) {
+            return round( ( $n / 1000000000000 ), 1 ) . 'T';
+        } elseif ( $n >= 1000000000 ) {
+            return round( ( $n / 1000000000 ), 1 ) . 'B';
+        } elseif ( $n >= 1000000 ) {
+            return round( ( $n / 1000000 ), 1 ) . 'M';
+        } elseif ( $n >= 10000 ) {
+            return round( ( $n / 10000 ), 10 ) . 'K';
         }
 
         return number_format_i18n( $n );
@@ -233,20 +235,25 @@ if ( ! function_exists( 'mas_wpjmc_get_company_keyword_search' ) ) {
         // Set Search DB Conditions
         $conditions   = array();
 
-        // Search Post Meta
-        if( apply_filters( 'mas_wpjmc_search_post_meta', true ) ) {
+        // Search Post Meta.
+        if ( apply_filters( 'mas_wpjmc_search_post_meta', true ) ) {
+            $like_keyword = '%' . $wpdb->esc_like( (string) $mas_wpjmc_search_keyword ) . '%';
 
-            // Only selected meta keys
-            if( $searchable_meta_keys ) {
-                $conditions[] = "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( '" . implode( "','", array_map( 'esc_sql', $searchable_meta_keys ) ) . "' ) AND meta_value LIKE '%" . esc_sql( $mas_wpjmc_search_keyword ) . "%' )";
+            // Only selected meta keys.
+            if ( $searchable_meta_keys ) {
+                $placeholders = implode( ',', array_fill( 0, count( $searchable_meta_keys ), '%s' ) );
+                $prepare_args = array_merge( $searchable_meta_keys, array( $like_keyword ) );
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare
+                $conditions[] = $wpdb->prepare( "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key IN ( {$placeholders} ) AND meta_value LIKE %s )", $prepare_args );
             } else {
-                // No meta keys defined, search all post meta value
-                $conditions[] = "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_value LIKE '%" . esc_sql( $mas_wpjmc_search_keyword ) . "%' )";
+                // No meta keys defined, search all post meta value.
+                $conditions[] = $wpdb->prepare( "{$wpdb->posts}.ID IN ( SELECT post_id FROM {$wpdb->postmeta} WHERE meta_value LIKE %s )", $like_keyword );
             }
         }
 
-        // Search taxonomy
-        $conditions[] = "{$wpdb->posts}.ID IN ( SELECT object_id FROM {$wpdb->term_relationships} AS tr LEFT JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id LEFT JOIN {$wpdb->terms} AS t ON tt.term_id = t.term_id WHERE t.name LIKE '%" . esc_sql( $mas_wpjmc_search_keyword ) . "%' )";
+        // Search taxonomy.
+        $like_keyword = '%' . $wpdb->esc_like( (string) $mas_wpjmc_search_keyword ) . '%';
+        $conditions[] = $wpdb->prepare( "{$wpdb->posts}.ID IN ( SELECT object_id FROM {$wpdb->term_relationships} AS tr LEFT JOIN {$wpdb->term_taxonomy} AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id LEFT JOIN {$wpdb->terms} AS t ON tt.term_id = t.term_id WHERE t.name LIKE %s )", $like_keyword );
 
         /**
          * Filters the conditions to use when querying job listings. Resulting array is joined with OR statements.
@@ -342,9 +349,9 @@ if ( ! function_exists( 'mas_wpjmc_get_companies' ) ) {
             'tax_query'              => array(),
             'meta_query'             => array(),
             'author'                 => array(),
-            'update_post_term_cache' => false,
-            'update_post_meta_cache' => false,
-            'cache_results'          => false,
+            'update_post_term_cache' => ( 'ids' !== $args['fields'] ),
+            'update_post_meta_cache' => ( 'ids' !== $args['fields'] ),
+            'cache_results'          => true,
             'fields'                 => $args['fields'],
             'paged'                  => $args['paged'],
         );
@@ -429,7 +436,7 @@ if ( ! function_exists( 'mas_wpjmc_get_companies' ) ) {
  */
 if ( ! function_exists( 'mas_wpjmc_company_class' ) ) {
     function mas_wpjmc_company_class( $class = '', $post_id = null ) {
-        echo 'class="' . join( ' ', mas_wpjmc_get_company_class( $class, $post_id ) ) . '"';
+        echo 'class="' . esc_attr( join( ' ', mas_wpjmc_get_company_class( $class, $post_id ) ) ) . '"';
     }
 }
 
@@ -442,14 +449,11 @@ if ( ! function_exists( 'mas_wpjmc_company_class' ) ) {
 if ( ! function_exists( 'mas_wpjmc_get_company_class' ) ) {
     function mas_wpjmc_get_company_class( $class = '', $post_id = null ) {
         $post = get_post( $post_id );
-        if ( $post->post_type !== 'company' )
+        if ( empty( $post ) || 'company' !== $post->post_type ) {
             return array();
+        }
 
         $classes = array();
-
-        if ( empty( $post ) ) {
-            return $classes;
-        }
 
         $classes[] = 'company';
 
@@ -474,6 +478,9 @@ if ( ! function_exists( 'mas_wpjmc_get_company_class' ) ) {
 if ( ! function_exists( 'mas_wpjmc_is_company_featured' ) ) {
     function mas_wpjmc_is_company_featured( $post = null ) {
         $post = get_post( $post );
+        if ( empty( $post ) ) {
+            return false;
+        }
 
         return $post->_featured ? true : false;
     }
@@ -486,7 +493,7 @@ if ( ! function_exists( 'mas_wpjmc_is_company_featured' ) ) {
  */
 if ( ! function_exists( 'mas_wpjmc_the_company_status' ) ) {
     function mas_wpjmc_the_company_status( $post = null ) {
-        echo mas_wpjmc_get_the_company_status( $post );
+        echo esc_html( mas_wpjmc_get_the_company_status( $post ) );
     }
 }
 
@@ -498,6 +505,9 @@ if ( ! function_exists( 'mas_wpjmc_the_company_status' ) ) {
 if ( ! function_exists( 'mas_wpjmc_get_the_company_status' ) ) {
     function mas_wpjmc_get_the_company_status( $post = null ) {
         $post = get_post( $post );
+        if ( empty( $post ) ) {
+            return '';
+        }
 
         $status = $post->post_status;
 
@@ -605,11 +615,22 @@ if ( ! function_exists( 'mas_wpjmc_company_manager_count_user_companies' ) ) {
  */
 if ( ! function_exists( 'mas_wpjmc_get_the_company_job_listing' ) ) {
     function mas_wpjmc_get_the_company_job_listing( $post = null ) {
-        if( ! is_object( $post ) ) {
+        if ( ! is_object( $post ) ) {
             $post = get_post( $post );
         }
 
-        return get_posts( array( 'post_type' => 'job_listing', 'meta_key' => '_company_id', 'meta_value' => $post->ID, 'nopaging' => true ) );
+        if ( empty( $post ) ) {
+            return array();
+        }
+
+        return get_posts(
+            array(
+                'post_type'  => 'job_listing',
+                'meta_key'   => '_company_id',
+                'meta_value' => $post->ID,
+                'nopaging'   => true,
+            )
+        );
     }
 }
 
@@ -618,29 +639,52 @@ if ( ! function_exists( 'mas_wpjmc_get_the_company_job_listing' ) ) {
  */
 if ( ! function_exists( 'mas_wpjmc_get_the_company_job_listing_count' ) ) {
     function mas_wpjmc_get_the_company_job_listing_count( $post = null ) {
-        $posts = mas_wpjmc_get_the_company_job_listing( $post );
-        return count( $posts );
+        if ( ! is_object( $post ) ) {
+            $post = get_post( $post );
+        }
+
+        if ( empty( $post ) ) {
+            return 0;
+        }
+
+        $query = new WP_Query(
+            array(
+                'post_type'              => 'job_listing',
+                'post_status'            => 'publish',
+                'meta_key'               => '_company_id',
+                'meta_value'             => $post->ID,
+                'posts_per_page'         => 1,
+                'fields'                 => 'ids',
+                'update_post_meta_cache' => false,
+                'update_post_term_cache' => false,
+            )
+        );
+
+        return absint( $query->found_posts );
     }
 }
 
 if ( ! function_exists( 'mas_wpjmc_get_the_meta_data' ) ) {
     function mas_wpjmc_get_the_meta_data( $meta_key, $post = null, $trimed_link = false ) {
-        if( ! post_type_exists( 'company' ) ) 
-            return;
+        if ( ! post_type_exists( 'company' ) ) {
+            return '';
+        }
 
-        if( ! is_object( $post ) ) {
+        if ( ! is_object( $post ) ) {
             $post = get_post( $post );
+        }
+
+        if ( empty( $post ) ) {
+            return '';
         }
 
         $meta_data = get_post_meta( $post->ID, $meta_key, true );
 
-        if( $trimed_link ) {
-            if( substr( $meta_data, 0, 7 ) === "http://" ) {
-                $meta_data = str_replace( 'http://', '', $meta_data);
-            } elseif( substr( $meta_data, 0, 8 ) === "https://" ) {
-                $meta_data = str_replace( 'https://', '', $meta_data);
-            } else {
-                $meta_data = $meta_data;
+        if ( $trimed_link && is_string( $meta_data ) ) {
+            if ( substr( $meta_data, 0, 7 ) === 'http://' ) {
+                $meta_data = str_replace( 'http://', '', $meta_data );
+            } elseif ( substr( $meta_data, 0, 8 ) === 'https://' ) {
+                $meta_data = str_replace( 'https://', '', $meta_data );
             }
         }
 
@@ -648,28 +692,30 @@ if ( ! function_exists( 'mas_wpjmc_get_the_meta_data' ) ) {
     }
 }
 
-if( ! function_exists( 'mas_wpjmc_get_taxomony_data' ) ) {
-    function mas_wpjmc_get_taxomony_data( $taxonomy = "company_category", $post = null, $linkable = false, $linkable_class = '', $separator = ", " ) {
-
-        if( ! is_object( $post ) ) {
+if ( ! function_exists( 'mas_wpjmc_get_taxomony_data' ) ) {
+    function mas_wpjmc_get_taxomony_data( $taxonomy = 'company_category', $post = null, $linkable = false, $linkable_class = '', $separator = ', ' ) {
+        if ( ! is_object( $post ) ) {
             $post = get_post( $post );
         }
 
-        if ( ! taxonomy_exists( $taxonomy ) ) {
-            return;
+        if ( empty( $post ) || ! taxonomy_exists( $taxonomy ) ) {
+            return '';
         }
 
         $terms = get_the_terms( $post->ID, $taxonomy );
-        if ( $terms ) {
-            if( $linkable ) {
+        if ( $terms && ! is_wp_error( $terms ) ) {
+            if ( $linkable ) {
                 $term_links = array();
-                foreach ( $terms as $term ){
-                    $term_links[] = '<a href="' . esc_url( get_term_link( $term ) ) . '"' . ( !empty( $linkable_class ) ? ' class="' . esc_attr( $linkable_class ) . '"' : "" ) . '>' . esc_html( $term->name ) . '</a>';
+                foreach ( $terms as $term ) {
+                    $term_link = get_term_link( $term );
+                    if ( ! is_wp_error( $term_link ) ) {
+                        $term_links[] = '<a href="' . esc_url( $term_link ) . '"' . ( ! empty( $linkable_class ) ? ' class="' . esc_attr( $linkable_class ) . '"' : '' ) . '>' . esc_html( $term->name ) . '</a>';
+                    }
                 }
                 $output = implode( $separator, $term_links );
             } else {
                 $term_names = wp_list_pluck( $terms, 'name' );
-                $output = implode( $separator, $term_names );
+                $output     = implode( $separator, $term_names );
             }
 
             return apply_filters( 'mas_wpjmc_the_taxomony_data', $output );

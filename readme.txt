@@ -2,9 +2,9 @@
 Contributors: madrasthemes
 Tags: companies, company listings, company manager, job, job listing
 Requires at least: 6.3
-Tested up to: 6.9.1
+Tested up to: 7.2
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,6 +69,13 @@ Yes you can! Join in on our [GitHub repository](https://github.com/madrasthemes/
 7. Company Settings.
 
 == Changelog ==
+
+= 1.1.2 - 2026-11-27 =
+* Fix - PHP 8.4 compatibility improvements and null/undefined key guards
+* Fix - WordPress 7.2 compatibility (textdomain loading on init, jQuery 3+/4 compatibility)
+* Fix - Security hardening (prepared SQL queries, preview form nonce verification, capability checks, output escaping)
+* Fix - Headquarters meta key fallback, mailto/tel links, relist option name, and dashboard delete confirmation string
+* Perf - Optimize company job listing count query and query caching
 
 = 1.1.1 - 2026-02-13 =
 * Fix - Add backward compatibility for company fields

@@ -36,8 +36,8 @@ $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page
 						<?php foreach ( $company_dashboard_columns as $key => $column ) : ?>
 							<td class="<?php echo esc_attr( $key ); ?>">
 								<?php if ( 'company-title' === $key ) : ?>
-									<?php if ( $company->post_status == 'publish' ) : ?>
-										<a href="<?php echo get_permalink( $company->ID ); ?>"><?php echo esc_html( $company->post_title ); ?></a>
+									<?php if ( 'publish' === $company->post_status ) : ?>
+										<a href="<?php echo esc_url( get_permalink( $company->ID ) ); ?>"><?php echo esc_html( $company->post_title ); ?></a>
 									<?php else : ?>
 										<?php echo esc_html( $company->post_title ); ?>
 									<?php endif; ?>
@@ -82,7 +82,7 @@ $submit_company_form_page_id = get_option( 'job_manager_submit_company_form_page
 													}
 												break;
 												case 'expired' :
-													if ( get_option( 'job_manager_manager_submit_company_form_page_id' ) ) {
+													if ( get_option( 'job_manager_submit_company_form_page_id' ) ) {
 														$actions['relist'] = array(
 															'label' => esc_html__( 'Relist', 'mas-wp-job-manager-company' ),
 															'nonce' => true
